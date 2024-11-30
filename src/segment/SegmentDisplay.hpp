@@ -64,45 +64,35 @@ namespace ng
             return false;
         }
 
-        static inline bool setByte(uint8_t data, uint8_t pos, bool show = false) {
+        static inline bool setByte(uint8_t data, uint8_t pos) {
             if (isValidPos(pos)) {
                 buffer[pos] = data;
 
-                if (show) {
-                    print();
-                }
-
+                print();
                 return true;
             }
 
             return false;
         }
 
-        static inline void setChar(char ch, uint8_t pos, bool show = false) {
+        static inline void setChar(char ch, uint8_t pos) {
             if (ch == '.') {
                 setPoint(pos, ch);
             } else {
                 setByte(SegmentUtils::getCharCode(ch), pos);
             }
 
-            if (show) {
-                print();
-            }
+            print();
         }
 
-//        template <typename T>
-//        static inline bool setFloat(T num, uint8_t fractionSize = 1, uint8_t pos = 0, bool show = false) {
-//            static_assert(std::is_floating_point_v<T>);
-//
-//            int32_t intNum = (std::int32_t)num;
-//            uint32_t fraction = (num - intNum) * pow(10, fractionSize);
-//
-//        }
-
+        static inline void setText(const char (&str)[size + 1]) {
+            memcpy(buffer, str, strlen(str) + 1);
+            print();
+        }
 
         template <typename T>
-        static inline bool setNumber(T num, uint8_t pos = 0, bool show = false) {
-            static_assert(std::is_integral_v<T> && sizeof(num) <= 4);
+        static inline bool setNumber(T num, uint8_t pos = 0) {
+            static_assert(std::is_integral_v<T>);
 
             auto length = SegmentUtils::intLen(num);
             if (num < 0) {
@@ -119,10 +109,7 @@ namespace ng
 
             // TODO: check buffer indexes when pos greater than 0
             StringUtils::itoa(num, buffer, size + 1);
-
-            if (show) {
-                print();
-            }
+            print();
 
             return true;
         }

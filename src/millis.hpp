@@ -2,10 +2,6 @@
 
 #include <cstdint>
 
-#ifndef TEST_MODE
-#include "device.h"
-#endif
-
 namespace ng
 {
     namespace time
@@ -56,7 +52,7 @@ namespace ng
 
     static inline void delay_micros(uint16_t val) {
 #ifndef TEST_MODE
-        uint16_t limit =  (val * (SystemCoreClock / 1000000)) / 4;
+        uint16_t limit =  (val * (SystemCoreClock / 1000000)) / 16;
 #else
         uint16_t limit = val * 4;
 #endif

@@ -45,7 +45,7 @@ namespace ng
 
         /**
          * Write {size} symbols to indicator
-         * @param arr - char array
+         * @param str - char array
          */
         static inline void write(const char (&str)[size + 1]) {
             for (uint8_t i = 0; i < size; i++) {

@@ -61,9 +61,9 @@ namespace ng
         }
 
         static void sendCS(const uint8_t* data, uint8_t len) {
-            CsPin::set();
-            send(data, len);
             CsPin::reset();
+            send(data, len);
+            CsPin::set();
         }
     };
 }

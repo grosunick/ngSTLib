@@ -60,7 +60,6 @@
     #define GET_IDR_REGISTER(port) (uint32_t)port->IDR.getValue()
 #else
 
-#include <device.h>
 #define GET_PORT(port) reinterpret_cast<GPIO_TypeDef*>(port)
 #define GET_IDR_REGISTER(port) (uint32_t)port->IDR
 
