@@ -6,13 +6,20 @@
 using namespace ng;
 
 constexpr uint32_t TPORT1 = 0x1U;
-constexpr vector<tuple<RegName, uint32_t>>& registerLog = testPort1.eventLog;
+constexpr auto& registerLog = testPort1.eventLog;
 
 using ShiftRegMSB = ShiftRegister<TPORT1, 0, TPORT1, 1, TPORT1, 2>;
 
+constexpr uint32_t DATA_PIN_SET = 0b100U;
+constexpr uint32_t DATA_PIN_RESET = 0b100U << 16;
+constexpr uint32_t CS_PIN_SET = 0b1U;
+constexpr uint32_t CS_PIN_RESET = 0b1U << 16;
+constexpr uint32_t CLK_PIN_SET = 0b10U;
+constexpr uint32_t CLK_PIN_RESET = 0b10U << 16;
+
 void clkTest(uint16_t pos) {
-    EXPECT_EQ(registerLog[pos], make_tuple(RegName::BSRR, 0b10U));
-    EXPECT_EQ(registerLog[pos + 1], make_tuple(RegName::BSRR, (0b10U << 16U)));
+    EXPECT_EQ(registerLog[pos], make_tuple(RegName::BSRR, CLK_PIN_SET));
+    EXPECT_EQ(registerLog[pos + 1], make_tuple(RegName::BSRR, CLK_PIN_RESET));
 }
 
 void checkBits(int from, int to, uint32_t val) {
@@ -22,8 +29,8 @@ void checkBits(int from, int to, uint32_t val) {
     }
 }
 
-void checkBit(int bitNum, uint32_t val) {
-    EXPECT_EQ(registerLog[bitNum], make_tuple(RegName::BSRR, val));
+void checkBit(int pos, uint32_t val) {
+    EXPECT_EQ(registerLog[pos], make_tuple(RegName::BSRR, val));
 }
 
 TEST(ShiftRegister, clk) {
@@ -38,8 +45,8 @@ TEST(ShiftRegister, shiftMSB) {
 
     ShiftRegMSB::shiftMSB(0b11110000);
 
-    checkBits(0, 4, 0b100U);
-    checkBits(4, 8, (0b100U << 16U));
+    checkBits(0, 4, DATA_PIN_SET);
+    checkBits(4, 8, DATA_PIN_RESET);
 }
 
 TEST(ShiftRegister, shiftLSB) {
@@ -47,8 +54,8 @@ TEST(ShiftRegister, shiftLSB) {
 
     ShiftRegMSB::shiftLSB(0b11110000);
 
-    checkBits(0, 4, (0b100U << 16U));
-    checkBits(4, 8, 0b100U);
+    checkBits(0, 4, DATA_PIN_RESET);
+    checkBits(4, 8, DATA_PIN_SET);
 }
 
 TEST(ShiftRegister, send) {
@@ -57,15 +64,15 @@ TEST(ShiftRegister, send) {
 
     ShiftRegMSB::send(data, 2);
 
-    checkBits(0, 4, 0b100U);
-    checkBits(4, 8, (0b100U << 16U));
-    checkBit(24, (0b100U << 16U));
+    checkBits(0, 4, DATA_PIN_SET);
+    checkBits(4, 8, DATA_PIN_RESET);
+    checkBit(24, DATA_PIN_RESET);
 
     registerLog.erase(registerLog.cbegin(), registerLog.cbegin() + 25);
 
-    checkBits(0, 7, (0b100U << 16U));
-    checkBits(7, 8, 0b100U);
-    checkBit(24, (0b100U << 16U));
+    checkBits(0, 7, DATA_PIN_RESET);
+    checkBits(7, 8, DATA_PIN_SET);
+    checkBit(24, DATA_PIN_RESET);
 }
 
 TEST(ShiftRegister, sendCS) {
@@ -73,21 +80,21 @@ TEST(ShiftRegister, sendCS) {
     uint8_t data[] = {0b11110000, 0b00000001};
 
     ShiftRegMSB::sendCS(data, 2);
-    checkBit(0, 0b1U);
+    checkBit(0, CS_PIN_RESET);
 
     registerLog.erase(registerLog.cbegin(), registerLog.cbegin() + 1);
 
-    checkBits(0, 4, 0b100U);
-    checkBits(4, 8, (0b100U << 16U));
-    checkBit(25, (0b100U << 16U));
+    checkBits(0, 4, DATA_PIN_SET);
+    checkBits(4, 8, DATA_PIN_RESET);
+    checkBit(25, DATA_PIN_RESET);
 
     registerLog.erase(registerLog.cbegin(), registerLog.cbegin() + 25);
 
-    checkBits(0, 7, (0b100U << 16U));
-    checkBits(7, 8, 0b100U);
-    checkBit(24, (0b100U << 16U));
+    checkBits(0, 7, DATA_PIN_RESET);
+    checkBits(7, 8, DATA_PIN_SET);
+    checkBit(24, DATA_PIN_RESET);
 
     registerLog.erase(registerLog.cbegin(), registerLog.cbegin() + 25);
 
-    checkBit(0, (0b1U << 16U));
+    checkBit(0, CS_PIN_SET);
 }
