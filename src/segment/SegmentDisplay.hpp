@@ -12,7 +12,6 @@ namespace ng
     template<typename Driver>
     class SegmentDisplay
     {
-        static uint8_t cursor;
         static char buffer[Driver::width + 1];
 
         static inline bool isValidPos(uint8_t pos) {
@@ -21,34 +20,6 @@ namespace ng
 
     public:
         static constexpr uint8_t size = Driver::width;
-
-        static inline void setCursor(uint8_t pos) {
-            if (pos >= Driver::cnt) {
-                pos = Driver::cnt - 1;
-            }
-
-            cursor = pos;
-        }
-
-        static inline int8_t getCursor() {
-            return cursor;
-        }
-
-        static inline void home() {
-            setCursor(0);
-        }
-
-        static inline void fill(uint8_t data) {
-            memset((void*)buffer, data, size);
-        }
-
-        static inline void fillChar(char ch) {
-            fill(SegmentUtils::getCharCode(ch));
-        }
-
-        static inline void clear() {
-            fill(0);
-        }
 
         static inline bool setPoint(uint8_t pos, uint8_t state = 1) {
             if (isValidPos(pos)) {
@@ -65,13 +36,12 @@ namespace ng
         }
 
         static inline bool setByte(uint8_t data, uint8_t pos) {
-            if (isValidPos(pos)) {
-                buffer[pos] = data;
-
-                print();
-                return true;
+            if (!isValidPos(pos)) {
+                return false;
             }
 
+            buffer[pos] = data;
+            print();
             return false;
         }
 
@@ -90,8 +60,14 @@ namespace ng
             print();
         }
 
+        /**
+         * Show number {num}
+         *
+         * @param num
+         * @return
+         */
         template <typename T>
-        static inline bool setNumber(T num, uint8_t pos = 0) {
+        static inline bool setNumber(T num) {
             static_assert(std::is_integral_v<T>);
 
             auto length = SegmentUtils::intLen(num);
@@ -99,15 +75,10 @@ namespace ng
                 length++; // for negative values add one more digit for sign '-'
             }
 
-            if (!isValidPos(pos)) {
+            if (length > size) {
                 return false;
             }
 
-            if (length + pos > size) {
-                return false;
-            }
-
-            // TODO: check buffer indexes when pos greater than 0
             StringUtils::itoa(num, buffer, size + 1);
             print();
 
@@ -122,7 +93,6 @@ namespace ng
             return buffer;
         }
     };
-
-    template<typename Driver> uint8_t SegmentDisplay<Driver>::cursor = 0;
+    
     template<typename Driver> char SegmentDisplay<Driver>::buffer[Driver::width + 1] = "";
 }

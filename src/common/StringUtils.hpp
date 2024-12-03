@@ -7,7 +7,7 @@ namespace ng
     class StringUtils
     {
     public:
-        template<typename T> static inline char* itoaAlgo(T num, char* str, uint8_t len = 11) {
+        template<typename T> static inline char* itoaAlgo(T num, char* str, uint8_t len) {
             str += len;
 
             if (len <= 0)
@@ -22,7 +22,7 @@ namespace ng
             return str;
         }
 
-        template<typename T> static inline void itoa(T num, char* str, uint8_t len = 11) {
+        template<typename T> static inline void itoa(T num, char* str, uint8_t len) {
             char* strBeginPointer = str;
             bool sign = num < 0;
             num = abs(num);
