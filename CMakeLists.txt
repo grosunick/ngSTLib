@@ -6,8 +6,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(libs/googletest)
 
-include_directories(src)
 include_directories(libs/googletest/googletest/include)
+include_directories(src)
+include_directories(include)
 
 file(GLOB_RECURSE SOURCES "src/*.*" "test/*.*")
 
