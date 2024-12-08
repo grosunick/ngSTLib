@@ -15,18 +15,20 @@ namespace ng
     };
 
     template<class Q, class X> struct Erase;
-
     template<class Q>
     struct Erase<Q, Collection<>> {
-        using Result = Collection<>;};
+        using Result = Collection<>;
+    };
 
     template<class Q, class... Tail>
     struct Erase<Q, Collection<Q, Tail...>> {
-        using Result = Collection<Tail...>;};
+        using Result = Collection<Tail...>;
+    };
 
     template<class Q, class T, class... Tail>
     struct Erase<Q, Collection<T, Tail...>> {
-        using Result = typename Glue<T, typename Erase<Q, Collection<Tail...>>::Result>::Result;};
+        using Result = typename Glue<T, typename Erase<Q, Collection<Tail...>>::Result>::Result;
+    };
 
     template <class X> struct NoDuplicates;
     template <> struct NoDuplicates<Collection<>> {
@@ -34,7 +36,7 @@ namespace ng
     };
 
     template <class T, class... Tail>
-    struct NoDuplicates< Collection<T, Tail...> >
+    struct NoDuplicates<Collection<T, Tail...>>
     {
     private:
         using L1 = typename NoDuplicates<Collection<Tail...>>::Result;

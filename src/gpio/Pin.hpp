@@ -6,32 +6,28 @@
 
 namespace ng
 {
-    template<
-            uint32_t PORT, uint8_t pinNum,
-            typename AccessMode = ReadWrite,
-            class = typename std::enable_if_t<(pinNum <= 15U)>>
+    template<uint32_t PORT, uint8_t pinNum, typename AccessMode = ReadWrite>
     class Pin
     {
     public:
-        static constexpr uint32_t pin = pinNum;
-        static constexpr uint32_t port = PORT;
-
         using PortType = Port<PORT, AccessMode>;
+        static constexpr uint32_t pin = pinNum;
 
-        static_assert(pin <= 15U, "There are only 16 pins on port");
+        static_assert(pinNum <= 15U, "There are only 16 pins on port");
+        static_assert(PORT > 0U, "There are only 16 pins on port");
 
-        template<typename T = AccessMode, class = typename std::enable_if_t<std::is_base_of<Write, T>::value>>
-        static void set() {
-            if (PORT) PortType::set(1U << pin);
+        template <writable T = AccessMode>
+        __attribute__((always_inline)) static inline void set() {
+            PortType::set(1U << pinNum);
         }
 
-        template<typename T = AccessMode, class = typename std::enable_if_t<std::is_base_of<Write, T>::value>>
-        static void reset() {
-            if (PORT) PortType::reset(1U << pin);
+        template <writable T = AccessMode>
+        __attribute__((always_inline)) static inline void reset() {
+            PortType::reset(1U << pinNum);
         }
 
-        template<typename T = AccessMode, class = typename std::enable_if_t<std::is_base_of<Write, T>::value>>
-        static void write(bool value) {
+        template <writable T = AccessMode>
+        __attribute__((always_inline)) static inline void write(bool value) {
             if (value) {
                 set();
             } else {
@@ -39,19 +35,19 @@ namespace ng
             }
         }
 
-        template<typename T = AccessMode, class = typename std::enable_if_t<std::is_base_of<Write, T>::value>>
-        static void toggle() {
-            if (PORT) PortType::toggle(1U << pin);
+        template <writable T = AccessMode>
+        __attribute__((always_inline)) static inline void toggle() {
+            PortType::toggle(1U << pinNum);
         }
 
-        template<typename T = AccessMode, class = typename std::enable_if_t<std::is_base_of<Read, T>::value>>
-        static bool get() {
-            return (PORT) != 0 && ((PortType::get() & (1U << pin)) >> pin);
+        template <readable T = AccessMode>
+        __attribute__((always_inline)) static inline bool get() {
+            return (PortType::get() & (1U << pinNum)) >> pinNum;
         }
 
-        template<typename T = AccessMode, class = typename std::enable_if_t<std::is_base_of<Read, T>::value>>
-        static auto isSet() {
-            return PORT && ((PortType::get() & (1U << pin)) != 0);
+        template <readable T = AccessMode>
+        __attribute__((always_inline)) static inline auto isSet() {
+            return (PortType::get() & (1U << pinNum)) != 0;
         }
     };
 }

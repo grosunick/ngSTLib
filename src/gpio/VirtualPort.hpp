@@ -15,13 +15,13 @@ namespace ng
             std::is_same<TPins, Collection<Ts...>>::value, "Error: pins list must be uniq"
         );
 
-        template<class Q>
+        template<typename Q>
         constexpr static auto GetPortValue(uint32_t mask) {
             using namespace std;
 
             uint32_t result = 0;
 
-            ((result |= ((is_same<Q, typename Ts::PortType>::value ? 1 : 0) & mask) * (1 << Ts::pin), mask>>=1), ...);
+            ((result |= ((is_same<Q, typename Ts::PortType>::value ? 1 : 0) & mask) * (1 << Ts::pin)), ...);
             return result;
         }
 

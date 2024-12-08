@@ -7,6 +7,9 @@
 
 namespace ng
 {
+    template <typename T> concept writable = std::is_base_of_v<Write, T>;
+    template <typename T> concept readable = std::is_base_of_v<Read, T>;
+
     template <uint32_t PORT, typename AccessMode = ReadWrite>
     class Port
     {
@@ -15,8 +18,8 @@ namespace ng
         }
 
     public:
-        template<typename T = AccessMode, class = typename std::enable_if_t<std::is_base_of<Write, T>::value>>
-        static inline bool set(uint32_t value) {
+        template <writable T = AccessMode>
+        __attribute__((always_inline)) static inline bool set(uint32_t value) {
             if (!validValue(value)) return false;
             volatile auto GPIOPort = GET_PORT(PORT);
 
@@ -24,8 +27,8 @@ namespace ng
             return true;
         }
 
-        template<typename T = AccessMode, class = typename std::enable_if_t<std::is_base_of<Write, T>::value>>
-        static inline bool reset(uint32_t value) {
+        template <writable T = AccessMode>
+        __attribute__((always_inline)) static inline bool reset(uint32_t value) {
             if (!validValue(value)) return false;
             volatile auto GPIOPort = GET_PORT(PORT);
 
@@ -33,8 +36,8 @@ namespace ng
             return true;
         }
 
-        template<typename T = AccessMode, class = typename std::enable_if_t<std::is_base_of<Write, T>::value>>
-        static inline bool toggle(uint32_t value) {
+        template <writable T = AccessMode>
+        __attribute__((always_inline)) static inline bool toggle(uint32_t value) {
             if (!validValue(value)) return false;
             volatile auto GPIOPort = GET_PORT(PORT);
 
@@ -42,8 +45,8 @@ namespace ng
             return true;
         }
 
-        template<typename T = AccessMode, class = typename std::enable_if_t<std::is_base_of<Read, T>::value>>
-        static inline uint32_t get() {
+        template <readable T = AccessMode>
+        __attribute__((always_inline)) static inline uint32_t get() {
             volatile auto GPIOPort = GET_PORT(PORT);
             if (PORT) return GET_IDR_REGISTER(GPIOPort);
         }
