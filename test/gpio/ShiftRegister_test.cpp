@@ -6,7 +6,7 @@
 using namespace ng;
 
 constexpr uint32_t TPORT1 = 0x1U;
-constexpr auto& registerLog = testPort1.eventLog;
+constexpr auto& registerLog = eventLog;
 
 using ShiftRegMSB = ShiftRegister<TPORT1, 0, TPORT1, 1, TPORT1, 2>;
 
@@ -18,23 +18,23 @@ constexpr uint32_t CLK_PIN_SET = 0b10U;
 constexpr uint32_t CLK_PIN_RESET = 0b10U << 16;
 
 void clkTest(uint16_t pos) {
-    EXPECT_EQ(registerLog[pos], make_tuple(RegName::BSRR, CLK_PIN_SET));
-    EXPECT_EQ(registerLog[pos + 1], make_tuple(RegName::BSRR, CLK_PIN_RESET));
+    EXPECT_EQ(registerLog[pos], make_tuple((uint32_t)RegName::BSRR, CLK_PIN_SET));
+    EXPECT_EQ(registerLog[pos + 1], make_tuple((uint32_t)RegName::BSRR, CLK_PIN_RESET));
 }
 
 void checkBits(int from, int to, uint32_t val) {
     for (int i = from; i < to; i++) { // check left 4 bits
-        EXPECT_EQ(registerLog[i * 3], make_tuple(RegName::BSRR, val));
+        EXPECT_EQ(registerLog[i * 3], make_tuple((uint32_t)RegName::BSRR, val));
         clkTest(i * 3 + 1);
     }
 }
 
 void checkBit(int pos, uint32_t val) {
-    EXPECT_EQ(registerLog[pos], make_tuple(RegName::BSRR, val));
+    EXPECT_EQ(registerLog[pos], make_tuple((uint32_t)RegName::BSRR, val));
 }
 
 TEST(ShiftRegister, clk) {
-    testPort1.eventLog.clear();
+    eventLog.clear();
     ShiftRegMSB::clk();
 
     clkTest(0);
