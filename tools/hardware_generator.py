@@ -372,8 +372,8 @@ def generate_register_base(peripheral, register, registers_file, enumerations_fi
         camel_case(register.name),
         register_types['register_base'],
         register.address,
+        access_mode[getAccess(register)],
         register.size,
-        access_mode[getAccess(register)]
     ))
 
     registers_file.write('  {\n')
@@ -469,7 +469,7 @@ def generate_bits_field(peripherial, register, field, fieldvalue_name, bits_fiel
             for value in field.fieldvalue_values:
                 if (field.bit_width <= bits_field_max_width):
                     bits_field_file.write(
-                        '  using {} = FieldValue<{}, BaseType, {}U>;\n'.format(camel_case(value.name), fieldvalue_name,
+                        '  using {} = FieldValue<{}, {}U, BaseType>;\n'.format(camel_case(value.name), fieldvalue_name,
                                                                                 value.value))
         bits_field_file.write('};\n')
         bits_field_file.write('\n')
@@ -534,10 +534,10 @@ def main():
 
     for peripheral in peripherals:
         peripheral_name = peripheral.name.lower().replace('_', '')
-        reg_file_name = '{}registers.hpp'.format(peripheral_name)
+        reg_file_name = '{}Registers.hpp'.format(peripheral_name.capitalize())
         reg_path = os.path.join(device_name, reg_file_name)
 
-        enum_file_name = '{}fieldvalues.hpp'.format(peripheral_name)
+        enum_file_name = '{}FieldValues.hpp'.format(peripheral_name.capitalize())
         enum_file_full_name = os.path.join(fv_path, enum_file_name)
         with open(reg_path, 'w') as registers_file:
             if (peripheral.description != None):
@@ -553,11 +553,12 @@ def main():
             registers_file.write('\n')
             registers_file.write('#pragma once\n'.format(reg_guard))
             registers_file.write('\n')
-            registers_file.write('#include "{}"  //for Bits Fields defs \n'.format(enum_file_name))
-            registers_file.write('#include "registerbase.hpp"   //for RegisterBase\n')
-            registers_file.write('#include "register.hpp"       //for Register\n')
-            registers_file.write('#include "accessmode.hpp"     //for ReadMode, WriteMode, ReadWriteMode  \n')
+            registers_file.write('#include "{}/{}"\n'.format(fv_path.split("/")[1], enum_file_name))
+            registers_file.write('#include <register/Register.hpp>\n')
+            registers_file.write('#include <register/FieldsPack.hpp>\n')
+            registers_file.write('#include <register/Access.hpp>\n')
             registers_file.write('\n')
+            registers_file.write('using namespace ng;\n')
 
             if ((args.o) or (not os.path.isfile(enum_file_full_name))):
                 with open(enum_file_full_name, 'w') as enumerations_file:
@@ -571,7 +572,9 @@ def main():
                     enumerations_file.write('\n')
                     enumerations_file.write('#pragma once\n'.format(enum_guard))
                     enumerations_file.write('\n')
-                    enumerations_file.write('#include "fieldvalue.hpp"     //for FieldValues \n')
+                    enumerations_file.write('#include <register/FieldValue.hpp>\n')
+                    enumerations_file.write('\n')
+                    enumerations_file.write('using namespace ng;\n')
                     enumerations_file.write('\n')
 
                     generate_peripheral(peripheral, registers_file, enumerations_file)

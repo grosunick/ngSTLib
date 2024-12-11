@@ -5,6 +5,7 @@
 
 namespace ng
 {
+    struct NoAccess {};
     struct Read {};
     struct Write {};
     struct ReadWrite: public Read, public Write {};
