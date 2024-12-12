@@ -42,6 +42,14 @@ namespace ng
             GET_REGISTER(Reg::Address) = val; // Write a new value for the register.
         }
 
+        template<writable T = Access> __force_inline void toggle() {
+            Type val = GET_REGISTER_VAL(Reg::Address);
+
+            val ^= ((1U << size) - 1U) << offset;
+
+            GET_REGISTER(Reg::Address) = val; // Write a new value for the register.
+        }
+
         template<readable T = Access> __force_inline Type get() {
             return ((GET_REGISTER_VAL(Reg::Address)) & (Mask << offset)) >> offset;
         }
