@@ -324,7 +324,7 @@ def camel_case(str):
 
 def generate_peripheral(peripheral, registers_file, enumerations_file=None):
     registers_file.write('struct {}\n'.format(
-        camel_case(peripheral.name),
+        get_peripheral_name(peripheral),
         peripheral.base_address,
         peripheral.access,
         peripheral.size))
@@ -344,6 +344,10 @@ def generate_peripheral(peripheral, registers_file, enumerations_file=None):
 
     registers_file.write('};\n')
     registers_file.write('\n')
+
+
+def get_peripheral_name(peripheral):
+    return f'ng{camel_case(peripheral.name)}'
 
 
 def generate_register_pack(peripheral, register, registers_file):
@@ -388,7 +392,7 @@ def generate_register_base(peripheral, register, registers_file, enumerations_fi
     if (fieldvalue_class_name != ''):
         registers_file.write('    using FieldValues = {}<{}::{}, 0, 0, NoAccess, NoAccess>;\n'.format(
             fieldvalue_class_name,
-            camel_case(peripheral.name),
+            get_peripheral_name(peripheral),
             camel_case(register.name)
         ))
     registers_file.write('  };\n')
@@ -420,7 +424,7 @@ def generate_field(peripheral, register, field, registers_file, bitsfiled_file):
         registers_file.write('    using {} = {}<{}::{}, {}, {}, {}, {}Base>;\n'.format(
             field_name,
             fieldvalue_class_name,
-            camel_case(peripheral.name),
+            get_peripheral_name(peripheral),
             camel_case(register.name),
             field.bit_offset,
             field.bit_width,
@@ -430,7 +434,7 @@ def generate_field(peripheral, register, field, registers_file, bitsfiled_file):
         registers_file.write('    using {} = {}<{}::{}, {}, {}, {}, {}Base>;\n'.format(
             field_name,
             fieldvalue_class_name,
-            camel_case(peripheral.name),
+            get_peripheral_name(peripheral),
             camel_case(register.name),
             field.bit_offset,
             field.bit_width,
@@ -559,6 +563,7 @@ def main():
             registers_file.write('#include <register/Access.hpp>\n')
             registers_file.write('\n')
             registers_file.write('using namespace ng;\n')
+            registers_file.write('\n')
 
             if ((args.o) or (not os.path.isfile(enum_file_full_name))):
                 with open(enum_file_full_name, 'w') as enumerations_file:
