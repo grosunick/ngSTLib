@@ -52,7 +52,7 @@ namespace ng
 
     static inline void delay_micros(uint16_t val) {
 #ifndef TEST_MODE
-        uint16_t limit =  (val * (SystemCoreClock / 1000000)) / 16;
+        uint16_t limit =  (val * (SystemCoreClock / 1000000));
 #else
         uint16_t limit = val * 4;
 #endif
