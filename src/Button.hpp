@@ -35,15 +35,9 @@ namespace ng
     };
     #pragma pack(pop)
 
-    template <
-        uint32_t PORT, uint8_t pinNum, BtnType type = PULL_UP,
-        uint8_t WAIT_PERIOD = 5U,
-        uint16_t HOLD_PERIOD = 2000U
-    >
+    template <typename Pin, BtnType type = PULL_UP, uint8_t WAIT_PERIOD = 5U, uint16_t HOLD_PERIOD = 2000U>
     class Button
     {
-        using ButtonPin = Pin<PORT, pinNum, Read>;
-
 #ifdef NG_BUTTON_DEBOUNCE
         static uint32_t timer1;
 #endif
@@ -54,7 +48,7 @@ namespace ng
     public:
         static bool isPressedState() {
             auto pressedState = type == PULL_UP ? false : true;
-            return (ButtonPin::get() == pressedState);
+            return (Pin::get() == pressedState);
         }
 
         // button press debounce processing
@@ -194,8 +188,8 @@ namespace ng
     };
 
     #define BUTTON_TEMPLATE_PARAMS template \
-        <uint32_t PORT, uint8_t pinNum, BtnType type, uint8_t DEBOUNCE_TIME, uint16_t HOLD_PERIOD>
-    #define BUTTON_PARAMS PORT, pinNum, type, DEBOUNCE_TIME, HOLD_PERIOD
+        <typename Pin, BtnType type, uint8_t DEBOUNCE_TIME, uint16_t HOLD_PERIOD>
+    #define BUTTON_PARAMS Pin, type, DEBOUNCE_TIME, HOLD_PERIOD
 
     BUTTON_TEMPLATE_PARAMS
     btnState Button<BUTTON_PARAMS>::state = btnState();

@@ -2,17 +2,29 @@
 
 #include <gtest/gtest.h>
 #include <millis.hpp>
+#include <register/Register.hpp>
+#include <gpio/Pin.hpp>
 #include <Button.hpp>
 
 using namespace ng;
 
-using TPullUpButton =  Button<1U, 0>;
-using TPullDownButton =  Button<1U, 0, ng::PULL_DOWN>;
-using TButton = Button<1U, 0, ng::PULL_DOWN>;
+constexpr uint32_t TPortW = 1U;
+constexpr uint32_t TPortR = 2U;
+
+struct TReg {
+    struct BSRR: public Register<TPortW, ReadWrite> {};
+    struct IDR: public Register<TPortR, Read> {};
+};
+
+using TPin = Pin<Port<TReg>, 0>;
+
+using TPullUpButton =  Button<TPin>;
+using TPullDownButton =  Button<TPin, ng::PULL_DOWN>;
+using TButton = Button<TPin, ng::PULL_DOWN>;
 
 void prepareDebounceState() {
     setMillis(1); // init timer
-    ng::testPort1.IDR = 1U; // press button
+    getRegister(TPortR) = 1U; // press button
     TButton::tick(); // init debounce mode
     setMillis(millis() + 6U); // increase time
     TButton::tick(); // init checking press mode
@@ -26,12 +38,12 @@ void countTicks(uint8_t cnt = 5) {
 }
 
 void preparePressState() {
-    ng::testPort1.IDR = 1U; // press button
+    getRegister(TPortR) = 1U; // press button
     countTicks(5);
 }
 
 void prepareReleaseState() {
-    ng::testPort1.IDR = 0U; // release button
+    getRegister(TPortR) = 0U; // release button
     countTicks(5);
 }
 
@@ -47,7 +59,7 @@ void clearState() {
 }
 
 TEST(Button, isPressedState) {
-    ng::testPort1.IDR = 1U; // set the first pin
+    getRegister(TPortR) = 1U; // set the first pin
 
     EXPECT_EQ(TPullUpButton::isPressedState(), false);
     EXPECT_EQ(TPullDownButton::isPressedState(), true);
@@ -57,7 +69,7 @@ TEST(Button, pressFlap) {
     clearState();
     prepareDebounceState();
 
-    ng::testPort1.IDR = 0U; // release button
+    getRegister(TPortR) = 0U; // release button
     countTicks(12);
 
     EXPECT_EQ(TButton::press(), false);
@@ -70,7 +82,7 @@ TEST(Button, press) {
 
     EXPECT_EQ(TButton::press(), true);
 
-    ng::testPort1.IDR = 0U; // release button
+    getRegister(TPortR) = 0U; // release button
     countTicks(5);
 
     clearState();
@@ -113,5 +125,3 @@ TEST(Button, hold) {
     EXPECT_EQ(TButton::hold(), false);
     clearState();
 }
-
-
