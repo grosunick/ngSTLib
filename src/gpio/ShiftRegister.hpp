@@ -10,15 +10,12 @@ namespace ng
     const uint8_t MSBFIRST = 0b01;
     const uint8_t LSBFIRST = 0b10;
 
-    template <
-            uint32_t PORT1, uint8_t CS, uint32_t PORT2, uint8_t Clk, uint32_t PORT3, uint8_t Data,
-            uint8_t order = MSBFIRST, uint8_t delay = 15
-    >
+    template <typename CS, typename Clk, typename Data, uint8_t order = MSBFIRST, uint8_t delay = 15>
     class ShiftRegister
     {
-        using CsPin = Pin<PORT1, CS, Write>;
-        using ClkPin = Pin<PORT2, Clk, Write>;
-        using DataPin = Pin<PORT3, Data, Write>;
+        using CsPin = CS;
+        using ClkPin = Clk;
+        using DataPin = Data;
 
     public:
         static inline void clk() {

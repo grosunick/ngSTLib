@@ -1,14 +1,27 @@
 #include <cstdint>
 #include <gtest/gtest.h>
+#include <register/Register.hpp>
 #include <gpio/ShiftRegister.hpp>
 #include <vector>
 
 using namespace ng;
 
-constexpr uint32_t TPORT1 = 0x1U;
 constexpr auto& registerLog = eventLog;
 
-using ShiftRegMSB = ShiftRegister<TPORT1, 0, TPORT1, 1, TPORT1, 2>;
+constexpr uint32_t TPort1W = 1U;
+constexpr uint32_t TPort1R = 2U;
+
+struct TReg1 {
+    struct BSRR: public Register<TPort1W, ReadWrite> {};
+    struct IDR: public Register<TPort1R, Read> {};
+};
+
+
+using Cs = Pin<Port<TReg1>, 0>;
+using Clk = Pin<Port<TReg1>, 1>;
+using Data = Pin<Port<TReg1>, 2>;
+
+using ShiftRegMSB = ShiftRegister<Cs, Clk, Data>;
 
 constexpr uint32_t DATA_PIN_SET = 0b100U;
 constexpr uint32_t DATA_PIN_RESET = 0b100U << 16;
@@ -18,19 +31,19 @@ constexpr uint32_t CLK_PIN_SET = 0b10U;
 constexpr uint32_t CLK_PIN_RESET = 0b10U << 16;
 
 void clkTest(uint16_t pos) {
-    EXPECT_EQ(registerLog[pos], make_tuple((uint32_t)RegName::BSRR, CLK_PIN_SET));
-    EXPECT_EQ(registerLog[pos + 1], make_tuple((uint32_t)RegName::BSRR, CLK_PIN_RESET));
+    EXPECT_EQ(registerLog[pos], make_tuple(TPort1W, CLK_PIN_SET));
+    EXPECT_EQ(registerLog[pos + 1], make_tuple(TPort1W, CLK_PIN_RESET));
 }
 
 void checkBits(int from, int to, uint32_t val) {
     for (int i = from; i < to; i++) { // check left 4 bits
-        EXPECT_EQ(registerLog[i * 3], make_tuple((uint32_t)RegName::BSRR, val));
+        EXPECT_EQ(registerLog[i * 3], make_tuple(TPort1W, val));
         clkTest(i * 3 + 1);
     }
 }
 
 void checkBit(int pos, uint32_t val) {
-    EXPECT_EQ(registerLog[pos], make_tuple((uint32_t)RegName::BSRR, val));
+    EXPECT_EQ(registerLog[pos], make_tuple(TPort1W, val));
 }
 
 TEST(ShiftRegister, clk) {
