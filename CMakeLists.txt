@@ -10,7 +10,7 @@ include_directories(libs/googletest/googletest/include)
 include_directories(src)
 include_directories(../../Drivers/CMSIS/include)
 
-file(GLOB_RECURSE SOURCES "src/*.*" "test/Encoder_test.cpp")
+file(GLOB_RECURSE SOURCES "src/*.*" "test/*.*")
 
 add_executable(${PROJECT_NAME}Test ${SOURCES})
 target_link_libraries(${PROJECT_NAME}Test PRIVATE gtest gtest_main gmock)
