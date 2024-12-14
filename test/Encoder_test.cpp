@@ -2,19 +2,30 @@
 
 #include <gtest/gtest.h>
 #include <millis.hpp>
+#include <register/Register.hpp>
+#include <gpio/Pin.hpp>
 #include <Encoder.hpp>
 
 using namespace ng;
 
-using TEncoderPullUp =  Encoder<1U, 0, 1U, 1, PULL_UP>;
-using TEncoderPullDown =  Encoder<1U, 0, 1U, 1, ng::PULL_DOWN>;
+constexpr uint32_t TPortR = 0U;
+
+struct TReg {
+    struct IDR: public Register<TPortR, ReadWrite> {};
+};
+
+using PinA = Pin<Port<TReg>, 0>;
+using PinB = Pin<Port<TReg>, 1>;
+
+using TEncoderPullUp =  Encoder<PinA, PinB, PULL_UP>;
+using TEncoderPullDown =  Encoder<PinA, PinB, PULL_DOWN>;
 
 void next(uint8_t state) {
     static uint8_t step = 0;
 
     uint8_t nextBState = (state & 0b1);
     uint8_t nextAState = (state & 0b10) >> 1;
-    ng::testPort1.IDR = (nextBState << 1) | nextAState; // set pins encoderState
+    getRegister(TPortR) = (nextBState << 1) | nextAState; // set pins encoderState
 
     step++;
     if (step > 3)
@@ -30,19 +41,19 @@ void backward() {
 }
 
 TEST(Encoder, readPins) {
-    ng::testPort1.IDR = 0b00U; // set pins encoderState
+    getRegister(TPortR) = 0b00U; // set pins encoderState
     EXPECT_EQ(TEncoderPullUp::readPins(), 0b11U);
-    ng::testPort1.IDR = 0b10U; // set pins encoderState
+    getRegister(TPortR) = 0b10U; // set pins encoderState
     EXPECT_EQ(TEncoderPullUp::readPins(), 0b01U);
 
-    ng::testPort1.IDR = 0b11U; // set pins encoderState
+    getRegister(TPortR) = 0b11U; // set pins encoderState
     EXPECT_EQ(TEncoderPullDown ::readPins(), 0b11U);
-    ng::testPort1.IDR = 0b01U; // set pins encoderState
+    getRegister(TPortR) = 0b01U; // set pins encoderState
     EXPECT_EQ(TEncoderPullDown::readPins(), 0b01U);
 }
 
 TEST(Encoder, getForwardState) {
-    ng::testPort1.IDR = 0b10U; // set pins encoderState
+    getRegister(TPortR) = 0b10U; // set pins encoderState
     TEncoderPullDown::init();
 
     forward();
@@ -57,7 +68,7 @@ TEST(Encoder, getForwardState) {
 }
 
 TEST(Encoder, getBackwardState) {
-    ng::testPort1.IDR = 0b01U; // set pins encoderState
+    getRegister(TPortR) = 0b01U; // set pins encoderState
     TEncoderPullDown::init();
 
     backward();

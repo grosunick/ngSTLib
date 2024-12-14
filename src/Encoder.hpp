@@ -28,16 +28,9 @@ namespace ng
     };
     #pragma pack(pop)
 
-    template <
-        uint32_t PORTA, uint8_t pinA,
-        uint32_t PORTB, uint8_t pinB,
-        BtnType type = PULL_UP, uint8_t WAIT_CNT = 3U
-    >
+    template <typename PinA, typename PinB, BtnType type = PULL_UP, uint8_t WAIT_CNT = 3U>
     class Encoder
     {
-        using PinA = Pin<PORTA, pinA, Read>;
-        using PinB = Pin<PORTB, pinB, Read>;
-
         static EncoderState encoderState;
 
 #ifdef NG_ENC_DEBOUNCE
@@ -118,26 +111,14 @@ namespace ng
         }
     };
 
-    template <
-        uint32_t PORTA, uint8_t pinA,
-        uint32_t PORTB, uint8_t pinB,
-        BtnType type, uint8_t WAIT_CNT
-    >
-    EncoderState Encoder<PORTA, pinA, PORTB, pinB, type, WAIT_CNT>::encoderState = EncoderState();
+    template <typename PinA, typename PinB, BtnType type, uint8_t WAIT_CNT>
+    EncoderState Encoder<PinA, PinB, type, WAIT_CNT>::encoderState = EncoderState();
 
 #ifdef NG_ENC_DEBOUNCE
-    template <
-            uint32_t PORTA, uint8_t pinA,
-            uint32_t PORTB, uint8_t pinB,
-            BtnType type, uint8_t WAIT_CNT
-    >
-    uint32_t Encoder<PORTA, pinA, PORTB, pinB, type, WAIT_CNT>::timer = 0;
+    template <typename PinA, typename PinB, BtnType type, uint8_t WAIT_CNT>
+    uint32_t Encoder<PinA, PinB, type, WAIT_CNT>::timer = 0;
 
-    template <
-            uint32_t PORTA, uint8_t pinA,
-            uint32_t PORTB, uint8_t pinB,
-            BtnType type, uint8_t WAIT_CNT
-    >
-    uint32_t Encoder<PORTA, pinA, PORTB, pinB, type, WAIT_CNT>::curMillis = 0;
+    template <typename PinA, typename PinB, BtnType type, uint8_t WAIT_CNT>
+    uint32_t Encoder<PinA, PinB, type, WAIT_CNT>::curMillis = 0;
 #endif
 }
