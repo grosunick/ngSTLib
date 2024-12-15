@@ -390,10 +390,11 @@ def generate_register_base(peripheral, register, registers_file, enumerations_fi
             registers_file,
             enumerations_file)
     if (fieldvalue_class_name != ''):
-        registers_file.write('    using FieldValues = {}<{}::{}, 0, 0, NoAccess, NoAccess>;\n'.format(
+        registers_file.write('    using FieldValues = {}<{}::{}, 0, {}, NoAccess, NoAccess>;\n'.format(
             fieldvalue_class_name,
             get_peripheral_name(peripheral),
-            camel_case(register.name)
+            camel_case(register.name),
+            register.fields[0].bit_width
         ))
     registers_file.write('  };\n')
     registers_file.write('\n')
