@@ -15,6 +15,8 @@ namespace ng
         }
 
     public:
+        using Reg = T;
+
         __force_inline bool set(uint32_t value) {
             if (!validValue(value)) return false;
 
@@ -32,7 +34,7 @@ namespace ng
         __force_inline bool toggle(uint32_t value) {
             if (!validValue(value)) return false;
 
-            T::BSRR::toggle(value);
+            T::ODR::toggle(value);
             return true;
         }
 
@@ -40,6 +42,4 @@ namespace ng
             return T::IDR::get();
         }
     };
-
-    constexpr uint32_t PORT_FAKE = 0;
 }

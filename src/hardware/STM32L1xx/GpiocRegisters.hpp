@@ -38,7 +38,7 @@ struct ngGPIOC
     using MODER2 = GPIOC_MODER_MODER2_Values<ngGPIOC::MODER, 4, 2, ReadWrite, GPIOCMODERBase>;
     using MODER1 = GPIOC_MODER_MODER1_Values<ngGPIOC::MODER, 2, 2, ReadWrite, GPIOCMODERBase>;
     using MODER0 = GPIOC_MODER_MODER0_Values<ngGPIOC::MODER, 0, 2, ReadWrite, GPIOCMODERBase>;
-    using FieldValues = GPIOC_MODER_MODER0_Values<ngGPIOC::MODER, 0, 0, NoAccess, NoAccess>;
+    using FieldValues = GPIOC_MODER_MODER0_Values<ngGPIOC::MODER, 0, 2, NoAccess, NoAccess>;
   };
 
   template<typename... T> 
@@ -64,7 +64,7 @@ struct ngGPIOC
     using OT2 = GPIOC_OTYPER_OT2_Values<ngGPIOC::OTYPER, 2, 1, ReadWrite, GPIOCOTYPERBase>;
     using OT1 = GPIOC_OTYPER_OT1_Values<ngGPIOC::OTYPER, 1, 1, ReadWrite, GPIOCOTYPERBase>;
     using OT0 = GPIOC_OTYPER_OT0_Values<ngGPIOC::OTYPER, 0, 1, ReadWrite, GPIOCOTYPERBase>;
-    using FieldValues = GPIOC_OTYPER_OT0_Values<ngGPIOC::OTYPER, 0, 0, NoAccess, NoAccess>;
+    using FieldValues = GPIOC_OTYPER_OT0_Values<ngGPIOC::OTYPER, 0, 1, NoAccess, NoAccess>;
   };
 
   template<typename... T> 
@@ -90,7 +90,7 @@ struct ngGPIOC
     using OSPEEDR2 = GPIOC_OSPEEDER_OSPEEDR2_Values<ngGPIOC::OSPEEDER, 4, 2, ReadWrite, GPIOCOSPEEDERBase>;
     using OSPEEDR1 = GPIOC_OSPEEDER_OSPEEDR1_Values<ngGPIOC::OSPEEDER, 2, 2, ReadWrite, GPIOCOSPEEDERBase>;
     using OSPEEDR0 = GPIOC_OSPEEDER_OSPEEDR0_Values<ngGPIOC::OSPEEDER, 0, 2, ReadWrite, GPIOCOSPEEDERBase>;
-    using FieldValues = GPIOC_OSPEEDER_OSPEEDR0_Values<ngGPIOC::OSPEEDER, 0, 0, NoAccess, NoAccess>;
+    using FieldValues = GPIOC_OSPEEDER_OSPEEDR0_Values<ngGPIOC::OSPEEDER, 0, 2, NoAccess, NoAccess>;
   };
 
   template<typename... T> 
@@ -116,7 +116,7 @@ struct ngGPIOC
     using PUPDR2 = GPIOC_PUPDR_PUPDR2_Values<ngGPIOC::PUPDR, 4, 2, ReadWrite, GPIOCPUPDRBase>;
     using PUPDR1 = GPIOC_PUPDR_PUPDR1_Values<ngGPIOC::PUPDR, 2, 2, ReadWrite, GPIOCPUPDRBase>;
     using PUPDR0 = GPIOC_PUPDR_PUPDR0_Values<ngGPIOC::PUPDR, 0, 2, ReadWrite, GPIOCPUPDRBase>;
-    using FieldValues = GPIOC_PUPDR_PUPDR0_Values<ngGPIOC::PUPDR, 0, 0, NoAccess, NoAccess>;
+    using FieldValues = GPIOC_PUPDR_PUPDR0_Values<ngGPIOC::PUPDR, 0, 2, NoAccess, NoAccess>;
   };
 
   template<typename... T> 
@@ -142,7 +142,7 @@ struct ngGPIOC
     using IDR2 = GPIOC_IDR_IDR2_Values<ngGPIOC::IDR, 2, 1, Read, GPIOCIDRBase>;
     using IDR1 = GPIOC_IDR_IDR1_Values<ngGPIOC::IDR, 1, 1, Read, GPIOCIDRBase>;
     using IDR0 = GPIOC_IDR_IDR0_Values<ngGPIOC::IDR, 0, 1, Read, GPIOCIDRBase>;
-    using FieldValues = GPIOC_IDR_IDR0_Values<ngGPIOC::IDR, 0, 0, NoAccess, NoAccess>;
+    using FieldValues = GPIOC_IDR_IDR0_Values<ngGPIOC::IDR, 0, 1, NoAccess, NoAccess>;
   };
 
   template<typename... T> 
@@ -168,7 +168,7 @@ struct ngGPIOC
     using ODR2 = GPIOC_ODR_ODR2_Values<ngGPIOC::ODR, 2, 1, ReadWrite, GPIOCODRBase>;
     using ODR1 = GPIOC_ODR_ODR1_Values<ngGPIOC::ODR, 1, 1, ReadWrite, GPIOCODRBase>;
     using ODR0 = GPIOC_ODR_ODR0_Values<ngGPIOC::ODR, 0, 1, ReadWrite, GPIOCODRBase>;
-    using FieldValues = GPIOC_ODR_ODR0_Values<ngGPIOC::ODR, 0, 0, NoAccess, NoAccess>;
+    using FieldValues = GPIOC_ODR_ODR0_Values<ngGPIOC::ODR, 0, 1, NoAccess, NoAccess>;
   };
 
   template<typename... T> 
@@ -210,7 +210,7 @@ struct ngGPIOC
     using BS2 = GPIOC_BSRR_BS2_Values<ngGPIOC::BSRR, 2, 1, Write, GPIOCBSRRBase>;
     using BS1 = GPIOC_BSRR_BS1_Values<ngGPIOC::BSRR, 1, 1, Write, GPIOCBSRRBase>;
     using BS0 = GPIOC_BSRR_BS0_Values<ngGPIOC::BSRR, 0, 1, Write, GPIOCBSRRBase>;
-    using FieldValues = GPIOC_BSRR_BS0_Values<ngGPIOC::BSRR, 0, 0, NoAccess, NoAccess>;
+    using FieldValues = GPIOC_BSRR_BS0_Values<ngGPIOC::BSRR, 0, 1, NoAccess, NoAccess>;
   };
 
   template<typename... T> 
@@ -237,7 +237,7 @@ struct ngGPIOC
     using LCK2 = GPIOC_LCKR_LCK2_Values<ngGPIOC::LCKR, 2, 1, ReadWrite, GPIOCLCKRBase>;
     using LCK1 = GPIOC_LCKR_LCK1_Values<ngGPIOC::LCKR, 1, 1, ReadWrite, GPIOCLCKRBase>;
     using LCK0 = GPIOC_LCKR_LCK0_Values<ngGPIOC::LCKR, 0, 1, ReadWrite, GPIOCLCKRBase>;
-    using FieldValues = GPIOC_LCKR_LCK0_Values<ngGPIOC::LCKR, 0, 0, NoAccess, NoAccess>;
+    using FieldValues = GPIOC_LCKR_LCK0_Values<ngGPIOC::LCKR, 0, 1, NoAccess, NoAccess>;
   };
 
   template<typename... T> 
@@ -255,7 +255,7 @@ struct ngGPIOC
     using AFRL2 = GPIOC_AFRL_AFRL2_Values<ngGPIOC::AFRL, 8, 4, ReadWrite, GPIOCAFRLBase>;
     using AFRL1 = GPIOC_AFRL_AFRL1_Values<ngGPIOC::AFRL, 4, 4, ReadWrite, GPIOCAFRLBase>;
     using AFRL0 = GPIOC_AFRL_AFRL0_Values<ngGPIOC::AFRL, 0, 4, ReadWrite, GPIOCAFRLBase>;
-    using FieldValues = GPIOC_AFRL_AFRL0_Values<ngGPIOC::AFRL, 0, 0, NoAccess, NoAccess>;
+    using FieldValues = GPIOC_AFRL_AFRL0_Values<ngGPIOC::AFRL, 0, 4, NoAccess, NoAccess>;
   };
 
   template<typename... T> 
@@ -273,7 +273,7 @@ struct ngGPIOC
     using AFRH10 = GPIOC_AFRH_AFRH10_Values<ngGPIOC::AFRH, 8, 4, ReadWrite, GPIOCAFRHBase>;
     using AFRH9 = GPIOC_AFRH_AFRH9_Values<ngGPIOC::AFRH, 4, 4, ReadWrite, GPIOCAFRHBase>;
     using AFRH8 = GPIOC_AFRH_AFRH8_Values<ngGPIOC::AFRH, 0, 4, ReadWrite, GPIOCAFRHBase>;
-    using FieldValues = GPIOC_AFRH_AFRH8_Values<ngGPIOC::AFRH, 0, 0, NoAccess, NoAccess>;
+    using FieldValues = GPIOC_AFRH_AFRH8_Values<ngGPIOC::AFRH, 0, 4, NoAccess, NoAccess>;
   };
 
   template<typename... T> 
