@@ -50,5 +50,5 @@ TEST(Port, validValue) {
 
     EXPECT_EQ(TPort::set(1 << 17U), false);
     EXPECT_EQ(TPort::reset(1 << 17U), false);
-    EXPECT_EQ(Port<TReg>::toggle(1 << 17U), false);
+    EXPECT_EQ(TPort::toggle(1 << 17U), false);
 }

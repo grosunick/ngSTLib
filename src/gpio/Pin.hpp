@@ -29,11 +29,7 @@ namespace ng
     {
         template <typename T>
         __force_inline void setReg(typename T::Type val) {
-            auto regVal = T::get();
-            constexpr auto offset = T::FieldValues::Size * pin;
-            regVal &= ~(T::FieldValues::Mask << offset);
-            regVal |= (val << offset);
-            T::write(regVal);
+            RegisterField<T, T::FieldValues::Size * pin, T::FieldValues::Size, Write>::set(val);
         }
     public:
         using PortType = Port;

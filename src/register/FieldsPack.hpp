@@ -20,27 +20,15 @@ namespace ng
         using BaseType = Base;
 
         template<writable T = Access> __force_inline void set() {
-            Type newRegValue = GET_REGISTER_VAL(Address);
-            constexpr auto mask = getMask();
-            constexpr auto value = getValue();
-
-            newRegValue &= ~mask;
-            newRegValue |= value;
-
-            GET_REGISTER(Address) = newRegValue;
+            GET_REGISTER(Address) = (GET_REGISTER_VAL(Address) & ~getMask()) | getValue();
         }
 
         template<writable T = Access> __force_inline void write() {
-            constexpr auto value = getValue();
-            GET_REGISTER(Address) = value;
+            GET_REGISTER(Address) = getValue();
         }
 
         template<writable T = Access> __force_inline bool isSet() {
-            constexpr auto mask = getMask();
-            constexpr auto value = getValue();
-
-            Type newRegValue = GET_REGISTER_VAL(Address);
-            return ((newRegValue & mask) == value);
+            return ((GET_REGISTER_VAL(Address) & getMask()) == getValue());
         }
 
     private:
@@ -50,8 +38,7 @@ namespace ng
         }
 
         template<same<BaseType> T> __force_inline auto getIndividualMask() {
-            constexpr Type result = T::Mask << T::Offset;
-            return result;
+            return T::Mask << T::Offset;
         }
 
         __force_inline auto getValue() {
@@ -60,8 +47,7 @@ namespace ng
         }
 
         template<same<BaseType> T> __force_inline auto getIndividualValue() {
-            constexpr Type result = T::Value << T::Offset;
-            return result;
+            return T::Value << T::Offset;
         }
 
         __force_inline auto checkAccess() {

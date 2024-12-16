@@ -21,7 +21,7 @@ namespace ng
 
             uint32_t result = 0;
 
-            ((result |= ((is_same<Q, typename Ts::PortType>::value ? 1 : 0) & mask) * (1 << Ts::pin)), ...);
+            ((result |= ((is_same_v<Q, typename Ts::PortType>? 1: 0) & mask) * (1 << Ts::pin)), ...);
             return result;
         }
 
