@@ -34,35 +34,36 @@ namespace ng
     public:
         using PortType = Port;
         static constexpr uint32_t pin = pinNum;
+        static constexpr uint32_t pinMask = 1U << pinNum;
 
         static_assert(pinNum <= 15U, "There are only 16 pins on port");
 
         __force_inline void set() {
-            PortType::set(1U << pinNum);
+            PortType::template set<pinMask>();
         }
 
         __force_inline void reset() {
-            PortType::reset(1U << pinNum);
+            PortType::template reset<pinMask>();
         }
 
         __force_inline void write(bool value) {
             if (value) {
-                set();
+                PortType::template set<pinMask>();
             } else {
-                reset();
+                PortType::template reset<pinMask>();
             }
         }
 
         __force_inline void toggle() {
-            PortType::toggle(1U << pinNum);
+            PortType::template toggle<pinMask>();
         }
 
         __force_inline bool get() {
-            return (PortType::get() & (1U << pinNum)) >> pinNum;
+            return (PortType::get() & (pinMask)) >> pinNum;
         }
 
         __force_inline bool isSet() {
-            return (PortType::get() & (1U << pinNum)) != 0;
+            return (PortType::get() & (pinMask)) != 0;
         }
 
         __force_inline void setInput(InputPullUp pullUp = InputPullUp::No) {

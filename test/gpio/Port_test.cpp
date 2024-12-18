@@ -20,18 +20,27 @@ using TPort = Port<TReg>;
 TEST(Port, set) {
     TPort::set(0b11);
     EXPECT_EQ(getRegister(TReg::BSRR::Address).getValue(), 0b11);
+
+    TPort::template set<0b10>();
+    EXPECT_EQ(getRegister(TReg::BSRR::Address).getValue(), 0b10);
 }
 
 TEST(Port, reset) {
     TPort::reset(0b11);
     EXPECT_EQ(getRegister(TReg::BSRR::Address).getValue(), (0b11 << 16U));
+
+    TPort::template reset<0b10>();
+    EXPECT_EQ(getRegister(TReg::BSRR::Address).getValue(), (0b10 << 16U));
 }
 
 TEST(Port, toggle) {
     getRegister(TReg::ODR::Address) = 0b101;
-    TPort::toggle(0b111);
 
+    TPort::toggle(0b111);
     EXPECT_EQ(getRegister(TReg::ODR::Address).getValue(), 0b010);
+
+    TPort::template toggle<0b111>();
+    EXPECT_EQ(getRegister(TReg::ODR::Address).getValue(), 0b101);
 }
 
 TEST(Port, get) {

@@ -71,7 +71,7 @@
     #define GET_REGISTER_VAL(address) ng::getRegister(address).getValue()
 #else
     #define GET_PORT(port) reinterpret_cast<GPIO_TypeDef*>(port)
-    #define GET_IDR_REGISTER(port) (uint32_t)port->IDR
-    #define GET_REGISTER(address) *reinterpret_cast<volatile Type*>(address)
-    #define GET_REGISTER_VAL(address) *reinterpret_cast<volatile Type*>(address)
+    #define GET_IDR_REGISTER(port) ((uint32_t)port->IDR)
+    #define GET_REGISTER(address) (*reinterpret_cast<volatile Type*>(address))
+    #define GET_REGISTER_VAL(address) (*reinterpret_cast<volatile Type*>(address))
 #endif

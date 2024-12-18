@@ -9,9 +9,11 @@
 using namespace ng;
 
 constexpr uint32_t TPortR = 0U;
+constexpr uint32_t TPortW = 1U;
 
 struct TReg {
-    struct IDR: public Register<TPortR, ReadWrite> {};
+    struct IDR: public Register<TPortR, Read> {};
+    struct BSRR: public Register<TPortW, Read> {};
 };
 
 using PinA = Pin<Port<TReg>, 0>;

@@ -23,20 +23,21 @@ namespace ng
             GET_REGISTER(Reg::Address) = (value << offset);
         }
 
+        template<writable T = Access, Type value> __force_inline void write() {
+            GET_REGISTER(Reg::Address) = (value << offset);
+        }
+
         template<writable T = Access> __force_inline void set(Type value) {
-            // Write a new value for the register.
             GET_REGISTER(Reg::Address) =
                     (GET_REGISTER_VAL(Reg::Address) & ~(Mask << offset)) | (value << offset);
         }
 
-        template<Type value> __force_inline void set() {
-            // Write a new value for the register.
+        template<writable T = Access, Type value> __force_inline void set() {
             GET_REGISTER(Reg::Address) =
                     (GET_REGISTER_VAL(Reg::Address) & ~(Mask << offset)) | (value << offset);
         }
 
         template<writable T = Access> __force_inline void toggle() {
-            // Write a new value for the register.
             GET_REGISTER(Reg::Address) = GET_REGISTER_VAL(Reg::Address) ^ (((1U << size) - 1U) << offset);
         }
 

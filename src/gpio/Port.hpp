@@ -13,7 +13,6 @@ namespace ng
         __force_inline bool validValue(uint32_t val) {
             return (val <= (1 << 16U));
         }
-
     public:
         using Reg = T;
 
@@ -24,6 +23,11 @@ namespace ng
             return true;
         }
 
+        template<typename T::BSRR::Type value> __force_inline void set() {
+            static_assert(value <= (1 << 16U));
+            T::BSRR::write(value);
+        }
+
         __force_inline bool reset(uint32_t value) {
             if (!validValue(value)) return false;
 
@@ -31,11 +35,21 @@ namespace ng
             return true;
         }
 
+        template<typename T::BSRR::Type value> __force_inline void reset() {
+            static_assert(value <= (1 << 16U));
+            T::BSRR::write(value << 16);
+        }
+
         __force_inline bool toggle(uint32_t value) {
             if (!validValue(value)) return false;
 
             T::ODR::toggle(value);
             return true;
+        }
+
+        template<typename T::BSRR::Type value> __force_inline void toggle() {
+            static_assert(value <= (1 << 16U));
+            T::ODR::toggle(value);
         }
 
         __force_inline uint32_t get() {

@@ -66,8 +66,7 @@ namespace ng
          * @param num
          * @return
          */
-        template <typename T>
-        static inline bool setNumber(T num) {
+        template <typename T> static inline bool setNumber(T num) {
             static_assert(std::is_integral_v<T>);
 
             auto length = SegmentUtils::intLen(num);

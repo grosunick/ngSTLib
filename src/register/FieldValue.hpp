@@ -20,15 +20,15 @@ namespace ng
         static constexpr Type Offset = Field::Offset;
 
         template<writable T = Access> __force_inline void set() {
-            Field::set(value);
+            Field::template set<T, Value>();
         }
 
         template<writable T = Access> __force_inline void write() {
-            Field::write(value);
+            Field::template write<T, Value>();
         }
 
         template<readable T = Access> __force_inline bool isSet() {
-            return Field::get() == value;
+            return Field::get() == Value;
         }
     };
 }
