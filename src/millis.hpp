@@ -1,15 +1,18 @@
 #pragma once
 
 #include <cstdint>
+#include <common/defines.h>
+
+extern uint32_t SystemCoreClock; /*!< System Clock Frequency (Core Clock) */
 
 namespace ng
 {
     namespace time
     {
-        const uint32_t MILLIS_IN_SECOND = 1000Ul;
+        constexpr uint32_t MILLIS_IN_SECOND = 1000Ul;
 
+        uint32_t milliseconds = 0; // milliseconds from app start
         namespace {
-            uint32_t milliseconds = 0; // milliseconds from app start
             uint32_t sec = 0; // seconds from app start
         }
 
@@ -61,21 +64,26 @@ namespace ng
         }
     }
 
-#ifndef TEST_MODE
-    template <uint32_t TIM>
-    static inline void delay_micros(uint16_t val) {
-        auto timer = reinterpret_cast<TIM_TypeDef*>(TIM);
+    template <typename TIM> __force_inline void delay_micros(uint32_t us) {
+        uint16_t prescaler = 0;
+        uint16_t period = 0;
 
-        timer->SMCR = timer->SMCR & ~TIM_SMCR_SMS; // setup internal clock source
-        timer->CR1 = timer->CR1 & ~TIM_CR1_DIR; // counter mode: UP
-        timer->CR1 = timer->CR1 & ~TIM_CR1_UDIS; // enable reloading
+        uint32_t fTim = 1000000U / us;
 
-        timer->PSC = SystemCoreClock / 1000000 - 1; // 1 microsecond per timer tick
-        timer->CNT = 0; // init counter;
+        // calculate the prescaler value and the period of the timer for a given time in microseconds.
+        uint32_t fClkTofTim = SystemCoreClock / fTim;
+        if (fClkTofTim < 1000) {
+            period = fClkTofTim - 1;
+        } else {
+            prescaler = 999;
+            period = fClkTofTim / (prescaler + 1) - 1;
+        }
 
-        timer->CR1 = timer->CR1 | TIM_CR1_CEN; // enable counter
-        while (timer->CNT < val); // wait
-        timer->CR1 = timer->CR1 & ~TIM_CR1_CEN; // enable counter
+        TIM::enableReload();
+        TIM::setPrescaler(prescaler);
+        TIM::setPeriod(period);
+        TIM::excecute();
     }
-#endif
 }
+
+extern uint32_t ng::time::milliseconds;
