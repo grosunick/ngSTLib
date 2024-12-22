@@ -22,7 +22,7 @@ namespace ng
      * // ......
      *
      * while (1) {
-     *      Timer<Timer, 500>::tick();
+     *      timerTick<MyTask, 500>::tick();
      * }
      *
      */
@@ -47,7 +47,7 @@ namespace ng
      * Runs task {Task} periodically after {period} of milliseconds.
      */
     template <typename Task, uint32_t period = 1, bool runImmediately = true>
-    class Timer
+    class TimerTask
     {
     public:
         static void tick() {
