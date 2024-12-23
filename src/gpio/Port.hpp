@@ -7,8 +7,7 @@
 
 namespace ng
 {
-    template <typename T>
-    class Port
+    template <typename T> class Port
     {
         __force_inline bool validValue(uint32_t val) {
             return (val <= (1 << 16U));

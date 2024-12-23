@@ -16,8 +16,8 @@ struct TReg {
     struct BSRR: public Register<TPortW, Read> {};
 };
 
-using PinA = Pin<Port<TReg>, 0>;
-using PinB = Pin<Port<TReg>, 1>;
+using PinA = Pin<TReg, 0>;
+using PinB = Pin<TReg, 1>;
 
 using TEncoderPullUp =  Encoder<PinA, PinB, PULL_UP>;
 using TEncoderPullDown =  Encoder<PinA, PinB, PULL_DOWN>;

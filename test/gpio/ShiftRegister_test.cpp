@@ -17,9 +17,9 @@ struct TReg1 {
 };
 
 
-using Cs = Pin<Port<TReg1>, 0>;
-using Clk = Pin<Port<TReg1>, 1>;
-using Data = Pin<Port<TReg1>, 2>;
+using Cs = Pin<TReg1, 0>;
+using Clk = Pin<TReg1, 1>;
+using Data = Pin<TReg1, 2>;
 
 using ShiftRegMSB = ShiftRegister<Cs, Clk, Data>;
 

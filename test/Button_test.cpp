@@ -16,7 +16,7 @@ struct TReg {
     struct IDR: public Register<TPortR, Read> {};
 };
 
-using TPin = Pin<Port<TReg>, 0>;
+using TPin = Pin<TReg, 0>;
 
 using TPullUpButton =  Button<TPin>;
 using TPullDownButton =  Button<TPin, ng::PULL_DOWN>;

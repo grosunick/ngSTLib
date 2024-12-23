@@ -27,10 +27,10 @@ struct TReg2 {
     struct ODR: public Register<TPortW4, ReadWrite> {};
 };
 
-using PinA0 = Pin<Port<TReg1>, 0>;
-using PinA1 = Pin<Port<TReg1>, 1>;
-using PinB1 = Pin<Port<TReg2>, 1>;
-using PinB3 = Pin<Port<TReg2>, 3>;
+using PinA0 = Pin<TReg1, 0>;
+using PinA1 = Pin<TReg1, 1>;
+using PinB1 = Pin<TReg2, 1>;
+using PinB3 = Pin<TReg2, 3>;
 
 using VPort = VirtualPort<PinB3, PinA1, PinB1, PinA0>;
 

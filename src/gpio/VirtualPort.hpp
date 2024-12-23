@@ -9,7 +9,7 @@ namespace ng
     class VirtualPort
     {
         using TPins = Unique<Collection<Ts...>>;
-        using Ports = Unique<Collection<typename Ts::PortType...>>;
+        using Ports = Unique<Collection<typename Ts::TPort...>>;
 
         static_assert(
             std::is_same<TPins, Collection<Ts...>>::value, "Error: pins list must be uniq"
@@ -21,7 +21,7 @@ namespace ng
 
             uint32_t result = 0;
 
-            ((result |= ((is_same_v<Q, typename Ts::PortType>? 1: 0) & mask) * (1 << Ts::pin)), ...);
+            ((result |= ((is_same_v<Q, typename Ts::TPort>? 1: 0) & mask) * (1 << Ts::pin)), ...);
             return result;
         }
 

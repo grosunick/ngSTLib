@@ -52,67 +52,67 @@ struct TReg {
 
 TEST(Pin, get) {
     getRegister(TReg::IDR::Address) = 0b1U;
-    EXPECT_EQ((Pin<Port<TReg>, 0>::get()), 1U);
+    EXPECT_EQ((Pin<TReg, 0>::get()), 1U);
 
     getRegister(TReg::IDR::Address) = 0b10U;
-    EXPECT_EQ((Pin<Port<TReg>, 0>::get()), 0U);
+    EXPECT_EQ((Pin<TReg, 0>::get()), 0U);
 }
 
 TEST(Pin, set) {
-    Pin<Port<TReg>, 1>::set();
+    Pin<TReg, 1>::set();
     EXPECT_EQ(getRegister(TReg::BSRR::Address).getValue(), 0b10U);
 }
 
 TEST(Pin, reset) {
-    Pin<Port<TReg>, 1>::reset();
+    Pin<TReg, 1>::reset();
     EXPECT_EQ(getRegister(TReg::BSRR::Address).getValue(), (0b10U << 16));
 }
 
 TEST(Pin, toggle) {
     getRegister(TReg::ODR::Address) = 0b10U;
-    Pin<Port<TReg>, 1>::toggle();
+    Pin<TReg, 1>::toggle();
 
     EXPECT_EQ(getRegister(TReg::ODR::Address).getValue(), 0U);
 }
 
 TEST(Pin, setInput) {
     getRegister(TReg::MODER::Address) = 0b1100;
-    Pin<Port<TReg>, 1>::setInput();
+    Pin<TReg, 1>::setInput();
     EXPECT_EQ(getRegister(TReg::MODER::Address).getValue(), 0b0000U);
     EXPECT_EQ(getRegister(TReg::PUPDR::Address).getValue(), 0b0000U);
 
     getRegister(TReg::MODER::Address) = 0b1100;
-    Pin<Port<TReg>, 1>::setInput(InputPullUp::Up);
+    Pin<TReg, 1>::setInput(InputPullUp::Up);
     EXPECT_EQ(getRegister(TReg::MODER::Address).getValue(), 0b0000U);
     EXPECT_EQ(getRegister(TReg::PUPDR::Address).getValue(), 0b0100U);
 
     getRegister(TReg::MODER::Address) = 0b1100;
-    Pin<Port<TReg>, 1>::setInput(InputPullUp::Down);
+    Pin<TReg, 1>::setInput(InputPullUp::Down);
     EXPECT_EQ(getRegister(TReg::MODER::Address).getValue(), 0b0000U);
     EXPECT_EQ(getRegister(TReg::PUPDR::Address).getValue(), 0b1000U);
 }
 
 TEST(Pin, setOutput) {
     getRegister(TReg::MODER::Address) = 0b1100;
-    Pin<Port<TReg>, 1>::setOutput(OutputType::PushPull, OutputSpeed::Low);
+    Pin<TReg, 1>::setOutput(OutputType::PushPull, OutputSpeed::Low);
     EXPECT_EQ(getRegister(TReg::MODER::Address).getValue(), 0b0100U);
     EXPECT_EQ(getRegister(TReg::OTYPER::Address).getValue(), 0b00U);
     EXPECT_EQ(getRegister(TReg::OSPEEDER::Address).getValue(), 0b00U);
 
     getRegister(TReg::MODER::Address) = 0b1100;
-    Pin<Port<TReg>, 1>::setOutput(OutputType::PushPull, OutputSpeed::Medium);
+    Pin<TReg, 1>::setOutput(OutputType::PushPull, OutputSpeed::Medium);
     EXPECT_EQ(getRegister(TReg::MODER::Address).getValue(), 0b0100U);
     EXPECT_EQ(getRegister(TReg::OTYPER::Address).getValue(), 0b00U);
     EXPECT_EQ(getRegister(TReg::OSPEEDER::Address).getValue(), 0b0100U);
 
     getRegister(TReg::MODER::Address) = 0b1100;
-    Pin<Port<TReg>, 1>::setOutput(OutputType::PushPull, OutputSpeed::High);
+    Pin<TReg, 1>::setOutput(OutputType::PushPull, OutputSpeed::High);
     EXPECT_EQ(getRegister(TReg::MODER::Address).getValue(), 0b0100U);
     EXPECT_EQ(getRegister(TReg::OTYPER::Address).getValue(), 0b00U);
     EXPECT_EQ(getRegister(TReg::OSPEEDER::Address).getValue(), 0b1000U);
 
     getRegister(TReg::MODER::Address) = 0b1100;
-    Pin<Port<TReg>, 1>::setOutput(OutputType::OpenDrain, OutputSpeed::Max);
+    Pin<TReg, 1>::setOutput(OutputType::OpenDrain, OutputSpeed::Max);
     EXPECT_EQ(getRegister(TReg::MODER::Address).getValue(), 0b0100U);
     EXPECT_EQ(getRegister(TReg::OTYPER::Address).getValue(), 0b10U);
     EXPECT_EQ(getRegister(TReg::OSPEEDER::Address).getValue(), 0b1100U);
@@ -120,6 +120,6 @@ TEST(Pin, setOutput) {
 
 TEST(Pin, setAnalog) {
     getRegister(TReg::MODER::Address) = 0b0;
-    Pin<Port<TReg>, 1>::setAnalog();
+    Pin<TReg, 1>::setAnalog();
     EXPECT_EQ(getRegister(TReg::MODER::Address).getValue(), 0b1100U);
 }
