@@ -82,37 +82,37 @@ TEST(Pin, setInput) {
     EXPECT_EQ(getRegister(TReg::PUPDR::Address).getValue(), 0b0000U);
 
     getRegister(TReg::MODER::Address) = 0b1100;
-    Pin<TReg, 1>::setInput(InputPullUp::Up);
+    Pin<TReg, 1>::template setInput<InputPullUp::Up>();
     EXPECT_EQ(getRegister(TReg::MODER::Address).getValue(), 0b0000U);
     EXPECT_EQ(getRegister(TReg::PUPDR::Address).getValue(), 0b0100U);
 
     getRegister(TReg::MODER::Address) = 0b1100;
-    Pin<TReg, 1>::setInput(InputPullUp::Down);
+    Pin<TReg, 1>::template setInput<InputPullUp::Down>();
     EXPECT_EQ(getRegister(TReg::MODER::Address).getValue(), 0b0000U);
     EXPECT_EQ(getRegister(TReg::PUPDR::Address).getValue(), 0b1000U);
 }
 
 TEST(Pin, setOutput) {
     getRegister(TReg::MODER::Address) = 0b1100;
-    Pin<TReg, 1>::setOutput(OutputType::PushPull, OutputSpeed::Low);
+    Pin<TReg, 1>::template setOutput<OutputType::PushPull, OutputSpeed::Low>();
     EXPECT_EQ(getRegister(TReg::MODER::Address).getValue(), 0b0100U);
     EXPECT_EQ(getRegister(TReg::OTYPER::Address).getValue(), 0b00U);
     EXPECT_EQ(getRegister(TReg::OSPEEDER::Address).getValue(), 0b00U);
 
     getRegister(TReg::MODER::Address) = 0b1100;
-    Pin<TReg, 1>::setOutput(OutputType::PushPull, OutputSpeed::Medium);
+    Pin<TReg, 1>::template setOutput<OutputType::PushPull, OutputSpeed::Medium>();
     EXPECT_EQ(getRegister(TReg::MODER::Address).getValue(), 0b0100U);
     EXPECT_EQ(getRegister(TReg::OTYPER::Address).getValue(), 0b00U);
     EXPECT_EQ(getRegister(TReg::OSPEEDER::Address).getValue(), 0b0100U);
 
     getRegister(TReg::MODER::Address) = 0b1100;
-    Pin<TReg, 1>::setOutput(OutputType::PushPull, OutputSpeed::High);
+    Pin<TReg, 1>::template setOutput<OutputType::PushPull, OutputSpeed::High>();
     EXPECT_EQ(getRegister(TReg::MODER::Address).getValue(), 0b0100U);
     EXPECT_EQ(getRegister(TReg::OTYPER::Address).getValue(), 0b00U);
     EXPECT_EQ(getRegister(TReg::OSPEEDER::Address).getValue(), 0b1000U);
 
     getRegister(TReg::MODER::Address) = 0b1100;
-    Pin<TReg, 1>::setOutput(OutputType::OpenDrain, OutputSpeed::Max);
+    Pin<TReg, 1>::template setOutput<OutputType::OpenDrain, OutputSpeed::Max>();
     EXPECT_EQ(getRegister(TReg::MODER::Address).getValue(), 0b0100U);
     EXPECT_EQ(getRegister(TReg::OTYPER::Address).getValue(), 0b10U);
     EXPECT_EQ(getRegister(TReg::OSPEEDER::Address).getValue(), 0b1100U);
