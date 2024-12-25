@@ -412,78 +412,210 @@ struct TIM3_EGR_UG_Values : public RegisterField<Reg, offset, size, AccessMode> 
     using ReInit = FieldValue<TIM3_EGR_UG_Values, 1U, BaseType>;
 };
 
+/**  Output compare clear enable */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCMR1_Output_OC2CE_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCMR1_Output_OC2CE_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCMR1_Output_OC2CE_Values, 1U, BaseType>;
+    // 0: OC1Ref is not affected by the ETRF input
+    using NotAffected = FieldValue<TIM3_CCMR1_Output_OC2CE_Values, 0U, BaseType>;
+    // 1: OC1Ref is cleared as soon as a High level is detected on ETRF input
+    using Cleared = FieldValue<TIM3_CCMR1_Output_OC2CE_Values, 1U, BaseType>;
 };
 
+/**
+ * Output compare mode
+ *
+ * These bits define the behavior of the output reference signal OCxREF from which OCx and
+ * OCxN are derived. OCxREF is active high whereas OCx and OCxN active level depends
+ * on CCxP and CCxNP bits.
+ */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCMR1_Output_OC2M_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCMR1_Output_OC2M_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCMR1_Output_OC2M_Values, 1U, BaseType>;
-    using Value2 = FieldValue<TIM3_CCMR1_Output_OC2M_Values, 2U, BaseType>;
-    using Value3 = FieldValue<TIM3_CCMR1_Output_OC2M_Values, 3U, BaseType>;
-    using Value4 = FieldValue<TIM3_CCMR1_Output_OC2M_Values, 4U, BaseType>;
-    using Value5 = FieldValue<TIM3_CCMR1_Output_OC2M_Values, 5U, BaseType>;
-    using Value6 = FieldValue<TIM3_CCMR1_Output_OC2M_Values, 6U, BaseType>;
-    using Value7 = FieldValue<TIM3_CCMR1_Output_OC2M_Values, 7U, BaseType>;
+    /**
+     * 000: Frozen - The comparison between the output compare register TIMx_CCRx and the
+     * counter TIMx_CNT has no effect on the outputs.(this mode is used to generate a timing base).
+     */
+    using Frozen = FieldValue<TIM3_CCMR1_Output_OC2M_Values, 0U, BaseType>;
+    /**
+     * 001: Set channel 1 to active level on match. OCxREF signal is forced high when the counter
+     * TIMx_CNT matches the capture/compare register 1 (TIMx_CCRx).
+     */
+    using ActiveLevelOnMatch = FieldValue<TIM3_CCMR1_Output_OC2M_Values, 1U, BaseType>;
+    /**
+     * 010: Set channel 1 to inactive level on match. OCxREF signal is forced low when the counter
+     * TIMx_CNT matches the capture/compare register 1 (TIMx_CCRx).
+     */
+    using InactiveLevelOnMatch = FieldValue<TIM3_CCMR1_Output_OC2M_Values, 2U, BaseType>;
+    // 011: Toggle - OCxREF toggles when TIMx_CNT=TIMx_CCRx.
+    using Toggle = FieldValue<TIM3_CCMR1_Output_OC2M_Values, 3U, BaseType>;
+    // 100: Force inactive level - OCxREF is forced low.
+    using ForceInactive = FieldValue<TIM3_CCMR1_Output_OC2M_Values, 4U, BaseType>;
+    // 101: Force active level - OCxREF is forced high.
+    using ForceActive = FieldValue<TIM3_CCMR1_Output_OC2M_Values, 5U, BaseType>;
+    /**
+     * 110: PWM mode 1 - In upcounting, channel 1 is active as long as TIMx_CNT<TIMx_CCRx
+     * else inactive. In downcounting, channel 1 is inactive (OCxREF=‘0) as long as
+     * TIMx_CNT > TIMx_CCRx else active (OCxREF=1).
+     */
+    using PWM1 = FieldValue<TIM3_CCMR1_Output_OC2M_Values, 6U, BaseType>;
+    /**
+     * 111: PWM mode 2 - In upcounting, channel 1 is inactive as long as TIMx_CNT<TIMx_CCRx
+     * else active. In downcounting, channel 1 is active as long as TIMx_CNT > TIMx_CCRx else inactive
+     */
+    using PWM2 = FieldValue<TIM3_CCMR1_Output_OC2M_Values, 7U, BaseType>;
 };
 
+/** Output compare preload enable */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCMR1_Output_OC2PE_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCMR1_Output_OC2PE_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCMR1_Output_OC2PE_Values, 1U, BaseType>;
+    /**
+     * 0: Preload register on TIMx_CCRx disabled. TIMx_CCRx can be written at anytime, the
+     * new value is taken in account immediately
+     */
+    using Disabled = FieldValue<TIM3_CCMR1_Output_OC2PE_Values, 0U, BaseType>;
+    /**
+     * 1: Preload register on TIMx_CCRx enabled. Read/Write operations access the preload
+     * register. TIMx_CCRx preload value is loaded in the active register at each update event.
+     */
+    using Enabled = FieldValue<TIM3_CCMR1_Output_OC2PE_Values, 1U, BaseType>;
 };
 
+/**
+ * Output compare fast enable.
+ * This bit is used to accelerate the effect of an event on the trigger in input on the CC output.
+ */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCMR1_Output_OC2FE_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCMR1_Output_OC2FE_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCMR1_Output_OC2FE_Values, 1U, BaseType>;
+    /**
+     * 0: CCx behaves normally depending on the counter and CCRx values even when the
+     * trigger is ON. The minimum delay to activate the CCx output when an edge occurs on the
+     * trigger input is 5 clock cycles
+     */
+    using Nornal = FieldValue<TIM3_CCMR1_Output_OC2FE_Values, 0U, BaseType>;
+    /**
+     * 1: An active edge on the trigger input acts like a compare match on the CCx output. Then,
+     * OC is set to the compare level independently of the result of the comparison. Delay to
+     * sample the trigger input and to activate CC1 output is reduced to 3 clock cycles. OC1FE
+     * acts only if the channel is configured in PWM1 or PWM2 mode.
+     */
+    using Fast = FieldValue<TIM3_CCMR1_Output_OC2FE_Values, 1U, BaseType>;
 };
 
+
+/**
+ * Capture/Compare selection.
+ * This bitfield defines the direction of the channel (input/output) as well as the used input.
+ */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCMR1_Output_CC2S_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCMR1_Output_CC2S_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCMR1_Output_CC2S_Values, 1U, BaseType>;
+    // 00: CC1 channel is configured as output
+    using Output = FieldValue<TIM3_CCMR1_Output_CC2S_Values, 0U, BaseType>;
+    // 01: CC1 channel is configured as input, IC1 is mapped on TI1
+    using InputTI1 = FieldValue<TIM3_CCMR1_Output_CC2S_Values, 1U, BaseType>;
 };
 
+/**  Output compare clear enable */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCMR1_Output_OC1CE_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCMR1_Output_OC1CE_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCMR1_Output_OC1CE_Values, 1U, BaseType>;
+    // 0: OC1Ref is not affected by the ETRF input
+    using NotAffected = FieldValue<TIM3_CCMR1_Output_OC1CE_Values, 0U, BaseType>;
+    // 1: OC1Ref is cleared as soon as a High level is detected on ETRF input
+    using Cleared = FieldValue<TIM3_CCMR1_Output_OC1CE_Values, 1U, BaseType>;
 };
 
+/**
+ * Output compare mode
+ *
+ * These bits define the behavior of the output reference signal OCxREF from which OCx and
+ * OCxN are derived. OCxREF is active high whereas OCx and OCxN active level depends
+ * on CCxP and CCxNP bits.
+ */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCMR1_Output_OC1M_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCMR1_Output_OC1M_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCMR1_Output_OC1M_Values, 1U, BaseType>;
-    using Value2 = FieldValue<TIM3_CCMR1_Output_OC1M_Values, 2U, BaseType>;
-    using Value3 = FieldValue<TIM3_CCMR1_Output_OC1M_Values, 3U, BaseType>;
-    using Value4 = FieldValue<TIM3_CCMR1_Output_OC1M_Values, 4U, BaseType>;
-    using Value5 = FieldValue<TIM3_CCMR1_Output_OC1M_Values, 5U, BaseType>;
-    using Value6 = FieldValue<TIM3_CCMR1_Output_OC1M_Values, 6U, BaseType>;
-    using Value7 = FieldValue<TIM3_CCMR1_Output_OC1M_Values, 7U, BaseType>;
+    /**
+     * 000: Frozen - The comparison between the output compare register TIMx_CCRx and the
+     * counter TIMx_CNT has no effect on the outputs.(this mode is used to generate a timing base).
+     */
+    using Frozen = FieldValue<TIM3_CCMR1_Output_OC1M_Values, 0U, BaseType>;
+    /**
+     * 001: Set channel 1 to active level on match. OCxREF signal is forced high when the counter
+     * TIMx_CNT matches the capture/compare register 1 (TIMx_CCRx).
+     */
+    using ActiveLevelOnMatch = FieldValue<TIM3_CCMR1_Output_OC1M_Values, 1U, BaseType>;
+    /**
+     * 010: Set channel 1 to inactive level on match. OCxREF signal is forced low when the counter
+     * TIMx_CNT matches the capture/compare register 1 (TIMx_CCRx).
+     */
+    using InactiveLevelOnMatch = FieldValue<TIM3_CCMR1_Output_OC1M_Values, 2U, BaseType>;
+    // 011: Toggle - OCxREF toggles when TIMx_CNT=TIMx_CCRx.
+    using Toggle = FieldValue<TIM3_CCMR1_Output_OC1M_Values, 3U, BaseType>;
+    // 100: Force inactive level - OCxREF is forced low.
+    using ForceInactive = FieldValue<TIM3_CCMR1_Output_OC1M_Values, 4U, BaseType>;
+    // 101: Force active level - OCxREF is forced high.
+    using ForceActive = FieldValue<TIM3_CCMR1_Output_OC1M_Values, 5U, BaseType>;
+    /**
+     * 110: PWM mode 1 - In upcounting, channel 1 is active as long as TIMx_CNT<TIMx_CCRx
+     * else inactive. In downcounting, channel 1 is inactive (OCxREF=‘0) as long as
+     * TIMx_CNT > TIMx_CCRx else active (OCxREF=1).
+     */
+    using PWM1 = FieldValue<TIM3_CCMR1_Output_OC1M_Values, 6U, BaseType>;
+    /**
+     * 111: PWM mode 2 - In upcounting, channel 1 is inactive as long as TIMx_CNT<TIMx_CCRx
+     * else active. In downcounting, channel 1 is active as long as TIMx_CNT > TIMx_CCRx else inactive
+     */
+    using PWM2 = FieldValue<TIM3_CCMR1_Output_OC1M_Values, 7U, BaseType>;
 };
 
+/** Output compare preload enable */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCMR1_Output_OC1PE_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCMR1_Output_OC1PE_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCMR1_Output_OC1PE_Values, 1U, BaseType>;
+    /**
+     * 0: Preload register on TIMx_CCRx disabled. TIMx_CCRx can be written at anytime, the
+     * new value is taken in account immediately
+     */
+    using Disabled = FieldValue<TIM3_CCMR1_Output_OC1PE_Values, 0U, BaseType>;
+    /**
+     * 1: Preload register on TIMx_CCRx enabled. Read/Write operations access the preload
+     * register. TIMx_CCRx preload value is loaded in the active register at each update event.
+     */
+    using Enabled = FieldValue<TIM3_CCMR1_Output_OC1PE_Values, 1U, BaseType>;
 };
 
+/**
+ * Output compare fast enable.
+ * This bit is used to accelerate the effect of an event on the trigger in input on the CC output.
+ */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCMR1_Output_OC1FE_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCMR1_Output_OC1FE_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCMR1_Output_OC1FE_Values, 1U, BaseType>;
+    /**
+      * 0: CCx behaves normally depending on the counter and CCRx values even when the
+      * trigger is ON. The minimum delay to activate the CCx output when an edge occurs on the
+      * trigger input is 5 clock cycles
+      */
+    using Nornal = FieldValue<TIM3_CCMR1_Output_OC1FE_Values, 0U, BaseType>;
+    /**
+     * 1: An active edge on the trigger input acts like a compare match on the CCx output. Then,
+     * OC is set to the compare level independently of the result of the comparison. Delay to
+     * sample the trigger input and to activate CC1 output is reduced to 3 clock cycles. OC1FE
+     * acts only if the channel is configured in PWM1 or PWM2 mode.
+     */
+    using Fast = FieldValue<TIM3_CCMR1_Output_OC1FE_Values, 1U, BaseType>;
 };
 
+/**
+ * Capture/Compare selection.
+ * This bitfield defines the direction of the channel (input/output) as well as the used input.
+ */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCMR1_Output_CC1S_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCMR1_Output_CC1S_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCMR1_Output_CC1S_Values, 1U, BaseType>;
-    using Value2 = FieldValue<TIM3_CCMR1_Output_CC1S_Values, 2U, BaseType>;
-    using Value3 = FieldValue<TIM3_CCMR1_Output_CC1S_Values, 3U, BaseType>;
+    // 00: CC1 channel is configured as output
+    using Output = FieldValue<TIM3_CCMR1_Output_CC1S_Values, 0U, BaseType>;
+    // 01: CC1 channel is configured as input, IC1 is mapped on TI1
+    using InputTI1 = FieldValue<TIM3_CCMR1_Output_CC1S_Values, 1U, BaseType>;
+    // 10: CC1 channel is configured as input, IC1 is mapped on TI2
+    using InputTI2 = FieldValue<TIM3_CCMR1_Output_CC1S_Values, 2U, BaseType>;
+    // 11: CC1 channel is configured as input, IC1 is mapped on TRC. This mode works only if an
+    //internal trigger input is selected through the TS bit (TIMx_SMCR register)
+    using InputTRC = FieldValue<TIM3_CCMR1_Output_CC1S_Values, 3U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
@@ -558,49 +690,113 @@ struct TIM3_CCMR1_Input_CC1S_Values : public RegisterField<Reg, offset, size, Ac
     using Value3 = FieldValue<TIM3_CCMR1_Input_CC1S_Values, 3U, BaseType>;
 };
 
+/**  Output compare clear enable */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCMR2_Output_OC4CE_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCMR2_Output_OC4CE_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCMR2_Output_OC4CE_Values, 1U, BaseType>;
+    // 0: OC1Ref is not affected by the ETRF input
+    using NotAffected = FieldValue<TIM3_CCMR2_Output_OC4CE_Values, 0U, BaseType>;
+    // 1: OC1Ref is cleared as soon as a High level is detected on ETRF input
+    using Cleared = FieldValue<TIM3_CCMR2_Output_OC4CE_Values, 1U, BaseType>;
 };
 
+/**
+ * Output compare mode
+ *
+ * These bits define the behavior of the output reference signal OCxREF from which OCx and
+ * OCxN are derived. OCxREF is active high whereas OCx and OCxN active level depends
+ * on CCxP and CCxNP bits.
+ */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCMR2_Output_OC4M_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCMR2_Output_OC4M_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCMR2_Output_OC4M_Values, 1U, BaseType>;
-    using Value2 = FieldValue<TIM3_CCMR2_Output_OC4M_Values, 2U, BaseType>;
-    using Value3 = FieldValue<TIM3_CCMR2_Output_OC4M_Values, 3U, BaseType>;
-    using Value4 = FieldValue<TIM3_CCMR2_Output_OC4M_Values, 4U, BaseType>;
-    using Value5 = FieldValue<TIM3_CCMR2_Output_OC4M_Values, 5U, BaseType>;
-    using Value6 = FieldValue<TIM3_CCMR2_Output_OC4M_Values, 6U, BaseType>;
-    using Value7 = FieldValue<TIM3_CCMR2_Output_OC4M_Values, 7U, BaseType>;
+    /**
+     * 000: Frozen - The comparison between the output compare register TIMx_CCRx and the
+     * counter TIMx_CNT has no effect on the outputs.(this mode is used to generate a timing base).
+     */
+    using Frozen = FieldValue<TIM3_CCMR2_Output_OC4M_Values, 0U, BaseType>;
+    /**
+     * 001: Set channel 1 to active level on match. OCxREF signal is forced high when the counter
+     * TIMx_CNT matches the capture/compare register 1 (TIMx_CCRx).
+     */
+    using ActiveLevelOnMatch = FieldValue<TIM3_CCMR2_Output_OC4M_Values, 1U, BaseType>;
+    /**
+     * 010: Set channel 1 to inactive level on match. OCxREF signal is forced low when the counter
+     * TIMx_CNT matches the capture/compare register 1 (TIMx_CCRx).
+     */
+    using InactiveLevelOnMatch = FieldValue<TIM3_CCMR2_Output_OC4M_Values, 2U, BaseType>;
+    // 011: Toggle - OCxREF toggles when TIMx_CNT=TIMx_CCRx.
+    using Toggle = FieldValue<TIM3_CCMR2_Output_OC4M_Values, 3U, BaseType>;
+    // 100: Force inactive level - OCxREF is forced low.
+    using ForceInactive = FieldValue<TIM3_CCMR2_Output_OC4M_Values, 4U, BaseType>;
+    // 101: Force active level - OCxREF is forced high.
+    using ForceActive = FieldValue<TIM3_CCMR2_Output_OC4M_Values, 5U, BaseType>;
+    /**
+     * 110: PWM mode 1 - In upcounting, channel 1 is active as long as TIMx_CNT<TIMx_CCRx
+     * else inactive. In downcounting, channel 1 is inactive (OCxREF=‘0) as long as
+     * TIMx_CNT > TIMx_CCRx else active (OCxREF=1).
+     */
+    using PWM1 = FieldValue<TIM3_CCMR2_Output_OC4M_Values, 6U, BaseType>;
+    /**
+     * 111: PWM mode 2 - In upcounting, channel 1 is inactive as long as TIMx_CNT<TIMx_CCRx
+     * else active. In downcounting, channel 1 is active as long as TIMx_CNT > TIMx_CCRx else inactive
+     */
+    using PWM2 = FieldValue<TIM3_CCMR2_Output_OC4M_Values, 7U, BaseType>;
 };
 
+/** Output compare preload enable */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCMR2_Output_OC4PE_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCMR2_Output_OC4PE_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCMR2_Output_OC4PE_Values, 1U, BaseType>;
+    /**
+     * 0: Preload register on TIMx_CCRx disabled. TIMx_CCRx can be written at anytime, the
+     * new value is taken in account immediately
+     */
+    using Disabled = FieldValue<TIM3_CCMR2_Output_OC4PE_Values, 0U, BaseType>;
+    /**
+     * 1: Preload register on TIMx_CCRx enabled. Read/Write operations access the preload
+     * register. TIMx_CCRx preload value is loaded in the active register at each update event.
+     */
+    using Enabled = FieldValue<TIM3_CCMR2_Output_OC4PE_Values, 1U, BaseType>;
 };
 
+/**
+ * Output compare fast enable.
+ * This bit is used to accelerate the effect of an event on the trigger in input on the CC output.
+ */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCMR2_Output_OC4FE_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCMR2_Output_OC4FE_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCMR2_Output_OC4FE_Values, 1U, BaseType>;
+    /**
+     * 0: CCx behaves normally depending on the counter and CCRx values even when the
+     * trigger is ON. The minimum delay to activate the CCx output when an edge occurs on the
+     * trigger input is 5 clock cycles
+     */
+    using Nornal = FieldValue<TIM3_CCMR2_Output_OC4FE_Values, 0U, BaseType>;
+    /**
+     * 1: An active edge on the trigger input acts like a compare match on the CCx output. Then,
+     * OC is set to the compare level independently of the result of the comparison. Delay to
+     * sample the trigger input and to activate CC1 output is reduced to 3 clock cycles. OC1FE
+     * acts only if the channel is configured in PWM1 or PWM2 mode.
+     */
+    using Fast = FieldValue<TIM3_CCMR2_Output_OC4FE_Values, 1U, BaseType>;
 };
 
+/**
+ * Capture/Compare selection.
+ * This bitfield defines the direction of the channel (input/output) as well as the used input.
+ */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCMR2_Output_CC4S_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCMR2_Output_CC4S_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCMR2_Output_CC4S_Values, 1U, BaseType>;
+    // 00: CC1 channel is configured as output
+    using Output = FieldValue<TIM3_CCMR2_Output_CC4S_Values, 0U, BaseType>;
+    // 01: CC1 channel is configured as input, IC1 is mapped on TI1
+    using InputTI1 = FieldValue<TIM3_CCMR2_Output_CC4S_Values, 1U, BaseType>;
 };
 
 /**  Output compare clear enable */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCMR2_Output_OC3CE_Values : public RegisterField<Reg, offset, size, AccessMode> {
     // 0: OC1Ref is not affected by the ETRF input
-    using Value0 = FieldValue<TIM3_CCMR2_Output_OC3CE_Values, 0U, BaseType>;
+    using NotAffected = FieldValue<TIM3_CCMR2_Output_OC3CE_Values, 0U, BaseType>;
     // 1: OC1Ref is cleared as soon as a High level is detected on ETRF input
-    using Value1 = FieldValue<TIM3_CCMR2_Output_OC3CE_Values, 1U, BaseType>;
+    using Cleared = FieldValue<TIM3_CCMR2_Output_OC3CE_Values, 1U, BaseType>;
 };
 
 /**
@@ -664,7 +860,7 @@ struct TIM3_CCMR2_Output_OC3PE_Values : public RegisterField<Reg, offset, size, 
 /**
  * Output compare fast enable.
  * This bit is used to accelerate the effect of an event on the trigger in input on the CC output.
- * */
+ */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCMR2_Output_OC3FE_Values : public RegisterField<Reg, offset, size, AccessMode> {
     /**
@@ -783,10 +979,22 @@ struct TIM3_CCER_CC4P_Values : public RegisterField<Reg, offset, size, AccessMod
     using Value1 = FieldValue<TIM3_CCER_CC4P_Values, 1U, BaseType>;
 };
 
+/**
+ * Capture/Compare output enable.
+ *
+ * CCx channel configured as output:
+ *   0: Off - OC1 is not active
+ *   1: On - OC1 signal is output on the corresponding output pin
+ * CC1 channel configured as input:
+ * This bit determines if a capture of the counter value can actually be done into the input
+ *  capture/compare register 1 (TIMx_CCRx) or not.
+ *   0: Capture disabled
+ *   1: Capture enabled
+ */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCER_CC4E_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCER_CC4E_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCER_CC4E_Values, 1U, BaseType>;
+    using Disable = FieldValue<TIM3_CCER_CC4E_Values, 0U, BaseType>;
+    using Enable = FieldValue<TIM3_CCER_CC4E_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
@@ -801,10 +1009,22 @@ struct TIM3_CCER_CC3P_Values : public RegisterField<Reg, offset, size, AccessMod
     using Value1 = FieldValue<TIM3_CCER_CC3P_Values, 1U, BaseType>;
 };
 
+/**
+ * Capture/Compare output enable.
+ *
+ * CCx channel configured as output:
+ *   0: Off - OC1 is not active
+ *   1: On - OC1 signal is output on the corresponding output pin
+ * CC1 channel configured as input:
+ * This bit determines if a capture of the counter value can actually be done into the input
+ *  capture/compare register 1 (TIMx_CCRx) or not.
+ *   0: Capture disabled
+ *   1: Capture enabled
+ */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCER_CC3E_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCER_CC3E_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCER_CC3E_Values, 1U, BaseType>;
+    using Disable = FieldValue<TIM3_CCER_CC3E_Values, 0U, BaseType>;
+    using Enable = FieldValue<TIM3_CCER_CC3E_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
@@ -819,10 +1039,22 @@ struct TIM3_CCER_CC2P_Values : public RegisterField<Reg, offset, size, AccessMod
     using Value1 = FieldValue<TIM3_CCER_CC2P_Values, 1U, BaseType>;
 };
 
+/**
+ * Capture/Compare output enable.
+ *
+ * CCx channel configured as output:
+ *   0: Off - OC1 is not active
+ *   1: On - OC1 signal is output on the corresponding output pin
+ * CC1 channel configured as input:
+ * This bit determines if a capture of the counter value can actually be done into the input
+ *  capture/compare register 1 (TIMx_CCRx) or not.
+ *   0: Capture disabled
+ *   1: Capture enabled
+ */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCER_CC2E_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCER_CC2E_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCER_CC2E_Values, 1U, BaseType>;
+    using Disable = FieldValue<TIM3_CCER_CC2E_Values, 0U, BaseType>;
+    using Enable = FieldValue<TIM3_CCER_CC2E_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
@@ -837,10 +1069,22 @@ struct TIM3_CCER_CC1P_Values : public RegisterField<Reg, offset, size, AccessMod
     using Value1 = FieldValue<TIM3_CCER_CC1P_Values, 1U, BaseType>;
 };
 
+/**
+ * Capture/Compare output enable.
+ *
+ * CCx channel configured as output:
+ *   0: Off - OC1 is not active
+ *   1: On - OC1 signal is output on the corresponding output pin
+ * CC1 channel configured as input:
+ * This bit determines if a capture of the counter value can actually be done into the input
+ *  capture/compare register 1 (TIMx_CCRx) or not.
+ *   0: Capture disabled
+ *   1: Capture enabled
+ */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM3_CCER_CC1E_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Value0 = FieldValue<TIM3_CCER_CC1E_Values, 0U, BaseType>;
-    using Value1 = FieldValue<TIM3_CCER_CC1E_Values, 1U, BaseType>;
+    using Disable = FieldValue<TIM3_CCER_CC1E_Values, 0U, BaseType>;
+    using Enable = FieldValue<TIM3_CCER_CC1E_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>

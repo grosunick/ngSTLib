@@ -17,8 +17,7 @@
 using namespace ng;
 
 struct ngRCC {
-    struct RCCCRBase {
-    };
+    struct RCCCRBase {};
 
     struct CR : public Register<0x40023800, ReadWrite, 32> {
         using RTCPRE1 = RCC_CR_RTCPRE1_Values<ngRCC::CR, 30, 1, ReadWrite, RCCCRBase>;
@@ -39,8 +38,7 @@ struct ngRCC {
     template<typename... T>
     using CRPack = FieldsPack<0x40023800, 32, ReadWrite, RCCCRBase, T...>;
 
-    struct RCCICSCRBase {
-    };
+    struct RCCICSCRBase {};
 
     struct ICSCR : public Register<0x40023804, ReadWrite, 32> {
         using MSITRIM = RCC_ICSCR_MSITRIM_Values<ngRCC::ICSCR, 24, 8, ReadWrite, RCCICSCRBase>;
@@ -54,8 +52,7 @@ struct ngRCC {
     template<typename... T>
     using ICSCRPack = FieldsPack<0x40023804, 32, ReadWrite, RCCICSCRBase, T...>;
 
-    struct RCCCFGRBase {
-    };
+    struct RCCCFGRBase {};
 
     struct CFGR : public Register<0x40023808, ReadWrite, 32> {
         using MCOPRE = RCC_CFGR_MCOPRE_Values<ngRCC::CFGR, 28, 3, ReadWrite, RCCCFGRBase>;
@@ -74,8 +71,7 @@ struct ngRCC {
     template<typename... T>
     using CFGRPack = FieldsPack<0x40023808, 32, ReadWrite, RCCCFGRBase, T...>;
 
-    struct RCCCIRBase {
-    };
+    struct RCCCIRBase {};
 
     struct CIR : public Register<0x4002380C, ReadWrite, 32> {
         using CSSC = RCC_CIR_CSSC_Values<ngRCC::CIR, 23, 1, Write, RCCCIRBase>;
@@ -104,8 +100,7 @@ struct ngRCC {
     template<typename... T>
     using CIRPack = FieldsPack<0x4002380C, 32, ReadWrite, RCCCIRBase, T...>;
 
-    struct RCCAHBRSTRBase {
-    };
+    struct RCCAHBRSTRBase {};
 
     struct AHBRSTR : public Register<0x40023810, ReadWrite, 32> {
         using FSMCRST = RCC_AHBRSTR_FSMCRST_Values<ngRCC::AHBRSTR, 30, 1, ReadWrite, RCCAHBRSTRBase>;
@@ -127,8 +122,7 @@ struct ngRCC {
     template<typename... T>
     using AHBRSTRPack = FieldsPack<0x40023810, 32, ReadWrite, RCCAHBRSTRBase, T...>;
 
-    struct RCCAPB2RSTRBase {
-    };
+    struct RCCAPB2RSTRBase {};
 
     struct APB2RSTR : public Register<0x40023814, ReadWrite, 32> {
         using USART1RST = RCC_APB2RSTR_USART1RST_Values<ngRCC::APB2RSTR, 14, 1, ReadWrite, RCCAPB2RSTRBase>;
@@ -145,8 +139,7 @@ struct ngRCC {
     template<typename... T>
     using APB2RSTRPack = FieldsPack<0x40023814, 32, ReadWrite, RCCAPB2RSTRBase, T...>;
 
-    struct RCCAPB1RSTRBase {
-    };
+    struct RCCAPB1RSTRBase {};
 
     struct APB1RSTR : public Register<0x40023818, ReadWrite, 32> {
         using COMPRST = RCC_APB1RSTR_COMPRST_Values<ngRCC::APB1RSTR, 31, 1, ReadWrite, RCCAPB1RSTRBase>;
@@ -175,8 +168,7 @@ struct ngRCC {
     template<typename... T>
     using APB1RSTRPack = FieldsPack<0x40023818, 32, ReadWrite, RCCAPB1RSTRBase, T...>;
 
-    struct RCCAHBENRBase {
-    };
+    struct RCCAHBENRBase {};
 
     struct AHBENR : public Register<0x4002381C, ReadWrite, 32> {
         using FSMCEN = RCC_AHBENR_FSMCEN_Values<ngRCC::AHBENR, 30, 1, ReadWrite, RCCAHBENRBase>;
@@ -198,8 +190,7 @@ struct ngRCC {
     template<typename... T>
     using AHBENRPack = FieldsPack<0x4002381C, 32, ReadWrite, RCCAHBENRBase, T...>;
 
-    struct RCCAPB2ENRBase {
-    };
+    struct RCCAPB2ENRBase {};
 
     struct APB2ENR : public Register<0x40023820, ReadWrite, 32> {
         using USART1EN = RCC_APB2ENR_USART1EN_Values<ngRCC::APB2ENR, 14, 1, ReadWrite, RCCAPB2ENRBase>;
@@ -216,8 +207,7 @@ struct ngRCC {
     template<typename... T>
     using APB2ENRPack = FieldsPack<0x40023820, 32, ReadWrite, RCCAPB2ENRBase, T...>;
 
-    struct RCCAPB1ENRBase {
-    };
+    struct RCCAPB1ENRBase {};
 
     struct APB1ENR : public Register<0x40023824, ReadWrite, 32> {
         using COMPEN = RCC_APB1ENR_COMPEN_Values<ngRCC::APB1ENR, 31, 1, ReadWrite, RCCAPB1ENRBase>;
@@ -246,8 +236,7 @@ struct ngRCC {
     template<typename... T>
     using APB1ENRPack = FieldsPack<0x40023824, 32, ReadWrite, RCCAPB1ENRBase, T...>;
 
-    struct RCCAHBLPENRBase {
-    };
+    struct RCCAHBLPENRBase {};
 
     struct AHBLPENR : public Register<0x40023828, ReadWrite, 32> {
         using DMA2LPEN = RCC_AHBLPENR_DMA2LPEN_Values<ngRCC::AHBLPENR, 25, 1, ReadWrite, RCCAHBLPENRBase>;
@@ -269,8 +258,7 @@ struct ngRCC {
     template<typename... T>
     using AHBLPENRPack = FieldsPack<0x40023828, 32, ReadWrite, RCCAHBLPENRBase, T...>;
 
-    struct RCCAPB2LPENRBase {
-    };
+    struct RCCAPB2LPENRBase {};
 
     struct APB2LPENR : public Register<0x4002382C, ReadWrite, 32> {
         using USART1LPEN = RCC_APB2LPENR_USART1LPEN_Values<ngRCC::APB2LPENR, 14, 1, ReadWrite, RCCAPB2LPENRBase>;
@@ -287,8 +275,7 @@ struct ngRCC {
     template<typename... T>
     using APB2LPENRPack = FieldsPack<0x4002382C, 32, ReadWrite, RCCAPB2LPENRBase, T...>;
 
-    struct RCCAPB1LPENRBase {
-    };
+    struct RCCAPB1LPENRBase {};
 
     struct APB1LPENR : public Register<0x40023830, ReadWrite, 32> {
         using COMPLPEN = RCC_APB1LPENR_COMPLPEN_Values<ngRCC::APB1LPENR, 31, 1, ReadWrite, RCCAPB1LPENRBase>;
@@ -313,8 +300,7 @@ struct ngRCC {
     template<typename... T>
     using APB1LPENRPack = FieldsPack<0x40023830, 32, ReadWrite, RCCAPB1LPENRBase, T...>;
 
-    struct RCCCSRBase {
-    };
+    struct RCCCSRBase {};
 
     struct CSR : public Register<0x40023834, ReadWrite, 32> {
         using LPWRSTF = RCC_CSR_LPWRSTF_Values<ngRCC::CSR, 31, 1, ReadWrite, RCCCSRBase>;
