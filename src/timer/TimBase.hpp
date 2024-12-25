@@ -34,18 +34,18 @@ namespace ng
         }
 
         __force_inline void setPeriod(uint16_t val) {
-            TIM::ARR::ARRField::set(val);
+            TIM::ARR::ARRField::write(val);
         }
 
         __force_inline void setCounter(uint16_t val) {
-            TIM::CNT::CNTField::set(val);
+            TIM::CNT::CNTField::write(val);
         }
 
-        __force_inline void interruptEnable() {
+        __force_inline void enableInterrupt() {
             TIM::DIER::UIE::Enabled::set();
         }
 
-        __force_inline void interruptDisable() {
+        __force_inline void disableInterrupt() {
             TIM::DIER::UIE::Disabled::set();
         }
 

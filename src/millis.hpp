@@ -45,17 +45,21 @@ namespace ng
                 sec = sec + 1;
             }
         }
-    }
-
-    static inline void delay_micros(uint16_t val) {
+    
+        static inline void delayUs(uint16_t val) {
 #ifdef TEST_MODE
-        uint32_t SystemCoreClock = 1000000;
+            uint32_t SystemCoreClock = 1000000;
 #endif
-
-        uint16_t limit =  (val * (SystemCoreClock / 1000000));
-
-        for (uint16_t i = 0; i < limit; i++) {
-            asm volatile("nop \n");
+            uint16_t limit =  (val * (SystemCoreClock / 1000000));
+        
+            for (uint16_t i = 0; i < limit; i++) {
+                asm volatile("nop \n");
+            }
+        }
+    
+        static inline void delayMs(uint16_t val) {
+            auto tick = millis();
+            while(millis() - tick < val);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace ng
 
             SR::sendCS(packet, 2);
 
-            if (delay) delay_micros(delay);
+            if (delay) delayUs(delay);
 
             return true;
         }

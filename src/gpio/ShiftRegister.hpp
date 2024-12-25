@@ -20,7 +20,7 @@ namespace ng
     public:
         static inline void clk() {
             ClkPin::set();
-            if (delay) delay_micros(delay);
+            if (delay) time::delayUs(delay);
             ClkPin::reset();
         }
 

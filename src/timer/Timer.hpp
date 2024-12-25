@@ -41,7 +41,7 @@ namespace ng
 
             TIM::enableAutoReload();
             TIM::template setInterruptSource<IRQSource::CounterOverflow>();
-            TIM::interruptEnable();
+            TIM::enableInterrupt();
             TIM::reInit();
 
             TIM::start();
