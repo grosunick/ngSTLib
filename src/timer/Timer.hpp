@@ -3,15 +3,17 @@
 #include <cstdint>
 #include <common/globals.hpp>
 #include <common/Observer.hpp>
-#include "TimerBase.hpp"
+#include "TimBase.hpp"
 #include "Utils.hpp"
 
 namespace ng
 {
-    template <typename Notifier, typename TIM>
-    class UpdateTimer {
+    template <typename Tim, typename Notifier> class Timer
+    {
     public:
         __force_inline void wait(uint32_t us) {
+            using TIM = TimBase<Tim>;
+
             auto [prescaler, period] = getParamsByPeriod(us);
 
             TIM::setPrescaler(prescaler);
@@ -21,6 +23,7 @@ namespace ng
             TIM::enableAutoReload();
             TIM::template setInterruptSource<IRQSource::CounterOverflow>();
 
+            TIM::reInit();
             TIM::start();
             TIM::wait();
             TIM::clearUpdateFlag();
@@ -29,6 +32,8 @@ namespace ng
             Notifier::notify();
         }
         __force_inline void initByPeriod(uint32_t us) {
+            using TIM = TimBase<Tim>;
+
             auto [prescaler, period] = getParamsByPeriod(us);
 
             TIM::setPrescaler(prescaler);
@@ -43,8 +48,15 @@ namespace ng
         }
 
         __force_inline void callback() {
+            using TIM = TimBase<Tim>;
+
             TIM::clearUpdateFlag();
             Notifier::notify();
         }
     };
+
+
+
+
+
 }

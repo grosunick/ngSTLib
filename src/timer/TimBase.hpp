@@ -18,7 +18,7 @@ namespace ng
 
     };
 
-    template <typename TIM> class TimerBase
+    template <typename TIM> class TimBase
     {
     public:
         template<IRQSource source> __force_inline void setInterruptSource() {
