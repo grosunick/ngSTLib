@@ -14,6 +14,8 @@ constexpr uint32_t TPortW2 = 2U;
 constexpr uint32_t TPortW3 = 3U;
 constexpr uint32_t TPortW4 = 4U;
 constexpr uint32_t TPortW5 = 5U;
+constexpr uint32_t TPortW6 = 6U;
+constexpr uint32_t TPortW7 = 7U;
 
 struct TReg {
     struct IDR: public Register<TPortR, ReadWrite> {};
@@ -41,11 +43,51 @@ struct TReg {
         };
     };
     struct OSPEEDER: public Register<TPortW5, ReadWrite> {
-        struct FieldValues: public RegisterField<OTYPER, 0, 2, StructBase> {
+        struct FieldValues: public RegisterField<OSPEEDER, 0, 2, StructBase> {
             using Low = FieldValue<FieldValues, 0U, StructBase>;
             using Medium = FieldValue<FieldValues, 1U, StructBase>;
             using High = FieldValue<FieldValues, 2U, StructBase>;
             using Max = FieldValue<FieldValues, 3U, StructBase>;
+        };
+    };
+    struct AFRL: public Register<TPortW6, ReadWrite> {
+        struct FieldValues: public RegisterField<AFRL, 0, 4, StructBase> {
+            using AF0 = FieldValue<FieldValues, 0U, StructBase>;
+            using AF1 = FieldValue<FieldValues, 1U, StructBase>;
+            using AF2 = FieldValue<FieldValues, 2U, StructBase>;
+            using AF3 = FieldValue<FieldValues, 3U, StructBase>;
+            using AF4 = FieldValue<FieldValues, 4U, StructBase>;
+            using AF5 = FieldValue<FieldValues, 5U, StructBase>;
+            using AF6 = FieldValue<FieldValues, 6U, StructBase>;
+            using AF7 = FieldValue<FieldValues, 7U, StructBase>;
+            using AF8 = FieldValue<FieldValues, 8U, StructBase>;
+            using AF9 = FieldValue<FieldValues, 9U, StructBase>;
+            using AF10 = FieldValue<FieldValues, 10U, StructBase>;
+            using AF11 = FieldValue<FieldValues, 11U, StructBase>;
+            using AF12 = FieldValue<FieldValues, 12U, StructBase>;
+            using AF13 = FieldValue<FieldValues, 13U, StructBase>;
+            using AF14 = FieldValue<FieldValues, 14U, StructBase>;
+            using AF15 = FieldValue<FieldValues, 15U, StructBase>;
+        };
+    };
+    struct AFRH: public Register<TPortW7, ReadWrite> {
+        struct FieldValues: public RegisterField<AFRH, 0, 4, StructBase> {
+            using AF0 = FieldValue<FieldValues, 0U, StructBase>;
+            using AF1 = FieldValue<FieldValues, 1U, StructBase>;
+            using AF2 = FieldValue<FieldValues, 2U, StructBase>;
+            using AF3 = FieldValue<FieldValues, 3U, StructBase>;
+            using AF4 = FieldValue<FieldValues, 4U, StructBase>;
+            using AF5 = FieldValue<FieldValues, 5U, StructBase>;
+            using AF6 = FieldValue<FieldValues, 6U, StructBase>;
+            using AF7 = FieldValue<FieldValues, 7U, StructBase>;
+            using AF8 = FieldValue<FieldValues, 8U, StructBase>;
+            using AF9 = FieldValue<FieldValues, 9U, StructBase>;
+            using AF10 = FieldValue<FieldValues, 10U, StructBase>;
+            using AF11 = FieldValue<FieldValues, 11U, StructBase>;
+            using AF12 = FieldValue<FieldValues, 12U, StructBase>;
+            using AF13 = FieldValue<FieldValues, 13U, StructBase>;
+            using AF14 = FieldValue<FieldValues, 14U, StructBase>;
+            using AF15 = FieldValue<FieldValues, 15U, StructBase>;
         };
     };
 };
@@ -77,7 +119,7 @@ TEST(Pin, toggle) {
 
 TEST(Pin, setInput) {
     getRegister(TReg::MODER::Address) = 0b1100;
-    Pin<TReg, 1>::setInput();
+    Pin<TReg, 1>::template setInput();
     EXPECT_EQ(getRegister(TReg::MODER::Address).getValue(), 0b0000U);
     EXPECT_EQ(getRegister(TReg::PUPDR::Address).getValue(), 0b0000U);
 
@@ -116,6 +158,25 @@ TEST(Pin, setOutput) {
     EXPECT_EQ(getRegister(TReg::MODER::Address).getValue(), 0b0100U);
     EXPECT_EQ(getRegister(TReg::OTYPER::Address).getValue(), 0b10U);
     EXPECT_EQ(getRegister(TReg::OSPEEDER::Address).getValue(), 0b1100U);
+}
+
+TEST(Pin, setOutputAlternate) {
+    getRegister(TReg::MODER::Address) = 0b0;
+    Pin<TReg, 1>::template setOutputAlternate<AlternateFn::AF1, OutputType::PushPull, OutputSpeed::Max>();
+    EXPECT_EQ(getRegister(TReg::MODER::Address).getValue(), 0b1000U);
+    EXPECT_EQ(getRegister(TReg::AFRL::Address).getValue(), 0b00010000U);
+
+    Pin<TReg, 0>::template setOutputAlternate<AlternateFn::AF2, OutputType::PushPull, OutputSpeed::Max>();
+    EXPECT_EQ(getRegister(TReg::AFRL::Address).getValue(), 0b00010010U);
+
+    Pin<TReg, 0>::template setOutputAlternate<AlternateFn::AF2, OutputType::PushPull, OutputSpeed::Max>();
+    EXPECT_EQ(getRegister(TReg::AFRL::Address).getValue(), 0b00010010U);
+
+    Pin<TReg, 8>::template setOutputAlternate<AlternateFn::AF2, OutputType::PushPull, OutputSpeed::Max>();
+    EXPECT_EQ(getRegister(TReg::AFRH::Address).getValue(), 0b0010U);
+
+    Pin<TReg, 9>::template setOutputAlternate<AlternateFn::AF2, OutputType::PushPull, OutputSpeed::Max>();
+    EXPECT_EQ(getRegister(TReg::AFRH::Address).getValue(), 0b00100010U);
 }
 
 TEST(Pin, setAnalog) {
