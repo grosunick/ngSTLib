@@ -36,4 +36,6 @@ void initTimReg() {
     TTimReg::DIER::write(0);
     TTimReg::EGR::write(0);
     TTimReg::SR::write(0);
+    TTimReg::CCMR1_Output::write(0);
+    TTimReg::CCMR2_Output::write(0);
 }
