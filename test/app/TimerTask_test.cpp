@@ -35,7 +35,7 @@ TEST(TimerTask, runAfterPeriod) {
     EXPECT_EQ(fnRunCnt, 1);
 }
 
-TEST(millis, runPeriodically) {
+TEST(TimerTask, runPeriodically) {
     TimerTask<TestTask, 5, false> task;
 
     for (int i = 0; i < 10; i++) {

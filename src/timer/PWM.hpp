@@ -4,7 +4,10 @@
 #include "TimGeneral.hpp"
 #include "Utils.hpp"
 
-namespace ng {
+using namespace ng::timer;
+
+namespace ng
+{
     template <typename T, TimChannel channel, typename Pin> class PWM
     {
     public:
@@ -19,20 +22,24 @@ namespace ng {
          * @return
          */
         template <AlternateFn fn> __force_inline void init(uint32_t freq, uint16_t filling = 50, uint16_t width = 100) {
-            auto [prescaler, period] = getParamsByFrequency(freq, width);
-
-            TIM::setPrescaler(prescaler);
-            TIM::setPeriod(period);
+            auto params = getParamsByFrequency(freq, width);
+            
+            if (!params.isOk()) {
+                return;
+            }
+    
+            TIM::setPrescaler(params.prescaler);
+            TIM::setPeriod(params.period);
             TIM::template setCCR<channel>(filling);
-
+    
             TIM::enableAutoReload();
             TIM::template setOutputCompareMode<OutputСompareMode::PWM1, channel>();
             TIM::template setOutputComparePreload<true, channel>();
             TIM::template enableOutputCompare<channel>();
-
+    
             // init pin alternate function
             Pin::template setOutputAlternate<fn, OutputType::PushPull, OutputSpeed::High>();
-
+    
             TIM::reInit();
             TIM::start();
         }

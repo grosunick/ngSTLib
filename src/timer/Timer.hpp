@@ -6,6 +6,8 @@
 #include "TimBase.hpp"
 #include "Utils.hpp"
 
+using namespace ng::timer;
+
 namespace ng
 {
     template <typename Tim, typename Notifier> class Timer
@@ -13,11 +15,14 @@ namespace ng
     public:
         __force_inline void wait(uint32_t us) {
             using TIM = TimBase<Tim>;
-
-            auto [prescaler, period] = getParamsByPeriod(us);
-
-            TIM::setPrescaler(prescaler);
-            TIM::setPeriod(period);
+            
+            auto params = getParamsByPeriod(us);
+            if (!params.isOk()) {
+                return;
+            }
+            
+            TIM::setPrescaler(params.prescaler);
+            TIM::setPeriod(params.period);
             TIM::setCounter(0);
 
             TIM::enableAutoReload();
@@ -31,13 +36,17 @@ namespace ng
 
             Notifier::notify();
         }
+        
         __force_inline void initByPeriod(uint32_t us) {
             using TIM = TimBase<Tim>;
 
-            auto [prescaler, period] = getParamsByPeriod(us);
-
-            TIM::setPrescaler(prescaler);
-            TIM::setPeriod(period);
+            auto params = getParamsByPeriod(us);
+            if (!params.isOk()) {
+                return;
+            }
+            
+            TIM::setPrescaler(params.prescaler);
+            TIM::setPeriod(params.period);
 
             TIM::enableAutoReload();
             TIM::template setInterruptSource<IRQSource::CounterOverflow>();
