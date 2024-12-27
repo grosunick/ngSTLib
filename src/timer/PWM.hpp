@@ -30,7 +30,7 @@ namespace ng
     
             TIM::setPrescaler(params.prescaler);
             TIM::setPeriod(params.period);
-            TIM::template setCCR<channel>(filling);
+            TIM::template setCCR<channel>(filling? filling-1: 0);
     
             TIM::enableAutoReload();
             TIM::template setOutputCompareMode<OutputСompareMode::PWM1, channel>();

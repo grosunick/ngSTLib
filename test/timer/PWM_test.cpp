@@ -1,48 +1,35 @@
 #include <gtest/gtest.h>
 #include <register/Register.hpp>
 #include <register/RegisterField.hpp>
-#include <register/FieldValue.hpp>
-#include <timer/Timer.hpp>
+#include <gpio/Pin.hpp>
+#include <timer/PWM.hpp>
 
 using namespace ng;
 
+#include "../gpio/fixture.hpp"
 #include "fixture.hpp"
 #include "common.hpp"
 
-//TEST(Timer, initByPeriod) {
-//    init();
-//
-//    using Tim = Timer<TReg, Func<[]() {}>>;
-//    eventLog.clear();
-//    Tim::initByPeriod(10);
-//
-//    testRegisterEqual(TReg::PSC::Address, 0U);
-//    testRegisterEqual(TReg::ARR::Address, 159U);
-//
-//    testBitsEqual(TReg::CR1::Address, 1 << 7); // enableAutoReload -> CR1::ARPE::Buffered
-//    testBitsEqual(TReg::CR1::Address, 1 << 2); // setInterruptSource -> CR1::URS::CounterOverflow
-//    testBitsEqual(TReg::DIER::Address, 1 << 0); // setInterruptSource -> CR1::URS::CounterOverflow
-//    testBitsEqual(TReg::EGR::Address, 1 << 0); // reInit -> EGR::UG::ReInit
-//    testBitsEqual(TReg::CR1::Address, 1 << 0); // start -> CR1::CEN::Enable
-//}
-//
-//TEST(Timer, wait) {
-//    init();
-//
-//    using Tim = Timer<TReg, Func<[]() {}>>;
-//    TReg::SR::UIF::Updated::set();
-//
-//    eventLog.clear();
-//    Tim::wait(10);
-//
-//    testRegisterEqual(TReg::PSC::Address, 0U);
-//    testRegisterEqual(TReg::ARR::Address, 159U);
-//    testRegisterEqual(TReg::CNT::Address, 0U);
-//
-//    testBitsEqual(TReg::CR1::Address, 1 << 7); // enableAutoReload -> CR1::ARPE::Buffered
-//    testBitsEqual(TReg::CR1::Address, 1 << 2); // setInterruptSource -> CR1::URS::CounterOverflow
-//    testBitsEqual(TReg::EGR::Address, 1 << 0); // reInit -> EGR::UG::ReInit
-//    testBitsEqual(TReg::CR1::Address, 1 << 0); // start -> CR1::CEN::Enable
-//    testBitsEqual(TReg::SR::Address, 1 << 0, false); // start -> CR1::SR::Enable
-//    testBitsEqual(TReg::CR1::Address, 1 << 0, false); // stop -> CR1::CEN::Disable
-//}
+TEST(PWM, init) {
+    SystemCoreClock = 4000000;
+    initTimReg();
+
+    using Pwm = PWM<TTimReg, TimChannel::ch1, Pin<TGpioReg, 1>>;
+    eventLog.clear();
+    Pwm::init<AlternateFn::AF2>(10000);
+    
+    testRegisterEqual(TTimReg::PSC::Address, 3U);
+    testRegisterEqual(TTimReg::ARR::Address, 99U);
+    testRegisterEqual(TTimReg::CCR1::Address, 49U);
+    
+    testBitsEqual(TTimReg::CR1::Address, 1 << 7); // enableAutoReload -> CR1::ARPE::Buffered
+    testBitsEqual(TTimReg::CCMR1_Output::Address, 0b100 << 3); // setOCxM -> TIM::CCMR1_Output::OC1M
+    
+    // setOutputComparePreload -> TIM::CCMR1_Output::OC1PE
+    testBitsEqual(TTimReg::CCMR1_Output::Address, 1 << 0);
+    testBitsEqual(TTimReg::CCER::Address, 1 << 0); // enableOutputCompare -> TIM::CCER::CC1E::Enable
+    
+    eventLog.erase(eventLog.cbegin(), eventLog.cbegin() + 5);
+    testBitsEqual(TTimReg::EGR::Address, 1 << 0); // reInit -> EGR::UG::ReInit
+    testBitsEqual(TTimReg::CR1::Address, 1 << 0); // start -> CR1::CEN::Enable
+}

@@ -17,9 +17,8 @@
 using namespace ng;
 
 struct ngTIM3 {
-    struct TIM3CR1Base {
-    };
-
+    struct TIM3CR1Base {};
+    
     struct CR1 : public Register<0x40000400, ReadWrite, 32> {
         using CKD = TIM3_CR1_CKD_Values<ngTIM3::CR1, 8, 2, ReadWrite, TIM3CR1Base>;
         using ARPE = TIM3_CR1_ARPE_Values<ngTIM3::CR1, 7, 1, ReadWrite, TIM3CR1Base>;
@@ -31,26 +30,24 @@ struct ngTIM3 {
         using CEN = TIM3_CR1_CEN_Values<ngTIM3::CR1, 0, 1, ReadWrite, TIM3CR1Base>;
         using FieldValues = TIM3_CR1_CEN_Values<ngTIM3::CR1, 0, 2, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using CR1Pack = FieldsPack<0x40000400, 32, ReadWrite, TIM3CR1Base, T...>;
-
-    struct TIM3CR2Base {
-    };
-
+    
+    struct TIM3CR2Base {};
+    
     struct CR2 : public Register<0x40000404, ReadWrite, 32> {
         using TI1S = TIM3_CR2_TI1S_Values<ngTIM3::CR2, 7, 1, ReadWrite, TIM3CR2Base>;
         using MMS = TIM3_CR2_MMS_Values<ngTIM3::CR2, 4, 3, ReadWrite, TIM3CR2Base>;
         using CCDS = TIM3_CR2_CCDS_Values<ngTIM3::CR2, 3, 1, ReadWrite, TIM3CR2Base>;
         using FieldValues = TIM3_CR2_CCDS_Values<ngTIM3::CR2, 0, 1, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using CR2Pack = FieldsPack<0x40000404, 32, ReadWrite, TIM3CR2Base, T...>;
-
-    struct TIM3SMCRBase {
-    };
-
+    
+    struct TIM3SMCRBase {};
+    
     struct SMCR : public Register<0x40000408, ReadWrite, 32> {
         using ETP = TIM3_SMCR_ETP_Values<ngTIM3::SMCR, 15, 1, ReadWrite, TIM3SMCRBase>;
         using ECE = TIM3_SMCR_ECE_Values<ngTIM3::SMCR, 14, 1, ReadWrite, TIM3SMCRBase>;
@@ -62,13 +59,12 @@ struct ngTIM3 {
         using SMS = TIM3_SMCR_SMS_Values<ngTIM3::SMCR, 0, 3, ReadWrite, TIM3SMCRBase>;
         using FieldValues = TIM3_SMCR_SMS_Values<ngTIM3::SMCR, 0, 1, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using SMCRPack = FieldsPack<0x40000408, 32, ReadWrite, TIM3SMCRBase, T...>;
-
-    struct TIM3DIERBase {
-    };
-
+    
+    struct TIM3DIERBase {};
+    
     struct DIER : public Register<0x4000040C, ReadWrite, 32> {
         using TDE = TIM3_DIER_TDE_Values<ngTIM3::DIER, 14, 1, ReadWrite, TIM3DIERBase>;
         using CC4DE = TIM3_DIER_CC4DE_Values<ngTIM3::DIER, 12, 1, ReadWrite, TIM3DIERBase>;
@@ -84,13 +80,12 @@ struct ngTIM3 {
         using UIE = TIM3_DIER_UIE_Values<ngTIM3::DIER, 0, 1, ReadWrite, TIM3DIERBase>;
         using FieldValues = TIM3_DIER_UIE_Values<ngTIM3::DIER, 0, 1, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using DIERPack = FieldsPack<0x4000040C, 32, ReadWrite, TIM3DIERBase, T...>;
-
-    struct TIM3SRBase {
-    };
-
+    
+    struct TIM3SRBase {};
+    
     struct SR : public Register<0x40000410, ReadWrite, 32> {
         using CC4OF = TIM3_SR_CC4OF_Values<ngTIM3::SR, 12, 1, ReadWrite, TIM3SRBase>;
         using CC3OF = TIM3_SR_CC3OF_Values<ngTIM3::SR, 11, 1, ReadWrite, TIM3SRBase>;
@@ -104,13 +99,12 @@ struct ngTIM3 {
         using UIF = TIM3_SR_UIF_Values<ngTIM3::SR, 0, 1, ReadWrite, TIM3SRBase>;
         using FieldValues = TIM3_SR_UIF_Values<ngTIM3::SR, 0, 1, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using SRPack = FieldsPack<0x40000410, 32, ReadWrite, TIM3SRBase, T...>;
-
-    struct TIM3EGRBase {
-    };
-
+    
+    struct TIM3EGRBase {};
+    
     struct EGR : public Register<0x40000414, ReadWrite, 32> {
         using TG = TIM3_EGR_TG_Values<ngTIM3::EGR, 6, 1, ReadWrite, TIM3EGRBase>;
         using CC4G = TIM3_EGR_CC4G_Values<ngTIM3::EGR, 4, 1, ReadWrite, TIM3EGRBase>;
@@ -120,13 +114,12 @@ struct ngTIM3 {
         using UG = TIM3_EGR_UG_Values<ngTIM3::EGR, 0, 1, ReadWrite, TIM3EGRBase>;
         using FieldValues = TIM3_EGR_UG_Values<ngTIM3::EGR, 0, 1, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using EGRPack = FieldsPack<0x40000414, 32, ReadWrite, TIM3EGRBase, T...>;
-
-    struct TIM3CCMR1_OutputBase {
-    };
-
+    
+    struct TIM3CCMR1_OutputBase {};
+    
     struct CCMR1_Output : public Register<0x40000418, ReadWrite, 32> {
         using OC2CE = TIM3_CCMR1_Output_OC2CE_Values<ngTIM3::CCMR1_Output, 15, 1, ReadWrite, TIM3CCMR1_OutputBase>;
         using OC2M = TIM3_CCMR1_Output_OC2M_Values<ngTIM3::CCMR1_Output, 12, 3, ReadWrite, TIM3CCMR1_OutputBase>;
@@ -140,13 +133,12 @@ struct ngTIM3 {
         using CC1S = TIM3_CCMR1_Output_CC1S_Values<ngTIM3::CCMR1_Output, 0, 2, ReadWrite, TIM3CCMR1_OutputBase>;
         using FieldValues = TIM3_CCMR1_Output_CC1S_Values<ngTIM3::CCMR1_Output, 0, 1, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using CCMR1_OutputPack = FieldsPack<0x40000418, 32, ReadWrite, TIM3CCMR1_OutputBase, T...>;
-
-    struct TIM3CCMR1_InputBase {
-    };
-
+    
+    struct TIM3CCMR1_InputBase {};
+    
     struct CCMR1_Input : public Register<0x40000418, ReadWrite, 32> {
         using IC2F = TIM3_CCMR1_Input_IC2F_Values<ngTIM3::CCMR1_Input, 12, 4, ReadWrite, TIM3CCMR1_InputBase>;
         using IC2PCS = TIM3_CCMR1_Input_IC2PCS_Values<ngTIM3::CCMR1_Input, 10, 2, ReadWrite, TIM3CCMR1_InputBase>;
@@ -156,13 +148,12 @@ struct ngTIM3 {
         using CC1S = TIM3_CCMR1_Input_CC1S_Values<ngTIM3::CCMR1_Input, 0, 2, ReadWrite, TIM3CCMR1_InputBase>;
         using FieldValues = TIM3_CCMR1_Input_CC1S_Values<ngTIM3::CCMR1_Input, 0, 4, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using CCMR1_InputPack = FieldsPack<0x40000418, 32, ReadWrite, TIM3CCMR1_InputBase, T...>;
-
-    struct TIM3CCMR2_OutputBase {
-    };
-
+    
+    struct TIM3CCMR2_OutputBase {};
+    
     struct CCMR2_Output : public Register<0x4000041C, ReadWrite, 32> {
         using OC4CE = TIM3_CCMR2_Output_OC4CE_Values<ngTIM3::CCMR2_Output, 15, 1, ReadWrite, TIM3CCMR2_OutputBase>;
         using OC4M = TIM3_CCMR2_Output_OC4M_Values<ngTIM3::CCMR2_Output, 12, 3, ReadWrite, TIM3CCMR2_OutputBase>;
@@ -176,13 +167,12 @@ struct ngTIM3 {
         using CC3S = TIM3_CCMR2_Output_CC3S_Values<ngTIM3::CCMR2_Output, 0, 2, ReadWrite, TIM3CCMR2_OutputBase>;
         using FieldValues = TIM3_CCMR2_Output_CC3S_Values<ngTIM3::CCMR2_Output, 0, 1, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using CCMR2_OutputPack = FieldsPack<0x4000041C, 32, ReadWrite, TIM3CCMR2_OutputBase, T...>;
-
-    struct TIM3CCMR2_InputBase {
-    };
-
+    
+    struct TIM3CCMR2_InputBase {};
+    
     struct CCMR2_Input : public Register<0x4000041C, ReadWrite, 32> {
         using IC4F = TIM3_CCMR2_Input_IC4F_Values<ngTIM3::CCMR2_Input, 12, 4, ReadWrite, TIM3CCMR2_InputBase>;
         using IC4PSC = TIM3_CCMR2_Input_IC4PSC_Values<ngTIM3::CCMR2_Input, 10, 2, ReadWrite, TIM3CCMR2_InputBase>;
@@ -192,13 +182,12 @@ struct ngTIM3 {
         using CC3S = TIM3_CCMR2_Input_CC3S_Values<ngTIM3::CCMR2_Input, 0, 2, ReadWrite, TIM3CCMR2_InputBase>;
         using FieldValues = TIM3_CCMR2_Input_CC3S_Values<ngTIM3::CCMR2_Input, 0, 4, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using CCMR2_InputPack = FieldsPack<0x4000041C, 32, ReadWrite, TIM3CCMR2_InputBase, T...>;
-
-    struct TIM3CCERBase {
-    };
-
+    
+    struct TIM3CCERBase {};
+    
     struct CCER : public Register<0x40000420, ReadWrite, 32> {
         using CC4NP = TIM3_CCER_CC4NP_Values<ngTIM3::CCER, 15, 1, ReadWrite, TIM3CCERBase>;
         using CC4P = TIM3_CCER_CC4P_Values<ngTIM3::CCER, 13, 1, ReadWrite, TIM3CCERBase>;
@@ -214,109 +203,98 @@ struct ngTIM3 {
         using CC1E = TIM3_CCER_CC1E_Values<ngTIM3::CCER, 0, 1, ReadWrite, TIM3CCERBase>;
         using FieldValues = TIM3_CCER_CC1E_Values<ngTIM3::CCER, 0, 1, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using CCERPack = FieldsPack<0x40000420, 32, ReadWrite, TIM3CCERBase, T...>;
-
-    struct TIM3CNTBase {
-    };
-
+    
+    struct TIM3CNTBase {};
+    
     struct CNT : public Register<0x40000424, ReadWrite, 32> {
         using CNTField = TIM3_CNT_CNT_Values<ngTIM3::CNT, 0, 16, ReadWrite, TIM3CNTBase>;
         using FieldValues = TIM3_CNT_CNT_Values<ngTIM3::CNT, 0, 16, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using CNTPack = FieldsPack<0x40000424, 32, ReadWrite, TIM3CNTBase, T...>;
-
-    struct TIM3PSCBase {
-    };
-
+    
+    struct TIM3PSCBase {};
+    
     struct PSC : public Register<0x40000428, ReadWrite, 32> {
         using PSCField = TIM3_PSC_PSC_Values<ngTIM3::PSC, 0, 16, ReadWrite, TIM3PSCBase>;
         using FieldValues = TIM3_PSC_PSC_Values<ngTIM3::PSC, 0, 16, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using PSCPack = FieldsPack<0x40000428, 32, ReadWrite, TIM3PSCBase, T...>;
-
-    struct TIM3ARRBase {
-    };
-
+    
+    struct TIM3ARRBase {};
+    
     struct ARR : public Register<0x4000042C, ReadWrite, 32> {
         using ARRField = TIM3_ARR_ARR_Values<ngTIM3::ARR, 0, 16, ReadWrite, TIM3ARRBase>;
         using FieldValues = TIM3_ARR_ARR_Values<ngTIM3::ARR, 0, 16, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using ARRPack = FieldsPack<0x4000042C, 32, ReadWrite, TIM3ARRBase, T...>;
-
-    struct TIM3CCR1Base {
-    };
-
+    
+    struct TIM3CCR1Base {};
+    
     struct CCR1 : public Register<0x40000434, ReadWrite, 32> {
         using CCR1Field = TIM3_CCR1_CCR1_Values<ngTIM3::CCR1, 0, 16, ReadWrite, TIM3CCR1Base>;
         using FieldValues = TIM3_CCR1_CCR1_Values<ngTIM3::CCR1, 0, 16, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using CCR1Pack = FieldsPack<0x40000434, 32, ReadWrite, TIM3CCR1Base, T...>;
-
-    struct TIM3CCR2Base {
-    };
-
+    
+    struct TIM3CCR2Base {};
+    
     struct CCR2 : public Register<0x40000438, ReadWrite, 32> {
         using CCR2Field = TIM3_CCR2_CCR2_Values<ngTIM3::CCR2, 0, 16, ReadWrite, TIM3CCR2Base>;
         using FieldValues = TIM3_CCR2_CCR2_Values<ngTIM3::CCR2, 0, 16, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using CCR2Pack = FieldsPack<0x40000438, 32, ReadWrite, TIM3CCR2Base, T...>;
-
-    struct TIM3CCR3Base {
-    };
-
+    
+    struct TIM3CCR3Base {};
+    
     struct CCR3 : public Register<0x4000043C, ReadWrite, 32> {
         using CCR1 = TIM3_CCR3_CCR1_Values<ngTIM3::CCR3, 0, 16, ReadWrite, TIM3CCR3Base>;
         using FieldValues = TIM3_CCR3_CCR1_Values<ngTIM3::CCR3, 0, 16, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using CCR3Pack = FieldsPack<0x4000043C, 32, ReadWrite, TIM3CCR3Base, T...>;
-
-    struct TIM3CCR4Base {
-    };
-
+    
+    struct TIM3CCR4Base {};
+    
     struct CCR4 : public Register<0x40000440, ReadWrite, 32> {
         using CCR4Field = TIM3_CCR4_CCR4_Values<ngTIM3::CCR4, 0, 16, ReadWrite, TIM3CCR4Base>;
         using FieldValues = TIM3_CCR4_CCR4_Values<ngTIM3::CCR4, 0, 16, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using CCR4Pack = FieldsPack<0x40000440, 32, ReadWrite, TIM3CCR4Base, T...>;
-
-    struct TIM3DCRBase {
-    };
-
+    
+    struct TIM3DCRBase {};
+    
     struct DCR : public Register<0x40000448, ReadWrite, 32> {
         using DBL = TIM3_DCR_DBL_Values<ngTIM3::DCR, 8, 5, ReadWrite, TIM3DCRBase>;
         using DBA = TIM3_DCR_DBA_Values<ngTIM3::DCR, 0, 5, ReadWrite, TIM3DCRBase>;
         using FieldValues = TIM3_DCR_DBA_Values<ngTIM3::DCR, 0, 5, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using DCRPack = FieldsPack<0x40000448, 32, ReadWrite, TIM3DCRBase, T...>;
-
-    struct TIM3DMARBase {
-    };
-
+    
+    struct TIM3DMARBase {};
+    
     struct DMAR : public Register<0x4000044C, ReadWrite, 32> {
         using DMAB = TIM3_DMAR_DMAB_Values<ngTIM3::DMAR, 0, 16, ReadWrite, TIM3DMARBase>;
         using FieldValues = TIM3_DMAR_DMAB_Values<ngTIM3::DMAR, 0, 16, NoAccess, NoAccess>;
     };
-
+    
     template<typename... T>
     using DMARPack = FieldsPack<0x4000044C, 32, ReadWrite, TIM3DMARBase, T...>;
-
 };
-

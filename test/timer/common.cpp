@@ -28,12 +28,12 @@ void testBitsEqual(const uint32_t address, uint32_t val, bool equal) {
     eventLog.erase(eventLog.cbegin());
 }
 
-void init() {
-    TReg::PSC::write(0);
-    TReg::ARR::write(0);
-    TReg::CNT::write(0);
-    TReg::CR1::write(0);
-    TReg::DIER::write(0);
-    TReg::EGR::write(0);
-    TReg::SR::write(0);
+void initTimReg() {
+    TTimReg::PSC::write(0);
+    TTimReg::ARR::write(0);
+    TTimReg::CNT::write(0);
+    TTimReg::CR1::write(0);
+    TTimReg::DIER::write(0);
+    TTimReg::EGR::write(0);
+    TTimReg::SR::write(0);
 }

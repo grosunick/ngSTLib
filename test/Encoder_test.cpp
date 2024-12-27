@@ -11,13 +11,13 @@ using namespace ng;
 constexpr uint32_t TPortR = 0U;
 constexpr uint32_t TPortW = 1U;
 
-struct TReg {
+struct TGpioReg {
     struct IDR: public Register<TPortR, Read> {};
     struct BSRR: public Register<TPortW, Read> {};
 };
 
-using PinA = Pin<TReg, 0>;
-using PinB = Pin<TReg, 1>;
+using PinA = Pin<TGpioReg, 0>;
+using PinB = Pin<TGpioReg, 1>;
 
 using TEncoderPullUp =  Encoder<PinA, PinB, PULL_UP>;
 using TEncoderPullDown =  Encoder<PinA, PinB, PULL_DOWN>;

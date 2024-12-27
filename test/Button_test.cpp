@@ -11,12 +11,12 @@ using namespace ng;
 constexpr uint32_t TPortW = 1U;
 constexpr uint32_t TPortR = 2U;
 
-struct TReg {
+struct TGpioReg {
     struct BSRR: public Register<TPortW, ReadWrite> {};
     struct IDR: public Register<TPortR, Read> {};
 };
 
-using TPin = Pin<TReg, 0>;
+using TPin = Pin<TGpioReg, 0>;
 
 using TPullUpButton =  Button<TPin>;
 using TPullDownButton =  Button<TPin, ng::PULL_DOWN>;
