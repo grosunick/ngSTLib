@@ -19,7 +19,7 @@ namespace ng
     public:
         /** system configuration controller clock enable */
         __force_inline void systemConfigClockEnable() {
-            ngRCC::APB2ENR::SYSCFGEN::Enabled::set();
+            ngRCC::APB2ENR::SYSCFGEN::Enable::set();
         }
 
         /** select MSI as system clock source */

@@ -660,218 +660,218 @@ struct RCC_AHBENR_CRCEN_Values : public RegisterField<Reg, offset, size, AccessM
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_AHBENR_GPIOPGEN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_AHBENR_GPIOPGEN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_AHBENR_GPIOPGEN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_AHBENR_GPIOPGEN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_AHBENR_GPIOPGEN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_AHBENR_GPIOPFEN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_AHBENR_GPIOPFEN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_AHBENR_GPIOPFEN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_AHBENR_GPIOPFEN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_AHBENR_GPIOPFEN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_AHBENR_GPIOPHEN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_AHBENR_GPIOPHEN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_AHBENR_GPIOPHEN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_AHBENR_GPIOPHEN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_AHBENR_GPIOPHEN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_AHBENR_GPIOPEEN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_AHBENR_GPIOPEEN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_AHBENR_GPIOPEEN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_AHBENR_GPIOPEEN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_AHBENR_GPIOPEEN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_AHBENR_GPIOPDEN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_AHBENR_GPIOPDEN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_AHBENR_GPIOPDEN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_AHBENR_GPIOPDEN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_AHBENR_GPIOPDEN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_AHBENR_GPIOPCEN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_AHBENR_GPIOPCEN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_AHBENR_GPIOPCEN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_AHBENR_GPIOPCEN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_AHBENR_GPIOPCEN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_AHBENR_GPIOPBEN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_AHBENR_GPIOPBEN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_AHBENR_GPIOPBEN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_AHBENR_GPIOPBEN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_AHBENR_GPIOPBEN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_AHBENR_GPIOPAEN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_AHBENR_GPIOPAEN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_AHBENR_GPIOPAEN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_AHBENR_GPIOPAEN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_AHBENR_GPIOPAEN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB2ENR_USART1EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB2ENR_USART1EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB2ENR_USART1EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB2ENR_USART1EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB2ENR_USART1EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB2ENR_SPI1EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB2ENR_SPI1EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB2ENR_SPI1EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB2ENR_SPI1EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB2ENR_SPI1EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB2ENR_SDIOEN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB2ENR_SDIOEN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB2ENR_SDIOEN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB2ENR_SDIOEN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB2ENR_SDIOEN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB2ENR_ADC1EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB2ENR_ADC1EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB2ENR_ADC1EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB2ENR_ADC1EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB2ENR_ADC1EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB2ENR_TIM11EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB2ENR_TIM11EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB2ENR_TIM11EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB2ENR_TIM11EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB2ENR_TIM11EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB2ENR_TIM10EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB2ENR_TIM10EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB2ENR_TIM10EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB2ENR_TIM10EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB2ENR_TIM10EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB2ENR_TIM9EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB2ENR_TIM9EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB2ENR_TIM9EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB2ENR_TIM9EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB2ENR_TIM9EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB2ENR_SYSCFGEN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB2ENR_SYSCFGEN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB2ENR_SYSCFGEN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB2ENR_SYSCFGEN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB2ENR_SYSCFGEN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_COMPEN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_COMPEN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_COMPEN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_COMPEN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_COMPEN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_DACEN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_DACEN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_DACEN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_DACEN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_DACEN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_PWREN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_PWREN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_PWREN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_PWREN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_PWREN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_USBEN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_USBEN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_USBEN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_USBEN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_USBEN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_I2C2EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_I2C2EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_I2C2EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_I2C2EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_I2C2EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_I2C1EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_I2C1EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_I2C1EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_I2C1EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_I2C1EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_USART5EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_USART5EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_USART5EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_USART5EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_USART5EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_USART4EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_USART4EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_USART4EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_USART4EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_USART4EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_USART3EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_USART3EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_USART3EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_USART3EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_USART3EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_USART2EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_USART2EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_USART2EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_USART2EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_USART2EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_SPI3EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_SPI3EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_SPI3EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_SPI3EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_SPI3EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_SPI2EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_SPI2EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_SPI2EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_SPI2EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_SPI2EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_WWDGEN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_WWDGEN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_WWDGEN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_WWDGEN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_WWDGEN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_LCDEN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_LCDEN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_LCDEN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_LCDEN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_LCDEN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_TIM7EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_TIM7EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_TIM7EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_TIM7EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_TIM7EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_TIM6EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_TIM6EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_TIM6EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_TIM6EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_TIM6EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_TIM5EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_TIM5EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_TIM5EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_TIM5EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_TIM5EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_TIM4EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_TIM4EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_TIM4EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_TIM4EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_TIM4EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_TIM3EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_TIM3EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_TIM3EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_TIM3EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_TIM3EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct RCC_APB1ENR_TIM2EN_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using Disabled = FieldValue<RCC_APB1ENR_TIM2EN_Values, 0U, BaseType>;
-    using Enabled = FieldValue<RCC_APB1ENR_TIM2EN_Values, 1U, BaseType>;
+    using Disable = FieldValue<RCC_APB1ENR_TIM2EN_Values, 0U, BaseType>;
+    using Enable = FieldValue<RCC_APB1ENR_TIM2EN_Values, 1U, BaseType>;
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
