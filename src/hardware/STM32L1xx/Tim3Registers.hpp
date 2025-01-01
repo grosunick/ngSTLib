@@ -141,10 +141,10 @@ struct ngTIM3 {
     
     struct CCMR1_Input : public Register<0x40000418, ReadWrite, 32> {
         using IC2F = TIM3_CCMR1_Input_IC2F_Values<ngTIM3::CCMR1_Input, 12, 4, ReadWrite, TIM3CCMR1_InputBase>;
-        using IC2PCS = TIM3_CCMR1_Input_IC2PCS_Values<ngTIM3::CCMR1_Input, 10, 2, ReadWrite, TIM3CCMR1_InputBase>;
+        using IC2PCS = TIM3_CCMR1_Input_IC2PSC_Values<ngTIM3::CCMR1_Input, 10, 2, ReadWrite, TIM3CCMR1_InputBase>;
         using CC2S = TIM3_CCMR1_Input_CC2S_Values<ngTIM3::CCMR1_Input, 8, 2, ReadWrite, TIM3CCMR1_InputBase>;
         using IC1F = TIM3_CCMR1_Input_IC1F_Values<ngTIM3::CCMR1_Input, 4, 4, ReadWrite, TIM3CCMR1_InputBase>;
-        using ICPCS = TIM3_CCMR1_Input_ICPCS_Values<ngTIM3::CCMR1_Input, 2, 2, ReadWrite, TIM3CCMR1_InputBase>;
+        using IC1PCS = TIM3_CCMR1_Input_IC1PSC_Values<ngTIM3::CCMR1_Input, 2, 2, ReadWrite, TIM3CCMR1_InputBase>;
         using CC1S = TIM3_CCMR1_Input_CC1S_Values<ngTIM3::CCMR1_Input, 0, 2, ReadWrite, TIM3CCMR1_InputBase>;
         using FieldValues = TIM3_CCMR1_Input_CC1S_Values<ngTIM3::CCMR1_Input, 0, 4, NoAccess, NoAccess>;
     };

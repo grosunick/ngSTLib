@@ -26,9 +26,9 @@ struct TIM7_CR1_ARPE_Values : public RegisterField<Reg, offset, size, AccessMode
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM7_CR1_OPM_Values : public RegisterField<Reg, offset, size, AccessMode> {
     // Counter is not stopped at update event
-    using Disabled = FieldValue<TIM7_CR1_OPM_Values, 0U, BaseType>;
+    using Disable = FieldValue<TIM7_CR1_OPM_Values, 0U, BaseType>;
     // Counter stops counting at the next update event (clearing the CEN bit).
-    using Enabled = FieldValue<TIM7_CR1_OPM_Values, 1U, BaseType>;
+    using Enable = FieldValue<TIM7_CR1_OPM_Values, 1U, BaseType>;
 };
 
 /**
@@ -113,18 +113,18 @@ struct TIM7_CR2_MMS_Values : public RegisterField<Reg, offset, size, AccessMode>
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM7_DIER_UDE_Values : public RegisterField<Reg, offset, size, AccessMode> {
     // Update DMA request disabled
-    using Disabled = FieldValue<TIM7_DIER_UDE_Values, 0U, BaseType>;
+    using Disable = FieldValue<TIM7_DIER_UDE_Values, 0U, BaseType>;
     // Update DMA request enabled
-    using Enabled = FieldValue<TIM7_DIER_UDE_Values, 1U, BaseType>;
+    using Enable = FieldValue<TIM7_DIER_UDE_Values, 1U, BaseType>;
 };
 
 /** Update interrupt enable */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM7_DIER_UIE_Values : public RegisterField<Reg, offset, size, AccessMode> {
     // Update interrupt disabled
-    using Disabled = FieldValue<TIM7_DIER_UIE_Values, 0U, BaseType>;
+    using Disable = FieldValue<TIM7_DIER_UIE_Values, 0U, BaseType>;
     // Update interrupt enabled
-    using Enabled = FieldValue<TIM7_DIER_UIE_Values, 1U, BaseType>;
+    using Enable = FieldValue<TIM7_DIER_UIE_Values, 1U, BaseType>;
 };
 
 /**
@@ -147,7 +147,7 @@ struct TIM7_SR_UIF_Values : public RegisterField<Reg, offset, size, AccessMode> 
 /** Update generation */
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
 struct TIM7_EGR_UG_Values : public RegisterField<Reg, offset, size, AccessMode> {
-    using NoAction = FieldValue<TIM7_EGR_UG_Values, 0U, BaseType>;
+    using Cleared = FieldValue<TIM7_EGR_UG_Values, 0U, BaseType>;
     /**
      *  Re-initializes the timer counter and generates an update of the registers. Note that the
      *  prescaler counter is cleared too (but the prescaler ratio is not affected).
@@ -156,13 +156,10 @@ struct TIM7_EGR_UG_Values : public RegisterField<Reg, offset, size, AccessMode> 
 };
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
-struct TIM7_CNT_CNT_Values : public RegisterField<Reg, offset, size, AccessMode> {
-};
+struct TIM7_CNT_CNT_Values : public RegisterField<Reg, offset, size, AccessMode> {};
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
-struct TIM7_PSC_PSC_Values : public RegisterField<Reg, offset, size, AccessMode> {
-};
+struct TIM7_PSC_PSC_Values : public RegisterField<Reg, offset, size, AccessMode> {};
 
 template<typename Reg, size_t offset, size_t size, typename AccessMode, typename BaseType>
-struct TIM7_ARR_ARR_Values : public RegisterField<Reg, offset, size, AccessMode> {
-};
+struct TIM7_ARR_ARR_Values : public RegisterField<Reg, offset, size, AccessMode> {};

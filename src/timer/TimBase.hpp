@@ -44,11 +44,11 @@ namespace ng
             }
         
             __force_inline void enableInterrupt() {
-                TIM::DIER::UIE::Enabled::set();
+                TIM::DIER::UIE::Enable::set();
             }
         
             __force_inline void disableInterrupt() {
-                TIM::DIER::UIE::Disabled::set();
+                TIM::DIER::UIE::Disable::set();
             }
         
             __force_inline void reInit() {

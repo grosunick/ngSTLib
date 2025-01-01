@@ -72,9 +72,9 @@ namespace ng
         
             template<typename OCxPE, bool OCPE> __force_inline void setOCxPE() {
                 if constexpr (OCPE == false) {
-                    OCxPE::Disabled::set();
+                    OCxPE::Disable::set();
                 } else if (OCPE) {
-                    OCxPE::Enabled::set();
+                    OCxPE::Enable::set();
                 }
             }
         public:
