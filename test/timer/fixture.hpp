@@ -51,8 +51,8 @@ struct TTimReg {
     };
     struct DIER: public Register<TDIER, ReadWrite> {
         struct UIE: public RegisterField<DIER, 0, 1, ReadWrite> {
-            using Disabled = FieldValue<UIE, 0U, TTimerStructBase>;
-            using Enabled = FieldValue<UIE, 1U, TTimerStructBase>;
+            using Disable = FieldValue<UIE, 0U, TTimerStructBase>;
+            using Enable = FieldValue<UIE, 1U, TTimerStructBase>;
         };
     };
     struct EGR: public Register<TEGR, ReadWrite> {
@@ -88,12 +88,12 @@ struct TTimReg {
             using PWM1 = FieldValue<OC2M, 6U, TTimerStructBase>;
         };
         struct OC1PE: public RegisterField<CCMR1_Output, 3, 1, ReadWrite> {
-            using Disabled = FieldValue<OC1PE, 0U, TTimerStructBase>;
-            using Enabled = FieldValue<OC1PE, 1U, TTimerStructBase>;
+            using Disable = FieldValue<OC1PE, 0U, TTimerStructBase>;
+            using Enable = FieldValue<OC1PE, 1U, TTimerStructBase>;
         };
         struct OC2PE: public RegisterField<CCMR1_Output, 11, 1, ReadWrite> {
-            using Disabled = FieldValue<OC2PE, 0U, TTimerStructBase>;
-            using Enabled = FieldValue<OC2PE, 1U, TTimerStructBase>;
+            using Disable = FieldValue<OC2PE, 0U, TTimerStructBase>;
+            using Enable = FieldValue<OC2PE, 1U, TTimerStructBase>;
         };
     };
     struct CCMR2_Output: public Register<TCCMR2_Output, ReadWrite> {
@@ -104,12 +104,12 @@ struct TTimReg {
             using PWM1 = FieldValue<OC4M, 6U, TTimerStructBase>;
         };
         struct OC3PE: public RegisterField<CCMR2_Output, 3, 1, ReadWrite> {
-            using Disabled = FieldValue<OC3PE, 0U, TTimerStructBase>;
-            using Enabled = FieldValue<OC3PE, 1U, TTimerStructBase>;
+            using Disable = FieldValue<OC3PE, 0U, TTimerStructBase>;
+            using Enable = FieldValue<OC3PE, 1U, TTimerStructBase>;
         };
         struct OC4PE: public RegisterField<CCMR2_Output, 11, 1, ReadWrite> {
-            using Disabled = FieldValue<OC4PE, 0U, TTimerStructBase>;
-            using Enabled = FieldValue<OC4PE, 1U, TTimerStructBase>;
+            using Disable = FieldValue<OC4PE, 0U, TTimerStructBase>;
+            using Enable = FieldValue<OC4PE, 1U, TTimerStructBase>;
         };
     };
     struct CCER: public Register<TCCER, ReadWrite> {
