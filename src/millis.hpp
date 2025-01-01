@@ -50,8 +50,12 @@ namespace ng
 #ifdef TEST_MODE
             uint32_t SystemCoreClock = 1000000;
 #endif
+
+#ifdef DEBUG
             uint16_t limit =  (val * (SystemCoreClock / 1000000));
-        
+#else
+            uint16_t limit =  (val * 3 * (SystemCoreClock / 1000000));
+#endif
             for (uint16_t i = 0; i < limit; i++) {
                 asm volatile("nop \n");
             }

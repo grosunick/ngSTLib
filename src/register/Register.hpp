@@ -27,11 +27,11 @@ namespace ng
         }
 
         template <writable T = AccessMode> __force_inline void set(Type value) {
-            GET_REGISTER(Address) = GET_REGISTER_VAL(Address) | value ;
+            GET_REGISTER(Address) = GET_REGISTER_VAL(Address) | value;
         }
 
         template <writable T = AccessMode> __force_inline void toggle(Type value) {
-            GET_REGISTER(Address) ^= value ;
+            GET_REGISTER(Address) ^= value;
         }
 
         template <readable T = AccessMode> __force_inline Type get() {

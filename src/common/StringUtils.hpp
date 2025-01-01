@@ -17,7 +17,7 @@ namespace ng
             do {
                 *--str = num % 10 + '0';
                 num /= 10;
-            } while (num != 0 && --len >= 0);
+            } while (num != 0 && --len > 0);
 
             return str;
         }

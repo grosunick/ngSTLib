@@ -10,7 +10,7 @@ namespace ng
     const uint8_t MSBFIRST = 0b01;
     const uint8_t LSBFIRST = 0b10;
 
-    template <typename CS, typename Clk, typename Data, uint8_t order = MSBFIRST, uint8_t delay = 15>
+    template <typename CS, typename Clk, typename Data, uint8_t order = MSBFIRST, uint8_t delay = 1>
     class ShiftRegister
     {
         using CsPin = CS;

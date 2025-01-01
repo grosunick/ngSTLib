@@ -6,7 +6,7 @@
 
 namespace ng
 {
-    template <typename ShiftReg, uint8_t size = 4, uint8_t delay = 15>
+    template <typename ShiftReg, uint8_t size = 4, uint8_t delay = 3>
     class DriverHC595
     {
         using SR = ShiftReg;
@@ -38,7 +38,7 @@ namespace ng
 
             SR::sendCS(packet, 2);
 
-            if (delay) delayUs(delay);
+            if (delay) time::delayUs(delay);
 
             return true;
         }
