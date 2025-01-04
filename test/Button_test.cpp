@@ -4,9 +4,11 @@
 #include <millis.hpp>
 #include <register/Register.hpp>
 #include <gpio/Pin.hpp>
-#include <Button.hpp>
+#include <button/Button.hpp>
 
 using namespace ng;
+using namespace ng::button;
+using namespace ng::time;
 
 constexpr uint32_t TPortW = 1U;
 constexpr uint32_t TPortR = 2U;
@@ -18,9 +20,9 @@ struct TGpioReg {
 
 using TPin = Pin<TGpioReg, 0>;
 
-using TPullUpButton =  Button<TPin>;
-using TPullDownButton =  Button<TPin, ng::PULL_DOWN>;
-using TButton = Button<TPin, ng::PULL_DOWN>;
+using TPullUpButton = PinButton<TPin>;
+using TPullDownButton = PinButton<TPin, InputPullUp::Down>;
+using TButton = PinButton<TPin, InputPullUp::Down>;
 
 void prepareDebounceState() {
     setMillis(1); // init timer

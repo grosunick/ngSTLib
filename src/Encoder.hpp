@@ -2,8 +2,10 @@
 
 #include <cstdint>
 #include <algorithm>
-#include "millis.hpp"
-#include "Button.hpp"
+#include <millis.hpp>
+#include <button/Common.hpp>
+
+using namespace ng::button;
 
 namespace ng
 {
@@ -27,7 +29,7 @@ namespace ng
         };
     };
     #pragma pack(pop)
-
+    
     template <typename PinA, typename PinB, BtnType type = PULL_UP, uint8_t WAIT_CNT = 3U>
     class Encoder
     {
@@ -52,7 +54,7 @@ namespace ng
             encoderState.cur = readPins();
 
 #ifdef NG_ENC_DEBOUNCE
-            curMillis = millis();
+            curMillis = time::millis();
 
             if (encoderState.cur != encoderState.prev && !encoderState.debounceCheck && !encoderState.isChanged) {
                 encoderState.debounceCheck = 1;

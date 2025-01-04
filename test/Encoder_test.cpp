@@ -7,6 +7,7 @@
 #include <Encoder.hpp>
 
 using namespace ng;
+using namespace ng::time;
 
 constexpr uint32_t TPortR = 0U;
 constexpr uint32_t TPortW = 1U;
