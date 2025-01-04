@@ -4,47 +4,48 @@
 #include <timer/PWM.hpp>
 
 using namespace ng;
+using namespace ng::timer;
 
 #include "fixture.hpp"
 #include "common.hpp"
 
-TEST(TimGeneral, enableOutputCompare) {
+TEST(TimGeneral, enableCaptureCompare) {
     initTimReg();
     
     eventLog.clear();
-    TimGeneral<TTimReg>::template enableOutputCompare<TimChannel::ch1>();
+    TimGeneral<TTimReg, TimChannel::ch1>::enableCaptureCompare();
     testBitsEqual(TTimReg::CCER::Address, 1 << 0);
     
     eventLog.clear();
-    TimGeneral<TTimReg>::template enableOutputCompare<TimChannel::ch2>();
+    TimGeneral<TTimReg, TimChannel::ch2>::enableCaptureCompare();
     testBitsEqual(TTimReg::CCER::Address, 1 << 4);
     
     eventLog.clear();
-    TimGeneral<TTimReg>::template enableOutputCompare<TimChannel::ch3>();
+    TimGeneral<TTimReg, TimChannel::ch3>::enableCaptureCompare();
     testBitsEqual(TTimReg::CCER::Address, 1 << 8);
 
     eventLog.clear();
-    TimGeneral<TTimReg>::template enableOutputCompare<TimChannel::ch4>();
+    TimGeneral<TTimReg, TimChannel::ch4>::enableCaptureCompare();
     testBitsEqual(TTimReg::CCER::Address, 1 << 12);
 }
 
-TEST(TimGeneral, disableOutputCompare) {
+TEST(TimGeneral, disableCaptureCompare) {
     initTimReg();
     
     eventLog.clear();
-    TimGeneral<TTimReg>::template disableOutputCompare<TimChannel::ch1>();
+    TimGeneral<TTimReg, TimChannel::ch1>::disableCaptureCompare();
     testBitsEqual(TTimReg::CCER::Address, 1 << 0, false);
     
     eventLog.clear();
-    TimGeneral<TTimReg>::template disableOutputCompare<TimChannel::ch2>();
+    TimGeneral<TTimReg, TimChannel::ch2>::disableCaptureCompare();
     testBitsEqual(TTimReg::CCER::Address, 1 << 4, false);
 
     eventLog.clear();
-    TimGeneral<TTimReg>::template disableOutputCompare<TimChannel::ch3>();
+    TimGeneral<TTimReg, TimChannel::ch3>::disableCaptureCompare();
     testBitsEqual(TTimReg::CCER::Address, 1 << 8, false);
 
     eventLog.clear();
-    TimGeneral<TTimReg>::template disableOutputCompare<TimChannel::ch4>();
+    TimGeneral<TTimReg, TimChannel::ch4>::disableCaptureCompare();
     testBitsEqual(TTimReg::CCER::Address, 1 << 12, false);
 }
 
@@ -52,19 +53,19 @@ TEST(TimGeneral, setCCR) {
     initTimReg();
     
     eventLog.clear();
-    TimGeneral<TTimReg>::template setCCR<TimChannel::ch1>(2);
+    TimGeneral<TTimReg, TimChannel::ch1>::setCCR(2);
     testRegisterEqual(TTimReg::CCR1::Address, 2U);
 
     eventLog.clear();
-    TimGeneral<TTimReg>::template setCCR<TimChannel::ch2>(2);
+    TimGeneral<TTimReg, TimChannel::ch2>::setCCR(2);
     testRegisterEqual(TTimReg::CCR2::Address, 2U);
 
     eventLog.clear();
-    TimGeneral<TTimReg>::template setCCR<TimChannel::ch3>(2);
+    TimGeneral<TTimReg, TimChannel::ch3>::setCCR(2);
     testRegisterEqual(TTimReg::CCR3::Address, 2U);
 
     eventLog.clear();
-    TimGeneral<TTimReg>::template setCCR<TimChannel::ch4>(2);
+    TimGeneral<TTimReg, TimChannel::ch4>::setCCR(2);
     testRegisterEqual(TTimReg::CCR4::Address, 2U);
 }
 
@@ -72,23 +73,23 @@ TEST(TimGeneral, setOutputComparePreload) {
     initTimReg();
     
     eventLog.clear();
-    TimGeneral<TTimReg>::template setOutputComparePreload<true, TimChannel::ch1>();
-    TimGeneral<TTimReg>::template setOutputComparePreload<false, TimChannel::ch1>();
+    TimGeneral<TTimReg, TimChannel::ch1>::setOutputComparePreload<true>();
+    TimGeneral<TTimReg, TimChannel::ch1>::setOutputComparePreload<false>();
     testBitsEqual(TTimReg::CCMR1_Output::Address, 1 << 3);
     testBitsEqual(TTimReg::CCMR1_Output::Address, 1 << 3, false);
     
-    TimGeneral<TTimReg>::template setOutputComparePreload<true, TimChannel::ch2>();
-    TimGeneral<TTimReg>::template setOutputComparePreload<false, TimChannel::ch2>();
+    TimGeneral<TTimReg, TimChannel::ch2>::setOutputComparePreload<true>();
+    TimGeneral<TTimReg, TimChannel::ch2>::setOutputComparePreload<false>();
     testBitsEqual(TTimReg::CCMR1_Output::Address, 1 << 11);
     testBitsEqual(TTimReg::CCMR1_Output::Address, 1 << 11, false);
     
-    TimGeneral<TTimReg>::template setOutputComparePreload<true, TimChannel::ch3>();
-    TimGeneral<TTimReg>::template setOutputComparePreload<false, TimChannel::ch3>();
+    TimGeneral<TTimReg, TimChannel::ch3>::template setOutputComparePreload<true>();
+    TimGeneral<TTimReg, TimChannel::ch3>::setOutputComparePreload<false>();
     testBitsEqual(TTimReg::CCMR2_Output::Address, 1 << 3);
     testBitsEqual(TTimReg::CCMR2_Output::Address, 1 << 3, false);
     
-    TimGeneral<TTimReg>::template setOutputComparePreload<true, TimChannel::ch4>();
-    TimGeneral<TTimReg>::template setOutputComparePreload<false, TimChannel::ch4>();
+    TimGeneral<TTimReg, TimChannel::ch4>::template setOutputComparePreload<true>();
+    TimGeneral<TTimReg, TimChannel::ch4>::setOutputComparePreload<false>();
     testBitsEqual(TTimReg::CCMR2_Output::Address, 1 << 11);
     testBitsEqual(TTimReg::CCMR2_Output::Address, 1 << 11, false);
 }
@@ -97,18 +98,18 @@ TEST(TimGeneral, setOutputCompareMode) {
     initTimReg();
     
     eventLog.clear();
-    TimGeneral<TTimReg>::template setOutputCompareMode<OutputСompareMode::PWM1, TimChannel::ch1>();
+    TimGeneral<TTimReg, TimChannel::ch1>::setOutputCompareMode<OutCaptСmpMode::PWM1>();
     testBitsEqual(TTimReg::CCMR1_Output::Address, 0b110 << 3);
     
     eventLog.clear();
-    TimGeneral<TTimReg>::template setOutputCompareMode<OutputСompareMode::PWM1, TimChannel::ch2>();
+    TimGeneral<TTimReg, TimChannel::ch2>::setOutputCompareMode<OutCaptСmpMode::PWM1>();
     testBitsEqual(TTimReg::CCMR1_Output::Address, 0b110 << 12);
     
     eventLog.clear();
-    TimGeneral<TTimReg>::template setOutputCompareMode<OutputСompareMode::PWM1, TimChannel::ch3>();
+    TimGeneral<TTimReg, TimChannel::ch3>::setOutputCompareMode<OutCaptСmpMode::PWM1>();
     testBitsEqual(TTimReg::CCMR2_Output::Address, 0b110 << 3);
 
     eventLog.clear();
-    TimGeneral<TTimReg>::template setOutputCompareMode<OutputСompareMode::PWM1, TimChannel::ch4>();
+    TimGeneral<TTimReg, TimChannel::ch4>::setOutputCompareMode<OutCaptСmpMode::PWM1>();
     testBitsEqual(TTimReg::CCMR2_Output::Address, 0b110 << 12);
 }

@@ -1413,20 +1413,12 @@ struct TIM3_CCER_CC4NP_Values : public RegisterField<Reg, offset, size, AccessMo
     /**
      * CCCx channel configured as input:
      * This bit is used in conjunction with CC1P to define TI1FP1/TI2FP1 polarity. refer to CC1P description.
+     *
+     * see CC1P description
      */
     
-    /**
-     * 00: noninverted/rising edge. Circuit is sensitive to TIxFP1 rising edge
-     * (capture, trigger in reset, external clock or trigger mode), TIxFP1 is not inverted
-     * (trigger in gated mode, encoder mode).
-     */
-    using Rising = FieldValue<TIM3_CCER_CC4NP_Values, 0U, BaseType>;
-    /**
-     * 01: inverted/falling edge Circuit is sensitive to TIxFP1 falling edge
-     * (capture, trigger in reset, external clock or trigger mode),
-     * TIxFP1 is inverted (trigger in gated mode, encoder mode).
-     */
-    using Falling = FieldValue<TIM3_CCER_CC4NP_Values, 1U, BaseType>;
+    using High = FieldValue<TIM3_CCER_CC4NP_Values, 1U, BaseType>;
+    using Low = FieldValue<TIM3_CCER_CC4NP_Values, 0U, BaseType>;
 };
 
 /**
@@ -1438,31 +1430,19 @@ template<typename Reg, size_t offset, size_t size, typename AccessMode, typename
 struct TIM3_CCER_CC4P_Values : public RegisterField<Reg, offset, size, AccessMode> {
     /** CCx channel configured as output */
     // 0: OCx active high
-    using High = FieldValue<TIM3_CCER_CC4P_Values, 0U, BaseType>;
+    using High = FieldValue<TIM3_CCER_CC4P_Values, 1U, BaseType>;
     // 1: OCx active low
-    using Low = FieldValue<TIM3_CCER_CC4P_Values, 1U, BaseType>;
+    using Low = FieldValue<TIM3_CCER_CC4P_Values, 0U, BaseType>;
     
     /**
      * CCx channel configured as input
-     * CCxNP/CCxP bits select TIxFP1 and TIxFP1 polarity for trigger or capture operations.
+     *
+     * see CC1P description
      */
-    
-    /**
-     * 00: noninverted/rising edge. Circuit is sensitive to TIxFP1 rising edge
-     * (capture, trigger in reset, external clock or trigger mode), TIxFP1 is not inverted
-     * (trigger in gated mode, encoder mode).
-     */
-    using Rising = FieldValue<TIM3_CCER_CC4P_Values, 0U, BaseType>;
-    /**
-     * 01: inverted/falling edge Circuit is sensitive to TIxFP1 falling edge
-     * (capture, trigger in reset, external clock or trigger mode),
-     * TIxFP1 is inverted (trigger in gated mode, encoder mode).
-     */
-    using Falling = FieldValue<TIM3_CCER_CC4P_Values, 1U, BaseType>;
 };
 
 /**
- * Capture/Compare output enable.
+ * Capture/Compare input/output enable.
  *
  * CCx channel configured as output:
  *   0: Off - OC1 is not active
@@ -1495,20 +1475,12 @@ struct TIM3_CCER_CC3NP_Values : public RegisterField<Reg, offset, size, AccessMo
     /**
      * CCCx channel configured as input:
      * This bit is used in conjunction with CC1P to define TI1FP1/TI2FP1 polarity. refer to CC1P description.
+     *
+     * see CC1P description
      */
     
-    /**
-     * 00: noninverted/rising edge. Circuit is sensitive to TIxFP1 rising edge
-     * (capture, trigger in reset, external clock or trigger mode), TIxFP1 is not inverted
-     * (trigger in gated mode, encoder mode).
-     */
-    using Rising = FieldValue<TIM3_CCER_CC3NP_Values, 0U, BaseType>;
-    /**
-     * 01: inverted/falling edge Circuit is sensitive to TIxFP1 falling edge
-     * (capture, trigger in reset, external clock or trigger mode),
-     * TIxFP1 is inverted (trigger in gated mode, encoder mode).
-     */
-    using Falling = FieldValue<TIM3_CCER_CC3NP_Values, 1U, BaseType>;
+    using High = FieldValue<TIM3_CCER_CC3NP_Values, 1U, BaseType>;
+    using Low = FieldValue<TIM3_CCER_CC3NP_Values, 0U, BaseType>;
 };
 
 /**
@@ -1520,30 +1492,18 @@ template<typename Reg, size_t offset, size_t size, typename AccessMode, typename
 struct TIM3_CCER_CC3P_Values : public RegisterField<Reg, offset, size, AccessMode> {
     /** CCx channel configured as output */
     // 0: OCx active high
-    using High = FieldValue<TIM3_CCER_CC3P_Values, 0U, BaseType>;
+    using High = FieldValue<TIM3_CCER_CC3P_Values, 1U, BaseType>;
     // 1: OCx active low
-    using Low = FieldValue<TIM3_CCER_CC3P_Values, 1U, BaseType>;
+    using Low = FieldValue<TIM3_CCER_CC3P_Values, 0U, BaseType>;
     
     /**
      * CCx channel configured as input
-     * CCxNP/CC1P bits select TIxFP1 and TIxFP1 polarity for trigger or capture operations.
+     *
+     * see CC1P description
      */
-    
-    /**
-     * 00: noninverted/rising edge. Circuit is sensitive to TIxFP1 rising edge
-     * (capture, trigger in reset, external clock or trigger mode), TIxFP1 is not inverted
-     * (trigger in gated mode, encoder mode).
-     */
-    using Rising = FieldValue<TIM3_CCER_CC3P_Values, 0U, BaseType>;
-    /**
-     * 01: inverted/falling edge Circuit is sensitive to TIxFP1 falling edge
-     * (capture, trigger in reset, external clock or trigger mode),
-     * TIxFP1 is inverted (trigger in gated mode, encoder mode).
-     */
-    using Falling = FieldValue<TIM3_CCER_CC3P_Values, 1U, BaseType>;
 };
 /**
- * Capture/Compare output enable.
+ * Capture/Compare input/output enable.
  *
  * CCx channel configured as output:
  *   0: Off - OC1 is not active
@@ -1576,20 +1536,12 @@ struct TIM3_CCER_CC2NP_Values : public RegisterField<Reg, offset, size, AccessMo
     /**
      * CCCx channel configured as input:
      * This bit is used in conjunction with CC1P to define TI1FP1/TI2FP1 polarity. refer to CC1P description.
+     *
+     * see CC1P description
      */
     
-    /**
-     * 00: noninverted/rising edge. Circuit is sensitive to TIxFP1 rising edge
-     * (capture, trigger in reset, external clock or trigger mode), TIxFP1 is not inverted
-     * (trigger in gated mode, encoder mode).
-     */
-    using Rising = FieldValue<TIM3_CCER_CC2NP_Values, 0U, BaseType>;
-    /**
-     * 01: inverted/falling edge Circuit is sensitive to TIxFP1 falling edge
-     * (capture, trigger in reset, external clock or trigger mode),
-     * TIxFP1 is inverted (trigger in gated mode, encoder mode).
-     */
-    using Falling = FieldValue<TIM3_CCER_CC2NP_Values, 1U, BaseType>;
+    using High = FieldValue<TIM3_CCER_CC2NP_Values, 1U, BaseType>;
+    using Low = FieldValue<TIM3_CCER_CC2NP_Values, 0U, BaseType>;
 };
 
 /**
@@ -1601,31 +1553,19 @@ template<typename Reg, size_t offset, size_t size, typename AccessMode, typename
 struct TIM3_CCER_CC2P_Values : public RegisterField<Reg, offset, size, AccessMode> {
     /** CCx channel configured as output */
     // 0: OCx active high
-    using High = FieldValue<TIM3_CCER_CC2P_Values, 0U, BaseType>;
+    using High = FieldValue<TIM3_CCER_CC2P_Values, 1U, BaseType>;
     // 1: OCx active low
-    using Low = FieldValue<TIM3_CCER_CC2P_Values, 1U, BaseType>;
+    using Low = FieldValue<TIM3_CCER_CC2P_Values, 0U, BaseType>;
     
     /**
      * CCx channel configured as input
-     * CCxNP/CCxP bits select TIxFP1 and TIxFP1 polarity for trigger or capture operations.
+     *
+     * see CC1P description
      */
-    
-    /**
-     * 00: noninverted/rising edge. Circuit is sensitive to TIxFP1 rising edge
-     * (capture, trigger in reset, external clock or trigger mode), TIxFP1 is not inverted
-     * (trigger in gated mode, encoder mode).
-     */
-    using Rising = FieldValue<TIM3_CCER_CC2P_Values, 0U, BaseType>;
-    /**
-     * 01: inverted/falling edge Circuit is sensitive to TIxFP1 falling edge
-     * (capture, trigger in reset, external clock or trigger mode),
-     * TIxFP1 is inverted (trigger in gated mode, encoder mode).
-     */
-    using Falling = FieldValue<TIM3_CCER_CC2P_Values, 1U, BaseType>;
 };
 
 /**
- * Capture/Compare output enable.
+ * Capture/Compare input/output enable.
  *
  * CCx channel configured as output:
  *   0: Off - OC1 is not active
@@ -1654,20 +1594,12 @@ struct TIM3_CCER_CC1NP_Values : public RegisterField<Reg, offset, size, AccessMo
     /**
      * CCCx channel configured as input:
      * This bit is used in conjunction with CC1P to define TI1FP1/TI2FP1 polarity. refer to CC1P description.
+     *
+     * see CC1P description
      */
     
-    /**
-     * 00: noninverted/rising edge. Circuit is sensitive to TIxFP1 rising edge
-     * (capture, trigger in reset, external clock or trigger mode), TIxFP1 is not inverted
-     * (trigger in gated mode, encoder mode).
-     */
-    using Rising = FieldValue<TIM3_CCER_CC1NP_Values, 0U, BaseType>;
-    /**
-     * 01: inverted/falling edge Circuit is sensitive to TIxFP1 falling edge
-     * (capture, trigger in reset, external clock or trigger mode),
-     * TIxFP1 is inverted (trigger in gated mode, encoder mode).
-     */
-    using Falling = FieldValue<TIM3_CCER_CC1NP_Values, 1U, BaseType>;
+    using High = FieldValue<TIM3_CCER_CC1NP_Values, 1U, BaseType>;
+    using Low = FieldValue<TIM3_CCER_CC1NP_Values, 0U, BaseType>;
 };
 
 /** Capture/Compare 1 output Polarity. */
@@ -1675,31 +1607,33 @@ template<typename Reg, size_t offset, size_t size, typename AccessMode, typename
 struct TIM3_CCER_CC1P_Values : public RegisterField<Reg, offset, size, AccessMode> {
     /** CCx channel configured as output */
     // 0: OCx active high
-    using High = FieldValue<TIM3_CCER_CC1P_Values, 0U, BaseType>;
+    using High = FieldValue<TIM3_CCER_CC1P_Values, 1U, BaseType>;
     // 1: OCx active low
-    using Low = FieldValue<TIM3_CCER_CC1P_Values, 1U, BaseType>;
+    using Low = FieldValue<TIM3_CCER_CC1P_Values, 0U, BaseType>;
     
     /**
      * CCx channel configured as input
-     * CCxNP/CCxP bits select TIxFP1 and TIxFP1 polarity for trigger or capture operations.
+     * Combination of CC1NP/CC1P bits select TI1FP1 and TI2FP1 polarity for trigger or capture operations.
      */
      
     /**
-     * 00: noninverted/rising edge. Circuit is sensitive to TIxFP1 rising edge
-     * (capture, trigger in reset, external clock or trigger mode), TIxFP1 is not inverted
+     * 00: noninverted/rising edge. Circuit is sensitive to TI1FP1 rising edge
+     * (capture, trigger in reset, external clock or trigger mode), TI1FP1 is not inverted
      * (trigger in gated mode, encoder mode).
-     */
-    using Rising = FieldValue<TIM3_CCER_CC1P_Values, 0U, BaseType>;
-    /**
+     *
      * 01: inverted/falling edge Circuit is sensitive to TIxFP1 falling edge
      * (capture, trigger in reset, external clock or trigger mode),
-     * TIxFP1 is inverted (trigger in gated mode, encoder mode).
+     * TI1FP1 is inverted (trigger in gated mode, encoder mode).
+     *
+     * 11: noninverted/both edges
+     * Circuit is sensitive to both TI1FP1 rising and falling edges (capture, trigger in reset, external
+     * clock or trigger mode), TI1FP1 is not inverted (trigger in gated mode). This configuration
+     * must not be used for encoder mode.
      */
-    using Falling = FieldValue<TIM3_CCER_CC1P_Values, 1U, BaseType>;
 };
 
 /**
- * Capture/Compare output enable.
+ * Capture/Compare input/output enable.
  *
  * CCx channel configured as output:
  *   0: Off - OC1 is not active

@@ -5,6 +5,7 @@
 #include <timer/PWM.hpp>
 
 using namespace ng;
+using namespace ng::timer;
 
 #include "../gpio/fixture.hpp"
 #include "fixture.hpp"
@@ -14,9 +15,9 @@ TEST(PWM, init) {
     SystemCoreClock = 4000000;
     initTimReg();
 
-    using Pwm = PWM<TTimReg, TimChannel::ch1, Pin<TGpioReg, 1>>;
+    using Pwm = PWM<TTimReg, TimChannel::ch1, Pin<TGpioReg, 1, AlternateFn::AF2>>;
     eventLog.clear();
-    Pwm::init<AlternateFn::AF2>(10000);
+    Pwm::init(10000);
     
     testRegisterEqual(TTimReg::PSC::Address, 3U);
     testRegisterEqual(TTimReg::ARR::Address, 99U);

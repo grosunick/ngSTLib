@@ -43,7 +43,7 @@ namespace ng
         AF15 = 0b1111
     };
 
-    template<typename PortReg, uint8_t pinNum>
+    template<typename PortReg, uint8_t pinNum, AlternateFn altFn = AlternateFn::AF0>
     class Pin
     {
         template <typename T, typename T::Type val, uint8_t altPin = pinNum> __force_inline void setReg() {
@@ -137,14 +137,15 @@ namespace ng
         }
 
         template <
-            AlternateFn altFn,
             OutputType outputType = OutputType::PushPull,
+            InputPullUp pullUp = InputPullUp::No,
             OutputSpeed outputSpeed = OutputSpeed::Low
         >
-        __force_inline void setOutputAlternate() {
+        __force_inline void setAlternate() {
             using AFRLType = typename TPort::Reg::AFRL::Type;
-
-            setOutput<outputType, outputSpeed>();
+            using OtyperType = typename TPort::Reg::PUPDR::Type;
+            using OspeederType = typename TPort::Reg::PUPDR::Type;
+            using PupdrType = typename TPort::Reg::PUPDR::Type;
 
             // setup pin as output
             setReg<typename TPort::Reg::MODER, TPort::Reg::MODER::FieldValues::Alternate::Value>();
@@ -154,6 +155,42 @@ namespace ng
                 setReg<typename TPort::Reg::AFRL, (AFRLType)altFn>();
             } else {
                 setReg<typename TPort::Reg::AFRH, (AFRLType)altFn, pin - 8>();
+            }
+    
+            // setup pin output type
+            if constexpr (outputType == OutputType::PushPull) {
+                constexpr OtyperType outPinType = TPort::Reg::OTYPER::FieldValues::PushPull::Value;
+                setReg<typename TPort::Reg::OTYPER, outPinType>();
+            } else if constexpr (outputType == OutputType::OpenDrain) {
+                constexpr OtyperType outPinType = TPort::Reg::OTYPER::FieldValues::OpenDrain::Value;
+                setReg<typename TPort::Reg::OTYPER, outPinType>();
+            }
+    
+            // setup the pullUp/pullDown resistor
+            if constexpr (pullUp == InputPullUp::No) {
+                constexpr PupdrType inputPullUp = TPort::Reg::PUPDR::FieldValues::NoPullUpPullDown::Value;
+                setReg<typename TPort::Reg::PUPDR, inputPullUp>();
+            } else if constexpr (pullUp == InputPullUp::Up) {
+                constexpr PupdrType inputPullUp = TPort::Reg::PUPDR::FieldValues::PullUp::Value;
+                setReg<typename TPort::Reg::PUPDR, inputPullUp>();
+            } else if constexpr (pullUp == InputPullUp::Down) {
+                constexpr PupdrType inputPullUp = TPort::Reg::PUPDR::FieldValues::PullDown::Value;
+                setReg<typename TPort::Reg::PUPDR, inputPullUp>();
+            }
+    
+            // setup output speed
+            if constexpr (outputSpeed == OutputSpeed::Low) {
+                constexpr OspeederType outPinSpeed = TPort::Reg::OSPEEDER::FieldValues::Low::Value;
+                setReg<typename TPort::Reg::OSPEEDER, outPinSpeed>();
+            } else if constexpr (outputSpeed == OutputSpeed::Medium) {
+                constexpr OspeederType outPinSpeed = TPort::Reg::OSPEEDER::FieldValues::Medium::Value;
+                setReg<typename TPort::Reg::OSPEEDER, outPinSpeed>();
+            } else if constexpr (outputSpeed == OutputSpeed::High) {
+                constexpr OspeederType outPinSpeed = TPort::Reg::OSPEEDER::FieldValues::High::Value;
+                setReg<typename TPort::Reg::OSPEEDER, outPinSpeed>();
+            } else if constexpr (outputSpeed == OutputSpeed::Max) {
+                constexpr OspeederType outPinSpeed = TPort::Reg::OSPEEDER::FieldValues::Max::Value;
+                setReg<typename TPort::Reg::OSPEEDER, outPinSpeed>();
             }
         }
 

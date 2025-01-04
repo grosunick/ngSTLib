@@ -1,5 +1,6 @@
 #pragma once
 
+#include "TimerTask.hpp"
 #include <cstdint>
 
 namespace ng

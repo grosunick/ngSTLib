@@ -76,22 +76,40 @@ TEST(Pin, setOutput) {
     EXPECT_EQ(getRegister(TGpioReg::OSPEEDER::Address).getValue(), 0b1100U);
 }
 
-TEST(Pin, setOutputAlternate) {
+TEST(Pin, setAlternate) {
     getRegister(TGpioReg::MODER::Address) = 0b0;
-    Pin<TGpioReg, 1>::template setOutputAlternate<AlternateFn::AF1, OutputType::PushPull, OutputSpeed::Max>();
+    Pin<TGpioReg, 1, AlternateFn::AF1>::template setAlternate<
+        OutputType::PushPull, InputPullUp::No, OutputSpeed::Max
+    >();
     EXPECT_EQ(getRegister(TGpioReg::MODER::Address).getValue(), 0b1000U);
     EXPECT_EQ(getRegister(TGpioReg::AFRL::Address).getValue(), 0b00010000U);
-
-    Pin<TGpioReg, 0>::template setOutputAlternate<AlternateFn::AF2, OutputType::PushPull, OutputSpeed::Max>();
+    
+    Pin<TGpioReg, 0, AlternateFn::AF2>::template setAlternate<
+        OutputType::PushPull, InputPullUp::No, OutputSpeed::Max
+    >();
     EXPECT_EQ(getRegister(TGpioReg::AFRL::Address).getValue(), 0b00010010U);
-
-    Pin<TGpioReg, 0>::template setOutputAlternate<AlternateFn::AF2, OutputType::PushPull, OutputSpeed::Max>();
+    EXPECT_EQ(getRegister(TGpioReg::PUPDR::Address).getValue(), 0b00U);
+    
+    Pin<TGpioReg, 0, AlternateFn::AF2>::template setAlternate<
+        OutputType::PushPull, InputPullUp::Up, OutputSpeed::Max
+    >();
     EXPECT_EQ(getRegister(TGpioReg::AFRL::Address).getValue(), 0b00010010U);
-
-    Pin<TGpioReg, 8>::template setOutputAlternate<AlternateFn::AF2, OutputType::PushPull, OutputSpeed::Max>();
+    EXPECT_EQ(getRegister(TGpioReg::PUPDR::Address).getValue(), 0b01U);
+    
+    Pin<TGpioReg, 8, AlternateFn::AF2>::template setAlternate<
+        OutputType::PushPull, InputPullUp::Down,  OutputSpeed::Max
+    >();
     EXPECT_EQ(getRegister(TGpioReg::AFRH::Address).getValue(), 0b0010U);
-
-    Pin<TGpioReg, 9>::template setOutputAlternate<AlternateFn::AF2, OutputType::PushPull, OutputSpeed::Max>();
+    EXPECT_EQ((getRegister(TGpioReg::PUPDR::Address).getValue() & 0b10U << 8 * 2), 0b10 << 8 * 2);
+    
+    Pin<TGpioReg, 9, AlternateFn::AF2>::template setAlternate<
+        OutputType::PushPull, InputPullUp::No,  OutputSpeed::Max
+    >();
+    EXPECT_EQ(getRegister(TGpioReg::AFRH::Address).getValue(), 0b00100010U);
+    
+    Pin<TGpioReg, 9, AlternateFn::AF2>::template setAlternate<
+        OutputType::PushPull, InputPullUp::No,  OutputSpeed::Max
+    >();
     EXPECT_EQ(getRegister(TGpioReg::AFRH::Address).getValue(), 0b00100010U);
 }
 

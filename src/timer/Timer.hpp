@@ -3,10 +3,10 @@
 #include <cstdint>
 #include <common/globals.hpp>
 #include <common/Observer.hpp>
-#include "TimBase.hpp"
-#include "Utils.hpp"
 
-using namespace ng::timer;
+#include <timer/TimGeneral.hpp>
+#include <timer/PWM.hpp>
+#include <timer/ICC.hpp>
 
 namespace ng
 {
@@ -14,7 +14,9 @@ namespace ng
     {
     public:
         __force_inline void wait(uint32_t us) {
-            using TIM = TimBase<Tim>;
+            using namespace ng::timer;
+            
+            using TIM = timer::TimBase<Tim>;
             
             auto params = getParamsByPeriod(us);
             if (!params.isOk()) {
@@ -37,7 +39,14 @@ namespace ng
             Notifier::notify();
         }
         
+        /**
+         * Initialize the timer to work in interrupt mode
+         *
+         * @param us the number of microseconds after which the interrupt should be triggered
+         */
         __force_inline void initByPeriod(uint32_t us) {
+            using namespace ng::timer;
+            
             using TIM = TimBase<Tim>;
 
             auto params = getParamsByPeriod(us);
@@ -57,15 +66,12 @@ namespace ng
         }
 
         __force_inline void callback() {
-            using TIM = TimBase<Tim>;
+            using TIM = timer::TimBase<Tim>;
 
             TIM::clearUpdateFlag();
             Notifier::notify();
         }
     };
-
-
-
-
-
+    
+    
 }
