@@ -2,7 +2,6 @@
 #include <register/getPort.h>
 #include <stdint.h>
 #include "common.hpp"
-#include "fixture.hpp"
 
 using namespace ng;
 
@@ -20,7 +19,8 @@ void testBitsEqual(const uint32_t address, uint32_t val, bool equal) {
     
     ASSERT_EQ(get<0>(el), address);
     if (equal) {
-        ASSERT_TRUE(get<1>(el) & val);
+        auto v = get<1>(el);
+        ASSERT_TRUE((v & val) == val);
     } else {
         ASSERT_FALSE(get<1>(el) & val);
     }
@@ -29,13 +29,13 @@ void testBitsEqual(const uint32_t address, uint32_t val, bool equal) {
 }
 
 void initTimReg() {
-    TTimReg::PSC::write(0);
-    TTimReg::ARR::write(0);
-    TTimReg::CNT::write(0);
-    TTimReg::CR1::write(0);
-    TTimReg::DIER::write(0);
-    TTimReg::EGR::write(0);
-    TTimReg::SR::write(0);
-    TTimReg::CCMR1_Output::write(0);
-    TTimReg::CCMR2_Output::write(0);
+    ngTIM3::PSC::write(0);
+    ngTIM3::ARR::write(0);
+    ngTIM3::CNT::write(0);
+    ngTIM3::CR1::write(0);
+    ngTIM3::DIER::write(0);
+    ngTIM3::EGR::write(0);
+    ngTIM3::SR::write(0);
+    ngTIM3::CCMR1_Output::write(0);
+    ngTIM3::CCMR2_Output::write(0);
 }

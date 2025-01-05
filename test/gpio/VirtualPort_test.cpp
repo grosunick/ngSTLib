@@ -6,68 +6,50 @@
 
 using namespace ng;
 
-constexpr uint32_t TPortR1 = 0U;
-constexpr uint32_t TPortW1 = 1U;
-constexpr uint32_t TPortW2 = 2U;
+#include <hardware/STM32L1xx/GpioaRegisters.hpp>
+#include <hardware/STM32L1xx/GpiobRegisters.hpp>
 
-constexpr uint32_t TPortR2 = 3U;
-constexpr uint32_t TPortW3 = 4U;
-constexpr uint32_t TPortW4 = 5U;
-
-
-struct TReg1 {
-    struct IDR: public Register<TPortR1, ReadWrite> {};
-    struct BSRR: public Register<TPortW1, ReadWrite> {};
-    struct ODR: public Register<TPortW2, ReadWrite> {};
-};
-
-struct TReg2 {
-    struct IDR: public Register<TPortR2, ReadWrite> {};
-    struct BSRR: public Register<TPortW3, ReadWrite> {};
-    struct ODR: public Register<TPortW4, ReadWrite> {};
-};
-
-using PinA0 = Pin<TReg1, 0>;
-using PinA1 = Pin<TReg1, 1>;
-using PinB1 = Pin<TReg2, 1>;
-using PinB3 = Pin<TReg2, 3>;
+using PinA0 = Pin<ngGPIOA, 0>;
+using PinA1 = Pin<ngGPIOA, 1>;
+using PinB1 = Pin<ngGPIOB, 1>;
+using PinB3 = Pin<ngGPIOB, 3>;
 
 using VPort = VirtualPort<PinB3, PinA1, PinB1, PinA0>;
 
 TEST(VirtualPort, set) {
     VPort::set(0b1111);
 
-    EXPECT_EQ(getRegister(TReg1::BSRR::Address).getValue(), 0b11);
-    EXPECT_EQ(getRegister(TReg2::BSRR::Address).getValue(), 0b1010);
+    EXPECT_EQ(getRegister(ngGPIOA::BSRR::Address).getValue(), 0b11);
+    EXPECT_EQ(getRegister(ngGPIOB::BSRR::Address).getValue(), 0b1010);
 }
 
 TEST(VirtualPort, reset) {
     VPort::reset(0b1111);
 
-    EXPECT_EQ(getRegister(TReg1::BSRR::Address).getValue(), (0b11 << 16U));
-    EXPECT_EQ(getRegister(TReg2::BSRR::Address).getValue(), (0b1010 << 16U));
+    EXPECT_EQ(getRegister(ngGPIOA::BSRR::Address).getValue(), (0b11 << 16U));
+    EXPECT_EQ(getRegister(ngGPIOB::BSRR::Address).getValue(), (0b1010 << 16U));
 }
 
 TEST(VirtualPort, togle) {
-    getRegister(TReg1::ODR::Address) = 0b10;
-    getRegister(TReg2::ODR::Address) = 0b1000;
+    getRegister(ngGPIOA::ODR::Address) = 0b10;
+    getRegister(ngGPIOB::ODR::Address) = 0b1000;
 
     VPort::toggle(0b1111);
 
-    EXPECT_EQ(getRegister(TReg1::ODR::Address).getValue(), 0b01);
-    EXPECT_EQ(getRegister(TReg2::ODR::Address).getValue(), 0b0010);
+    EXPECT_EQ(getRegister(ngGPIOA::ODR::Address).getValue(), 0b01);
+    EXPECT_EQ(getRegister(ngGPIOB::ODR::Address).getValue(), 0b0010);
 }
 
 TEST(VirtualPort, get) {
-    getRegister(TReg1::IDR::Address) = 0b10;
-    getRegister(TReg2::IDR::Address) = 0b1000;
+    getRegister(ngGPIOA::IDR::Address) = 0b10;
+    getRegister(ngGPIOB::IDR::Address) = 0b1000;
     EXPECT_EQ(VPort::get(), 0b1100U);
 
-    getRegister(TReg1::IDR::Address) = 0b01;
-    getRegister(TReg2::IDR::Address) = 0b0000;
+    getRegister(ngGPIOA::IDR::Address) = 0b01;
+    getRegister(ngGPIOB::IDR::Address) = 0b0000;
     EXPECT_EQ(VPort::get(), 0b1U);
 
-    getRegister(TReg1::IDR::Address) = 0b01;
-    getRegister(TReg2::IDR::Address) = 0b0010;
+    getRegister(ngGPIOA::IDR::Address) = 0b01;
+    getRegister(ngGPIOB::IDR::Address) = 0b0010;
     EXPECT_EQ(VPort::get(), 0b11U);
 }

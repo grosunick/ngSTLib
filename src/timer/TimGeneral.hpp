@@ -16,11 +16,6 @@ namespace ng
     
         enum class OutCaptСmpMode {
             /**
-             * 000: Frozen - The comparison between the output compare register TIMx_CCRx and the
-             * counter TIMx_CNT has no effect on the outputs.(this mode is used to generate a timing base).
-             */
-            Frozen = 0b000,
-            /**
              * 001: Set channel 1 to active level on match. OCxREF signal is forced high when the counter
              * TIMx_CNT matches the capture/compare register 1 (TIMx_CCRx).
              */
@@ -91,9 +86,7 @@ namespace ng
         template <typename TIM, TimChannel channel = TimChannel::ch1> class TimGeneral: public TimBase<TIM>
         {
             template<typename OCxM, OutCaptСmpMode OCM> __force_inline void setOCxM() {
-                if constexpr (OCM == OutCaptСmpMode::Frozen) {
-                    OCxM::Frozen::set();
-                } else if constexpr (OCM == OutCaptСmpMode::ActiveLevelOnMatch) {
+                if constexpr (OCM == OutCaptСmpMode::ActiveLevelOnMatch) {
                     OCxM::ActiveLevelOnMatch::set();
                 } else if constexpr (OCM == OutCaptСmpMode::InactiveLevelOnMatch) {
                     OCxM::InactiveLevelOnMatch::set();

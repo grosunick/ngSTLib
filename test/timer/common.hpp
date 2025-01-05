@@ -1,6 +1,7 @@
 #pragma once
 
 #include <gtest/gtest.h>
+#include <hardware/STM32L1xx/Tim3Registers.hpp>
 #include <register/getPort.h>
 #include <stdint.h>
 

@@ -9,16 +9,10 @@
 using namespace ng;
 using namespace ng::time;
 
-constexpr uint32_t TPortR = 0U;
-constexpr uint32_t TPortW = 1U;
+#include <hardware/STM32L1xx/GpioaRegisters.hpp>
 
-struct TGpioReg {
-    struct IDR: public Register<TPortR, Read> {};
-    struct BSRR: public Register<TPortW, Read> {};
-};
-
-using PinA = Pin<TGpioReg, 0>;
-using PinB = Pin<TGpioReg, 1>;
+using PinA = Pin<ngGPIOA, 0>;
+using PinB = Pin<ngGPIOA, 1>;
 
 using TEncoderPullUp =  Encoder<PinA, PinB, PULL_UP>;
 using TEncoderPullDown =  Encoder<PinA, PinB, PULL_DOWN>;
@@ -28,7 +22,7 @@ void next(uint8_t state) {
 
     uint8_t nextBState = (state & 0b1);
     uint8_t nextAState = (state & 0b10) >> 1;
-    getRegister(TPortR) = (nextBState << 1) | nextAState; // set pins encoderState
+    getRegister(ngGPIOA::IDR::Address) = (nextBState << 1) | nextAState; // set pins encoderState
 
     step++;
     if (step > 3)
@@ -44,19 +38,19 @@ void backward() {
 }
 
 TEST(Encoder, readPins) {
-    getRegister(TPortR) = 0b00U; // set pins encoderState
+    getRegister(ngGPIOA::IDR::Address) = 0b00U; // set pins encoderState
     EXPECT_EQ(TEncoderPullUp::readPins(), 0b11U);
-    getRegister(TPortR) = 0b10U; // set pins encoderState
+    getRegister(ngGPIOA::IDR::Address) = 0b10U; // set pins encoderState
     EXPECT_EQ(TEncoderPullUp::readPins(), 0b01U);
 
-    getRegister(TPortR) = 0b11U; // set pins encoderState
+    getRegister(ngGPIOA::IDR::Address) = 0b11U; // set pins encoderState
     EXPECT_EQ(TEncoderPullDown ::readPins(), 0b11U);
-    getRegister(TPortR) = 0b01U; // set pins encoderState
+    getRegister(ngGPIOA::IDR::Address) = 0b01U; // set pins encoderState
     EXPECT_EQ(TEncoderPullDown::readPins(), 0b01U);
 }
 
 TEST(Encoder, getForwardState) {
-    getRegister(TPortR) = 0b10U; // set pins encoderState
+    getRegister(ngGPIOA::IDR::Address) = 0b10U; // set pins encoderState
     TEncoderPullDown::init();
 
     forward();
@@ -71,7 +65,7 @@ TEST(Encoder, getForwardState) {
 }
 
 TEST(Encoder, getBackwardState) {
-    getRegister(TPortR) = 0b01U; // set pins encoderState
+    getRegister(ngGPIOA::IDR::Address) = 0b01U; // set pins encoderState
     TEncoderPullDown::init();
 
     backward();

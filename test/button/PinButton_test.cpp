@@ -8,15 +8,9 @@ using namespace ng;
 using namespace ng::button;
 using namespace ng::time;
 
-constexpr uint32_t TPortW = 1U;
-constexpr uint32_t TPortR = 2U;
+#include <hardware/STM32L1xx/GpioaRegisters.hpp>
 
-struct TGpioReg {
-    struct BSRR: public Register<TPortW, ReadWrite> {};
-    struct IDR: public Register<TPortR, Read> {};
-};
-
-using TPin = Pin<TGpioReg, 0>;
+using TPin = Pin<ngGPIOA, 0>;
 
 using TPullUpButton = PinButton<TPin>;
 using TPullDownButton = PinButton<TPin, InputPullUp::Down>;
@@ -24,7 +18,7 @@ using TButton = PinButton<TPin, InputPullUp::Down>;
 
 void prepareDebounceState() {
     setMillis(1); // init timer
-    getRegister(TPortR) = 1U; // press button
+    getRegister(ngGPIOA::IDR::Address) = 1U; // press button
     TButton::tick(); // init debounce mode
     setMillis(millis() + 6U); // increase time
     TButton::tick(); // init checking press mode
@@ -38,12 +32,12 @@ void countTicks(uint8_t cnt = 5) {
 }
 
 void preparePressState() {
-    getRegister(TPortR) = 1U; // press button
+    getRegister(ngGPIOA::IDR::Address) = 1U; // press button
     countTicks(5);
 }
 
 void prepareReleaseState() {
-    getRegister(TPortR) = 0U; // release button
+    getRegister(ngGPIOA::IDR::Address) = 0U; // release button
     countTicks(5);
 }
 
@@ -59,7 +53,7 @@ void clearState() {
 }
 
 TEST(PinButton, isPressedState) {
-    getRegister(TPortR) = 1U; // set the first pin
+    getRegister(ngGPIOA::IDR::Address) = 1U; // set the first pin
 
     EXPECT_EQ(TPullUpButton::isPressedState(), false);
     EXPECT_EQ(TPullDownButton::isPressedState(), true);
@@ -69,7 +63,7 @@ TEST(PinButton, pressFlap) {
     clearState();
     prepareDebounceState();
 
-    getRegister(TPortR) = 0U; // release button
+    getRegister(ngGPIOA::IDR::Address) = 0U; // release button
     countTicks(12);
 
     EXPECT_EQ(TButton::isPressed(), false);
@@ -82,7 +76,7 @@ TEST(PinButton, isPressed) {
 
     EXPECT_EQ(TButton::isPressed(), true);
 
-    getRegister(TPortR) = 0U; // release button
+    getRegister(ngGPIOA::IDR::Address) = 0U; // release button
     countTicks(5);
 
     clearState();
