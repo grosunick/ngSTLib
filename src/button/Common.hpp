@@ -1,12 +1,9 @@
 #pragma once
 
-namespace ng
+namespace ng::button
 {
-    namespace button
-    {
-        enum BtnType {
-            PULL_UP,
-            PULL_DOWN
-        };
-    }
+    enum BtnType {
+        PULL_UP,
+        PULL_DOWN
+    };
 }

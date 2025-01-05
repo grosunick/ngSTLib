@@ -113,39 +113,39 @@ TEST(TimGeneral, setOutputCompareMode) {
     initTimReg();
     
     eventLog.clear();
-    TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptСmpMode::ActiveLevelOnMatch>();
+    TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptCmpMode::ActiveLevelOnMatch>();
     testBitsEqual(ngTIM3::CCMR1_Output::Address, 0b001 << 4);
     
     eventLog.clear();
-    TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptСmpMode::InactiveLevelOnMatch>();
+    TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptCmpMode::InactiveLevelOnMatch>();
     testBitsEqual(ngTIM3::CCMR1_Output::Address, 0b010 << 4);
     
     eventLog.clear();
-    TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptСmpMode::ForceInactive>();
+    TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptCmpMode::ForceInactive>();
     testBitsEqual(ngTIM3::CCMR1_Output::Address, 0b100 << 4);
     
     eventLog.clear();
-    TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptСmpMode::ForceActive>();
+    TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptCmpMode::ForceActive>();
     testBitsEqual(ngTIM3::CCMR1_Output::Address, 0b101 << 4);
     
     eventLog.clear();
-    TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptСmpMode::PWM1>();
+    TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptCmpMode::PWM1>();
     testBitsEqual(ngTIM3::CCMR1_Output::Address, 0b110 << 4);
     
     eventLog.clear();
-    TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptСmpMode::PWM2>();
+    TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptCmpMode::PWM2>();
     testBitsEqual(ngTIM3::CCMR1_Output::Address, 0b111 << 4);
     
     eventLog.clear();
-    TimGeneral<ngTIM3, TimChannel::ch2>::setOutputCompareMode<OutCaptСmpMode::PWM1>();
+    TimGeneral<ngTIM3, TimChannel::ch2>::setOutputCompareMode<OutCaptCmpMode::PWM1>();
     testBitsEqual(ngTIM3::CCMR1_Output::Address, 0b110 << 12);
 
     eventLog.clear();
-    TimGeneral<ngTIM3, TimChannel::ch3>::setOutputCompareMode<OutCaptСmpMode::PWM1>();
+    TimGeneral<ngTIM3, TimChannel::ch3>::setOutputCompareMode<OutCaptCmpMode::PWM1>();
     testBitsEqual(ngTIM3::CCMR2_Output::Address, 0b110 << 4);
 
     eventLog.clear();
-    TimGeneral<ngTIM3, TimChannel::ch4>::setOutputCompareMode<OutCaptСmpMode::PWM1>();
+    TimGeneral<ngTIM3, TimChannel::ch4>::setOutputCompareMode<OutCaptCmpMode::PWM1>();
     testBitsEqual(ngTIM3::CCMR2_Output::Address, 0b110 << 12);
 }
 

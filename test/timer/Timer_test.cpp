@@ -5,6 +5,7 @@
 #include <timer/Timer.hpp>
 
 using namespace ng;
+using namespace ng::timer;
 
 #include "common.hpp"
 

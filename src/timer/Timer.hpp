@@ -8,10 +8,9 @@
 #include <timer/PWM.hpp>
 #include <timer/ICC.hpp>
 
-namespace ng
+namespace ng::timer
 {
-    template <typename Tim, typename Notifier> class Timer
-    {
+    template<typename Tim, typename Notifier> class Timer {
     public:
         __force_inline void wait(uint32_t us) {
             using namespace ng::timer;
@@ -26,16 +25,16 @@ namespace ng
             TIM::setPrescaler(params.prescaler);
             TIM::setPeriod(params.period);
             TIM::setCounter(0);
-
+            
             TIM::enableAutoReload();
             TIM::template setInterruptSource<IRQSource::CounterOverflow>();
-
+            
             TIM::reInit();
             TIM::start();
             TIM::wait();
             TIM::clearUpdateFlag();
             TIM::stop();
-
+            
             Notifier::notify();
         }
         
@@ -48,7 +47,7 @@ namespace ng
             using namespace ng::timer;
             
             using TIM = TimBase<Tim>;
-
+            
             auto params = getParamsByPeriod(us);
             if (!params.isOk()) {
                 return;
@@ -56,22 +55,20 @@ namespace ng
             
             TIM::setPrescaler(params.prescaler);
             TIM::setPeriod(params.period);
-
+            
             TIM::enableAutoReload();
             TIM::template setInterruptSource<IRQSource::CounterOverflow>();
             TIM::enableInterrupt();
             TIM::reInit();
-
+            
             TIM::start();
         }
-
+        
         __force_inline void callback() {
             using TIM = timer::TimBase<Tim>;
-
+            
             TIM::clearUpdateFlag();
             Notifier::notify();
         }
     };
-    
-    
 }
