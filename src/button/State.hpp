@@ -24,11 +24,26 @@ namespace ng
                 pinState = 0;
             };
             
-            inline auto isPressed() {
+            inline void hold() {
+                wasHoldFlag = true;
+            }
+    
+            inline void press() {
+                wasPressedFlag = true;
+                isPressedCheckingMode = false;
+            }
+    
+            inline void click() {
+                wasPressedFlag = false;
+                wasClickedFlag = true;
+                clickCount++;
+            }
+            
+            inline bool isPressed() {
                 return wasPressedFlag;
             }
             
-            inline bool click() {
+            inline bool isClicked() {
                 auto tmp = wasClickedFlag;
                 if (wasClickedFlag) {
                     wasClickedFlag = 0;
@@ -37,7 +52,7 @@ namespace ng
                 return tmp;
             }
             
-            bool doubleClick() {
+            bool isDoubleClicked() {
                 auto tmp = clickCount >= 2;
                 if (tmp) {
                     clickCount = 0;
@@ -46,7 +61,7 @@ namespace ng
                 return tmp;
             }
             
-            bool hold() {
+            bool isHeld() {
                 auto tmp = wasHoldFlag;
                 if (wasHoldFlag) {
                     wasHoldFlag = 0;

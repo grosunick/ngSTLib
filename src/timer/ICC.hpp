@@ -1,8 +1,8 @@
 #pragma once
 
 #include <gpio/Pin.hpp>
-#include "TimGeneral.hpp"
-#include "Utils.hpp"
+#include <timer/TimGeneral.hpp>
+#include <timer/Utils.hpp>
 
 namespace ng
 {
@@ -38,7 +38,12 @@ namespace ng
                 TIM::enableAutoReload();
                 TIM::template setInputCompareMode<InpCaptCmpSelection::InputTI1>();
                 TIM::template setInputCompareFilter<InpCaptCmpFilter::CKintDiv32N8>();
-                TIM::template setInputPolarity<InpCaptCmpPolarity::Falling>();
+                
+                if (pullUp == InputPullUp::Up || pullUp == InputPullUp::No) {
+                    TIM::template setInputPolarity<InpCaptCmpPolarity::Falling>();
+                } else {
+                    TIM::template setInputPolarity<InpCaptCmpPolarity::Rising>();
+                }
     
                 TIM::enableCaptureCompare();
                 
@@ -48,6 +53,10 @@ namespace ng
                 TIM::captCmpInterruptEnable();
                 TIM::reInit();
                 TIM::start();
+            }
+    
+            __force_inline uint16_t getCCR() {
+                return TIM::getCCR();
             }
             
             bool __force_inline isEventTriggered() {

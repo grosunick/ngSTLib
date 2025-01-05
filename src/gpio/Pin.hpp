@@ -83,6 +83,29 @@ namespace ng
         __force_inline bool isSet() {
             return (TPort::get() & (pinMask)) != 0;
         }
+        
+        /**
+         * The method returns the current pull (up/down) value for pin.
+         * @return
+         */
+        InputPullUp getPullUp() {
+            using TReg = typename TPort::Reg::PUPDR;
+            
+            auto val = RegisterField<
+                TReg,
+                TReg::FieldValues::Size * pinNum,
+                TReg::FieldValues::Size,
+                Read
+            >::get();
+            
+            if (val == TReg::PUPDR::FieldValues::PullUp) {
+                return InputPullUp::Up;
+            } else if (val == TReg::PUPDR::FieldValues::PullDown) {
+                return InputPullUp::Down;
+            }
+            
+            return InputPullUp::No;
+        }
 
         template <InputPullUp pullUp = InputPullUp::No> __force_inline void setInput() {
             using PupdrType = typename TPort::Reg::PUPDR::Type;

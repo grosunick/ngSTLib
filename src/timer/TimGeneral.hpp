@@ -214,6 +214,18 @@ namespace ng
                     TIM::CCR4::write(value);
                 }
             }
+    
+            __force_inline uint16_t getCCR() {
+                if constexpr (channel == TimChannel::ch1) {
+                    return TIM::CCR1::get();
+                } else if constexpr (channel == TimChannel::ch2) {
+                    return TIM::CCR2::get();
+                } else if constexpr (channel == TimChannel::ch3) {
+                    return TIM::CCR3::get();
+                } else if constexpr (channel == TimChannel::ch4) {
+                    return TIM::CCR4::get();
+                }
+            }
         
             __force_inline void enableCaptureCompare() {
                 if constexpr (channel == TimChannel::ch1) {

@@ -1,5 +1,3 @@
-#define NG_BUTTON_DEBOUNCE  1
-
 #include <gtest/gtest.h>
 #include <millis.hpp>
 #include <register/Register.hpp>
@@ -53,36 +51,36 @@ void clearState() {
     prepareDebounceState();
     preparePressState();
     prepareReleaseState();
-
-    TButton::press();
-    TButton::hold();
-    TButton::click();
-    TButton::doubleClick();
+    
+    TButton::isPressed();
+    TButton::isHeld();
+    TButton::isClicked();
+    TButton::isDoubleClicked();
 }
 
-TEST(Button, isPressedState) {
+TEST(PinButton, isPressedState) {
     getRegister(TPortR) = 1U; // set the first pin
 
     EXPECT_EQ(TPullUpButton::isPressedState(), false);
     EXPECT_EQ(TPullDownButton::isPressedState(), true);
 }
 
-TEST(Button, pressFlap) {
+TEST(PinButton, pressFlap) {
     clearState();
     prepareDebounceState();
 
     getRegister(TPortR) = 0U; // release button
     countTicks(12);
 
-    EXPECT_EQ(TButton::press(), false);
+    EXPECT_EQ(TButton::isPressed(), false);
     clearState();
 }
 
-TEST(Button, press) {
+TEST(PinButton, isPressed) {
     prepareDebounceState();
     preparePressState();
 
-    EXPECT_EQ(TButton::press(), true);
+    EXPECT_EQ(TButton::isPressed(), true);
 
     getRegister(TPortR) = 0U; // release button
     countTicks(5);
@@ -90,17 +88,17 @@ TEST(Button, press) {
     clearState();
 }
 
-TEST(Button, release) {
+TEST(PinButton, release) {
     prepareDebounceState();
     preparePressState();
     prepareReleaseState();
 
-    EXPECT_EQ(TButton::click(), true);
-    EXPECT_EQ(TButton::click(), false);
+    EXPECT_EQ(TButton::isClicked(), true);
+    EXPECT_EQ(TButton::isClicked(), false);
     clearState();
 }
 
-TEST(Button, doubleClick) {
+TEST(PinButton, isDoubleClicked) {
     prepareDebounceState();
     preparePressState();
     prepareReleaseState();
@@ -109,21 +107,21 @@ TEST(Button, doubleClick) {
     preparePressState();
     prepareReleaseState();
 
-    EXPECT_EQ(TButton::click(), true);
-    EXPECT_EQ(TButton::click(), false);
-    EXPECT_EQ(TButton::doubleClick(), true);
-    EXPECT_EQ(TButton::doubleClick(), false);
+    EXPECT_EQ(TButton::isClicked(), true);
+    EXPECT_EQ(TButton::isClicked(), false);
+    EXPECT_EQ(TButton::isDoubleClicked(), true);
+    EXPECT_EQ(TButton::isDoubleClicked(), false);
     clearState();
 }
 
-TEST(Button, hold) {
+TEST(PinButton, isHolded) {
     prepareDebounceState();
     preparePressState();
 
     setMillis(millis() + 2000); // increase time
     countTicks(100);
 
-    EXPECT_EQ(TButton::hold(), true);
-    EXPECT_EQ(TButton::hold(), false);
+    EXPECT_EQ(TButton::isHeld(), true);
+    EXPECT_EQ(TButton::isHeld(), false);
     clearState();
 }

@@ -10,12 +10,16 @@ namespace ng
 {
     namespace button
     {
+        #define TPinButtonParams \
+            template <typename Pin, InputPullUp type, uint8_t DEBOUNCE_TIME, uint16_t HOLD_PERIOD>
+
+        #define TPinButton Pin, type, DEBOUNCE_TIME, HOLD_PERIOD
+        
         template<
             typename Pin, InputPullUp type = InputPullUp::Up,
             uint8_t WAIT_PERIOD = 5U, uint16_t HOLD_PERIOD = 2000U
         >
         class PinButton {
-    
             static uint32_t currentMillis;
             static uint32_t timer2;
             static uint32_t timer1;
@@ -50,8 +54,7 @@ namespace ng
                         timer1 = currentMillis;
                         timer2 = currentMillis;
                         
-                        btnState.wasPressedFlag = true;
-                        btnState.isPressedCheckingMode = false;
+                        btnState.press();
                     }
                 }
             }
@@ -68,9 +71,7 @@ namespace ng
             static void buttonReleaseProcessing() {
                 if (btnState.wasPressedFlag) {
                     if (!btnState.pinState && currentMillis - timer1 > WAIT_PERIOD * 5) {
-                        btnState.wasPressedFlag = false;
-                        btnState.wasClickedFlag = true;
-                        btnState.clickCount++;
+                        btnState.click();
                     }
                 }
             }
@@ -79,7 +80,7 @@ namespace ng
                 if (btnState.wasPressedFlag) {
                     if (currentMillis - timer2 > HOLD_PERIOD && !btnState.wasHoldFlag) {
                         timer2 = currentMillis;
-                        btnState.wasHoldFlag = true;
+                        btnState.hold();
                     }
                 }
             }
@@ -99,34 +100,29 @@ namespace ng
                 tick();
             }
         
-            __force_inline bool press() {
+            __force_inline bool isPressed() {
                 return btnState.isPressed();
             }
         
-            __force_inline bool click() {
-                return btnState.click();
+            __force_inline bool isClicked() {
+                return btnState.isClicked();
             }
         
-            __force_inline bool doubleClick() {
-                return btnState.doubleClick();
+            __force_inline bool isDoubleClicked() {
+                return btnState.isDoubleClicked();
             }
         
-            __force_inline bool hold() {
-                return btnState.hold();
+            __force_inline bool isHeld() {
+                return btnState.isHeld();
             }
         };
-
-        #define BUTTON_TEMPLATE_PARAMS \
-        template <typename Pin, InputPullUp type, uint8_t DEBOUNCE_TIME, uint16_t HOLD_PERIOD>
         
-        #define BUTTON_PARAMS Pin, type, DEBOUNCE_TIME, HOLD_PERIOD
-    
-        BUTTON_TEMPLATE_PARAMS ButtonState PinButton<BUTTON_PARAMS>::btnState = ButtonState();
-        BUTTON_TEMPLATE_PARAMS uint8_t PinButton<BUTTON_PARAMS>::isPressDebounceChecking = 0;
-
-
-        BUTTON_TEMPLATE_PARAMS uint32_t PinButton<BUTTON_PARAMS>::timer1 = 0;
-        BUTTON_TEMPLATE_PARAMS uint32_t PinButton<BUTTON_PARAMS>::timer2 = 0;
-        BUTTON_TEMPLATE_PARAMS uint32_t PinButton<BUTTON_PARAMS>::currentMillis = 0;
+        TPinButtonParams ButtonState PinButton<TPinButton>::btnState = ButtonState();
+        TPinButtonParams uint8_t PinButton<TPinButton>::isPressDebounceChecking = 0;
+        
+        
+        TPinButtonParams uint32_t PinButton<TPinButton>::timer1 = 0;
+        TPinButtonParams uint32_t PinButton<TPinButton>::timer2 = 0;
+        TPinButtonParams uint32_t PinButton<TPinButton>::currentMillis = 0;
     }
 }
