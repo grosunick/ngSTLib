@@ -98,9 +98,9 @@ namespace ng
                 Read
             >::get();
             
-            if (val == TReg::PUPDR::FieldValues::PullUp) {
+            if (val == TReg::PUPDR::FieldValues::PullUp::Value) {
                 return InputPullUp::Up;
-            } else if (val == TReg::PUPDR::FieldValues::PullDown) {
+            } else if (val == TReg::PUPDR::FieldValues::PullDown::Value) {
                 return InputPullUp::Down;
             }
             

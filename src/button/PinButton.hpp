@@ -8,15 +8,12 @@
 
 namespace ng::button
 {
-#define TPinButtonParams \
+    #define TPinButtonParams \
             template <typename Pin, InputPullUp type, uint8_t DEBOUNCE_TIME, uint16_t HOLD_PERIOD>
 
-#define TPinButton Pin, type, DEBOUNCE_TIME, HOLD_PERIOD
+    #define TPinButton Pin, type, DEBOUNCE_TIME, HOLD_PERIOD
     
-    template<
-        typename Pin, InputPullUp type = InputPullUp::Up,
-        uint8_t WAIT_PERIOD = 5U, uint16_t HOLD_PERIOD = 2000U
-    >
+    template<typename Pin, InputPullUp type = InputPullUp::Up, uint8_t WAIT_PERIOD = 5U, uint16_t HOLD_PERIOD = 2000U>
     class PinButton {
         static uint32_t currentMillis;
         static uint32_t timer2;
@@ -25,12 +22,12 @@ namespace ng::button
         static uint8_t isPressDebounceChecking;
         static ButtonState btnState;
     public:
-        static bool isPressedState() {
+        __force_inline bool isPressedState() {
             auto pressedState = type == InputPullUp::Up? false: true;
             return (Pin::get() == pressedState);
         }
-        
-        static void debouncePressProcessing() {
+    
+        __force_inline void debouncePressProcessing() {
             if (btnState.pinState && !btnState.isPressedCheckingMode && !btnState.wasPressedFlag) {
                 if (!isPressDebounceChecking) {
                     isPressDebounceChecking = true;
@@ -45,8 +42,8 @@ namespace ng::button
                 }
             }
         }
-        
-        static void buttonPressProcessing() {
+    
+        __force_inline void buttonPressProcessing() {
             if (btnState.isPressedCheckingMode) {
                 if (btnState.pinState && currentMillis - timer1 > WAIT_PERIOD * 5) {
                     timer1 = currentMillis;
@@ -56,8 +53,8 @@ namespace ng::button
                 }
             }
         }
-        
-        static void buttonPressFlapProcessing() {
+    
+        __force_inline void buttonPressFlapProcessing() {
             if (btnState.isPressedCheckingMode) {
                 if (currentMillis - timer2 > 5 * WAIT_PERIOD + 1) {
                     timer2 = currentMillis;
@@ -65,16 +62,16 @@ namespace ng::button
                 }
             }
         }
-        
-        static void buttonReleaseProcessing() {
+    
+        __force_inline void buttonReleaseProcessing() {
             if (btnState.wasPressedFlag) {
                 if (!btnState.pinState && currentMillis - timer1 > WAIT_PERIOD * 5) {
                     btnState.click();
                 }
             }
         }
-        
-        static void buttonHoldProcessing() {
+    
+        __force_inline void buttonHoldProcessing() {
             if (btnState.wasPressedFlag) {
                 if (currentMillis - timer2 > HOLD_PERIOD && !btnState.wasHoldFlag) {
                     timer2 = currentMillis;
@@ -82,8 +79,8 @@ namespace ng::button
                 }
             }
         }
-        
-        static void tick() {
+    
+        __force_inline void tick() {
             currentMillis = time::millis();
             btnState.pinState = isPressedState();
             
@@ -93,8 +90,8 @@ namespace ng::button
             buttonReleaseProcessing();
             buttonHoldProcessing();
         }
-        
-        static void run() {
+    
+        __force_inline void run() {
             tick();
         }
         

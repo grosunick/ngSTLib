@@ -8,7 +8,7 @@ namespace ng::time
 {
     constexpr uint32_t MILLIS_IN_SECOND = 1000Ul;
     
-    static inline void setMillis(uint32_t mls) {
+    __attribute__((always_inline)) static inline void setMillis(uint32_t mls) {
         milliseconds = mls;
     }
     
@@ -16,18 +16,18 @@ namespace ng::time
      * Return milliseconds from system start. The max value is 2^32 milliseconds
      * or approximately 50 days.
      */
-    static inline uint32_t millis() {
+    static uint32_t millis() {
         return milliseconds;
     }
     
     /**
      * Return seconds from system start
      */
-    static inline uint32_t seconds() {
+    __attribute__((always_inline)) static inline uint32_t seconds() {
         return sec;
     }
     
-    static inline void tick() {
+    __attribute__((always_inline)) static inline void tick() {
         static uint16_t millis = 0;
         
         millis++;
@@ -44,7 +44,7 @@ namespace ng::time
         }
     }
     
-    static inline void delayUs(uint16_t val) {
+    __attribute__((always_inline)) static inline void delayUs(uint16_t val) {
 #ifdef TEST_MODE
         uint32_t SystemCoreClock = 1000000;
 #endif
@@ -59,7 +59,7 @@ namespace ng::time
         }
     }
     
-    static inline void delayMs(uint16_t val) {
+    __attribute__((always_inline)) static inline void delayMs(uint16_t val) {
         auto tick = millis();
         while (millis() - tick < val);
     }
