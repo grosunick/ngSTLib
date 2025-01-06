@@ -16,7 +16,7 @@ namespace ng::button
         using ICC = timer::ICC<T, channel, Pin>;
         
         static void init() {
-            ICC::template init<pullType>(1000);
+            ICC::template init<pullType>(1000000U); // count every 0.1 sec
         }
         
         static void changeTriggerPolarity() {
@@ -55,10 +55,9 @@ namespace ng::button
             return false;
         }
     
-        static void callback() {
+        __force_inline void inpCaptCallback() {
             if (ICC::isEventTriggered()) {
                 if (isPressedMode()) { // pull up button handler
-                    ICC::TIM::setCounter(0);
                     btnState.press();
                     changeTriggerPolarity();
                 } else { // pull down button handler
@@ -67,6 +66,12 @@ namespace ng::button
                 }
                 
                 ICC::clearEventFlag();
+            }
+        }
+    
+        __force_inline void updateCallback() {
+            if (btnState.isPressed()) {
+                btnState.hold();
             }
         }
         

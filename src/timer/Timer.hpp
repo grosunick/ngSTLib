@@ -67,8 +67,10 @@ namespace ng::timer
         __force_inline void callback() {
             using TIM = timer::TimBase<Tim>;
             
-            TIM::clearUpdateFlag();
-            Notifier::notify();
+            if (TIM::isOverflow()) {
+                Notifier::notify();
+                TIM::clearUpdateFlag();
+            }
         }
     };
 }

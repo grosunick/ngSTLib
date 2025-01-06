@@ -34,6 +34,7 @@ namespace ng
             
                 TIM::setPrescaler(params.prescaler);
                 TIM::setPeriod(params.period);
+                TIM::setCounter(0);
             
                 TIM::enableAutoReload();
                 TIM::template setInputCompareMode<InpCaptCmpSelection::InputTI1>();
@@ -50,6 +51,8 @@ namespace ng
                 // init pin alternate function
                 Pin::template setAlternate<OutputType::PushPull, pullType>();
     
+                TIM::clearEventFlag();
+                TIM::enableInterrupt();
                 TIM::captCmpInterruptEnable();
                 TIM::reInit();
                 TIM::start();

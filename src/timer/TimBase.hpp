@@ -38,6 +38,10 @@ namespace ng::timer
         __force_inline void setCounter(uint16_t val) {
             TIM::CNT::CNTField::write(val);
         }
+    
+        __force_inline uint32_t getCounter() {
+            return TIM::CNT::CNTField::get();
+        }
         
         __force_inline void enableInterrupt() {
             TIM::DIER::UIE::Enable::set();

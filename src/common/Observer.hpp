@@ -3,10 +3,10 @@
 #include <common/defines.h>
 
 namespace ng {
-    template<auto... TSubscriber> class Observer {
+    template<typename ...TSubscriber> class Observer {
     public:
         static void notify() {
-            (TSubscriber(), ...);
+            (TSubscriber::updateCallback(), ...);
         }
     };
 
