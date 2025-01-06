@@ -25,7 +25,7 @@ namespace ng
              *
              * @param us the number of microseconds after which the interrupt should be triggered
              */
-             template <InputPullUp pullUp = InputPullUp::No> __force_inline void init(uint32_t us) {
+             template <InputPullUp pullType = InputPullUp::No> __force_inline void init(uint32_t us) {
                 auto params = getParamsByPeriod(us);
             
                 if (!params.isOk()) {
@@ -39,7 +39,7 @@ namespace ng
                 TIM::template setInputCompareMode<InpCaptCmpSelection::InputTI1>();
                 TIM::template setInputCompareFilter<InpCaptCmpFilter::CKintDiv32N8>();
                 
-                if (pullUp == InputPullUp::Up || pullUp == InputPullUp::No) {
+                if (pullType == InputPullUp::Up || pullType == InputPullUp::No) {
                     TIM::template setInputPolarity<InpCaptCmpPolarity::Falling>();
                 } else {
                     TIM::template setInputPolarity<InpCaptCmpPolarity::Rising>();
@@ -48,7 +48,7 @@ namespace ng
                 TIM::enableCaptureCompare();
                 
                 // init pin alternate function
-                Pin::template setAlternate<OutputType::PushPull, pullUp>();
+                Pin::template setAlternate<OutputType::PushPull, pullType>();
     
                 TIM::captCmpInterruptEnable();
                 TIM::reInit();

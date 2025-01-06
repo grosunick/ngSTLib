@@ -6,37 +6,64 @@
 
 namespace ng::button
 {
-#define TTimButtonParams T, channel, pullUp, Pin
-#define TTimButton template <typename T, timer::TimChannel channel, InputPullUp pullUp, typename Pin>
+    #define TTimButtonParams T, channel, pullType, Pin
+    #define TTimButton template <typename T, timer::TimChannel channel, InputPullUp pullType, typename Pin>
     
-    template<typename T, timer::TimChannel channel, InputPullUp pullUp, typename Pin> class TimButton {
+    template<typename T, timer::TimChannel channel, InputPullUp pullType, typename Pin> class TimButton {
         static ButtonState btnState;
-        static uint8_t risingFront;
     
     public:
         using ICC = timer::ICC<T, channel, Pin>;
         
-        __force_inline void init() {
-            if (pullUp == InputPullUp::Down) {
-                risingFront = 1;
-            }
-            
-            ICC::template init<pullUp>(1000);
+        static void init() {
+            ICC::template init<pullType>(1000);
         }
         
-        __force_inline void callback() {
+        static void changeTriggerPolarity() {
+            if constexpr (pullType == InputPullUp::Up) {
+                if (isPressedMode()) {
+                    ICC::TIM::template setInputPolarity<timer::InpCaptCmpPolarity::Rising>();
+                } else {
+                    ICC::TIM::template setInputPolarity<timer::InpCaptCmpPolarity::Falling>();
+                }
+            }
+            
+            if constexpr (pullType == InputPullUp::Down) {
+                if (isPressedMode()) {
+                    ICC::TIM::template setInputPolarity<timer::InpCaptCmpPolarity::Falling>();
+                } else {
+                    ICC::TIM::template setInputPolarity<timer::InpCaptCmpPolarity::Rising>();
+                }
+            }
+        }
+        
+        static bool isPressedMode() {
+            using timer::InpCaptCmpPolarity;
+            
+            if constexpr (pullType == InputPullUp::Up) {
+                if (ICC::TIM::getInputPolarity() == InpCaptCmpPolarity::Falling) {
+                    return true;
+                }
+            }
+            
+            if constexpr (pullType == InputPullUp::Down) {
+                if (ICC::TIM::getInputPolarity() == InpCaptCmpPolarity::Rising) {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+    
+        static void callback() {
             if (ICC::isEventTriggered()) {
-                if (pullUp == InputPullUp::Up) {
-                    if (!risingFront) { // press button handler
-                        risingFront = 1;
-                        ICC::TIM::setCounter(0);
-                        btnState.press();
-                        ICC::TIM::template setInputPolarity<timer::InpCaptCmpPolarity::Rising>();
-                    } else { // release button handler
-                        risingFront = 0;
-                        btnState.click();
-                        ICC::TIM::template setInputPolarity<timer::InpCaptCmpPolarity::Falling>();
-                    }
+                if (isPressedMode()) { // pull up button handler
+                    ICC::TIM::setCounter(0);
+                    btnState.press();
+                    changeTriggerPolarity();
+                } else { // pull down button handler
+                    btnState.click();
+                    changeTriggerPolarity();
                 }
                 
                 ICC::clearEventFlag();
@@ -61,5 +88,4 @@ namespace ng::button
     };
     
     TTimButton ButtonState TimButton<TTimButtonParams>::btnState = ButtonState();
-    TTimButton uint8_t TimButton<TTimButtonParams>::risingFront = 0;
 }

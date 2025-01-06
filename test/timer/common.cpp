@@ -35,6 +35,7 @@ void initTimReg() {
     ngTIM3::CR1::write(0);
     ngTIM3::DIER::write(0);
     ngTIM3::EGR::write(0);
+    ngTIM3::DIER::write(0);
     ngTIM3::SR::write(0);
     ngTIM3::CCMR1_Output::write(0);
     ngTIM3::CCMR2_Output::write(0);

@@ -24,7 +24,7 @@ namespace ng
             ClkPin::reset();
         }
 
-        static inline void shiftLSB(uint8_t val) {
+        static void shiftLSB(uint8_t val) {
             for (uint8_t i = 0; i < 8; i++) {
                 DataPin::write(val & 1);
                 val >>= 1;
@@ -33,7 +33,7 @@ namespace ng
             }
         }
 
-        static inline void shiftMSB(uint8_t val) {
+        static void shiftMSB(uint8_t val) {
             for (uint8_t i = 0; i < 8; i++) {
                 DataPin::write(val & (1 << 7));
                 val <<= 1;
@@ -43,7 +43,7 @@ namespace ng
         }
 
         static void sendByte(uint8_t val) {
-            if (order == MSBFIRST) {
+            if constexpr (order == MSBFIRST) {
                 shiftMSB(val);
             } else {
                 shiftLSB(val);

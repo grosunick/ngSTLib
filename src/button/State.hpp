@@ -4,7 +4,7 @@
 
 namespace ng::button
 {
-#pragma pack(push, 1)
+    #pragma pack(push, 1)
     
     struct ButtonState {
         uint8_t isPressedCheckingMode: 1;
@@ -47,28 +47,25 @@ namespace ng::button
             if (wasClickedFlag) {
                 wasClickedFlag = 0;
             }
-            
             return tmp;
         }
         
-        bool isDoubleClicked() {
+        inline bool isDoubleClicked() {
             auto tmp = clickCount >= 2;
             if (tmp) {
                 clickCount = 0;
             }
-            
             return tmp;
         }
         
-        bool isHeld() {
+        inline bool isHeld() {
             auto tmp = wasHoldFlag;
             if (wasHoldFlag) {
                 wasHoldFlag = 0;
             }
-            
             return tmp;
         }
     };
-
-#pragma pack(pop)
+    
+    #pragma pack(pop)
 }

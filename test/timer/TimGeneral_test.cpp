@@ -292,3 +292,91 @@ TEST(TimGeneral, setInputPolarity) {
     testBitsEqual(ngTIM3::CCER::Address, 0b1U << 15);
     testBitsEqual(ngTIM3::CCER::Address, 0b1U << 13);
 }
+
+TEST(TimGeneral, captCmpInterruptEnable) {
+    initTimReg();
+    
+    eventLog.clear();
+    TimGeneral<ngTIM3, TimChannel::ch1>::captCmpInterruptEnable();
+    testBitsEqual(ngTIM3::DIER::Address, 0b1U << 1);
+    
+    eventLog.clear();
+    TimGeneral<ngTIM3, TimChannel::ch2>::captCmpInterruptEnable();
+    testBitsEqual(ngTIM3::DIER::Address, 0b1U << 2);
+    
+    eventLog.clear();
+    TimGeneral<ngTIM3, TimChannel::ch3>::captCmpInterruptEnable();
+    testBitsEqual(ngTIM3::DIER::Address, 0b1U << 3);
+    
+    eventLog.clear();
+    TimGeneral<ngTIM3, TimChannel::ch4>::captCmpInterruptEnable();
+    testBitsEqual(ngTIM3::DIER::Address, 0b1U << 4);
+}
+
+TEST(TimGeneral, captCmpInterruptDisable) {
+    initTimReg();
+    
+    eventLog.clear();
+    TimGeneral<ngTIM3, TimChannel::ch1>::captCmpInterruptEnable();
+    testBitsEqual(ngTIM3::DIER::Address, 0b0U << 1);
+    
+    eventLog.clear();
+    TimGeneral<ngTIM3, TimChannel::ch2>::captCmpInterruptEnable();
+    testBitsEqual(ngTIM3::DIER::Address, 0b0U << 2);
+    
+    eventLog.clear();
+    TimGeneral<ngTIM3, TimChannel::ch3>::captCmpInterruptEnable();
+    testBitsEqual(ngTIM3::DIER::Address, 0b0U << 3);
+    
+    eventLog.clear();
+    TimGeneral<ngTIM3, TimChannel::ch4>::captCmpInterruptEnable();
+    testBitsEqual(ngTIM3::DIER::Address, 0b0U << 4);
+}
+
+TEST(TimGeneral, isCaptureEventTriggered) {
+    initTimReg();
+    
+    eventLog.clear();
+    getRegister(ngTIM3::SR::Address) = 0b1U << 1;
+    ASSERT_TRUE((TimGeneral<ngTIM3, TimChannel::ch1>::isCaptureEventTriggered()));
+    
+    eventLog.clear();
+    getRegister(ngTIM3::SR::Address) = 0b1U << 2;
+    ASSERT_TRUE((TimGeneral<ngTIM3, TimChannel::ch2>::isCaptureEventTriggered()));
+    
+    eventLog.clear();
+    getRegister(ngTIM3::SR::Address) = 0b1U << 3;
+    ASSERT_TRUE((TimGeneral<ngTIM3, TimChannel::ch3>::isCaptureEventTriggered()));
+    
+    eventLog.clear();
+    getRegister(ngTIM3::SR::Address) = 0b1U << 4;
+    ASSERT_TRUE((TimGeneral<ngTIM3, TimChannel::ch4>::isCaptureEventTriggered()));
+}
+
+TEST(TimGeneral, clearEventFlag) {
+    initTimReg();
+    
+    eventLog.clear();
+    getRegister(ngTIM3::SR::Address) = 0b1U << 1;
+    ASSERT_TRUE((TimGeneral<ngTIM3, TimChannel::ch1>::isCaptureEventTriggered()));
+    TimGeneral<ngTIM3, TimChannel::ch1>::clearEventFlag();
+    ASSERT_FALSE((TimGeneral<ngTIM3, TimChannel::ch1>::isCaptureEventTriggered()));
+    
+    eventLog.clear();
+    getRegister(ngTIM3::SR::Address) = 0b1U << 2;
+    ASSERT_TRUE((TimGeneral<ngTIM3, TimChannel::ch2>::isCaptureEventTriggered()));
+    TimGeneral<ngTIM3, TimChannel::ch2>::clearEventFlag();
+    ASSERT_FALSE((TimGeneral<ngTIM3, TimChannel::ch2>::isCaptureEventTriggered()));
+    
+    eventLog.clear();
+    getRegister(ngTIM3::SR::Address) = 0b1U << 3;
+    ASSERT_TRUE((TimGeneral<ngTIM3, TimChannel::ch3>::isCaptureEventTriggered()));
+    TimGeneral<ngTIM3, TimChannel::ch3>::clearEventFlag();
+    ASSERT_FALSE((TimGeneral<ngTIM3, TimChannel::ch3>::isCaptureEventTriggered()));
+    
+    eventLog.clear();
+    getRegister(ngTIM3::SR::Address) = 0b1U << 4;
+    ASSERT_TRUE((TimGeneral<ngTIM3, TimChannel::ch4>::isCaptureEventTriggered()));
+    TimGeneral<ngTIM3, TimChannel::ch4>::clearEventFlag();
+    ASSERT_FALSE((TimGeneral<ngTIM3, TimChannel::ch4>::isCaptureEventTriggered()));
+}

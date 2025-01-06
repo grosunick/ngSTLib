@@ -156,7 +156,7 @@ namespace ng::timer
             }
         }
         
-        template<typename CCxNP, typename CCxP, InpCaptCmpPolarity polarity> __force_inline void setCCxP() {
+        template<typename CCxNP, typename CCxP, InpCaptCmpPolarity polarity> __force_inline void setPolarity() {
             if constexpr (polarity == InpCaptCmpPolarity::Rising) {
                 CCxNP::Low::set();
                 CCxP::Low::set();
@@ -167,6 +167,18 @@ namespace ng::timer
                 CCxNP::High::set();
                 CCxP::High::set();
             }
+        }
+    
+        template<typename CCxNP, typename CCxP> __force_inline InpCaptCmpPolarity getPolarity() {
+            if (CCxNP::Low::isSet() && CCxP::Low::isSet()) {
+                return InpCaptCmpPolarity::Rising;
+            } else if (CCxNP::Low::isSet() && CCxP::High::isSet()) {
+                return InpCaptCmpPolarity::Falling;
+            } else if (CCxNP::High::isSet() && CCxP::High::isSet()) {
+                return InpCaptCmpPolarity::Both;
+            }
+    
+            return InpCaptCmpPolarity::Rising;
         }
     public:
         template<OutCaptCmpMode OCM> __force_inline void setOutputCompareMode() {
@@ -267,13 +279,25 @@ namespace ng::timer
         
         template<InpCaptCmpPolarity polarity> __force_inline void setInputPolarity() {
             if constexpr (channel == TimChannel::ch1) {
-                setCCxP<typename TIM::CCER::CC1NP, typename TIM::CCER::CC1P, polarity>();
+                setPolarity<typename TIM::CCER::CC1NP, typename TIM::CCER::CC1P, polarity>();
             } else if constexpr (channel == TimChannel::ch2) {
-                setCCxP<typename TIM::CCER::CC2NP, typename TIM::CCER::CC2P, polarity>();
+                setPolarity<typename TIM::CCER::CC2NP, typename TIM::CCER::CC2P, polarity>();
             } else if constexpr (channel == TimChannel::ch3) {
-                setCCxP<typename TIM::CCER::CC3NP, typename TIM::CCER::CC3P, polarity>();
+                setPolarity<typename TIM::CCER::CC3NP, typename TIM::CCER::CC3P, polarity>();
             } else if constexpr (channel == TimChannel::ch4) {
-                setCCxP<typename TIM::CCER::CC4NP, typename TIM::CCER::CC4P, polarity>();
+                setPolarity<typename TIM::CCER::CC4NP, typename TIM::CCER::CC4P, polarity>();
+            }
+        }
+    
+        __force_inline InpCaptCmpPolarity getInputPolarity() {
+            if constexpr (channel == TimChannel::ch1) {
+                return getPolarity<typename TIM::CCER::CC1NP, typename TIM::CCER::CC1P>();
+            } else if constexpr (channel == TimChannel::ch2) {
+                return getPolarity<typename TIM::CCER::CC2NP, typename TIM::CCER::CC2P>();
+            } else if constexpr (channel == TimChannel::ch3) {
+                return getPolarity<typename TIM::CCER::CC3NP, typename TIM::CCER::CC3P>();
+            } else if constexpr (channel == TimChannel::ch4) {
+                return getPolarity<typename TIM::CCER::CC4NP, typename TIM::CCER::CC4P>();
             }
         }
         

@@ -88,7 +88,7 @@ namespace ng
          * The method returns the current pull (up/down) value for pin.
          * @return
          */
-        InputPullUp getPullUp() {
+        __force_inline InputPullUp getPullUp() {
             using TReg = typename TPort::Reg::PUPDR;
             
             auto val = RegisterField<
