@@ -1,382 +1,277 @@
 #include <gtest/gtest.h>
-#include <register/Register.hpp>
-#include <register/RegisterField.hpp>
 #include <timer/PWM.hpp>
+#include <utils.hpp>
 
 using namespace ng;
 using namespace ng::timer;
 
-#include "common.hpp"
-
 TEST(TimGeneral, enableCaptureCompare) {
-    initTimReg();
-    
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::enableCaptureCompare();
-    testBitsEqual(ngTIM3::CCER::Address, 1 << 0);
+    ASSERT_TRUE(ngTIM3::CCER::CC1E::Enable::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch2>::enableCaptureCompare();
-    testBitsEqual(ngTIM3::CCER::Address, 1 << 4);
+    ASSERT_TRUE(ngTIM3::CCER::CC2E::Enable::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch3>::enableCaptureCompare();
-    testBitsEqual(ngTIM3::CCER::Address, 1 << 8);
-
-    eventLog.clear();
+    ASSERT_TRUE(ngTIM3::CCER::CC3E::Enable::isSet());
+    
     TimGeneral<ngTIM3, TimChannel::ch4>::enableCaptureCompare();
-    testBitsEqual(ngTIM3::CCER::Address, 1 << 12);
+    ASSERT_TRUE(ngTIM3::CCER::CC4E::Enable::isSet());
 }
 
 TEST(TimGeneral, disableCaptureCompare) {
-    initTimReg();
-    
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::disableCaptureCompare();
-    testBitsEqual(ngTIM3::CCER::Address, 1 << 0, false);
+    ASSERT_TRUE(ngTIM3::CCER::CC1E::Disable::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch2>::disableCaptureCompare();
-    testBitsEqual(ngTIM3::CCER::Address, 1 << 4, false);
-
-    eventLog.clear();
+    ASSERT_TRUE(ngTIM3::CCER::CC2E::Disable::isSet());
+    
     TimGeneral<ngTIM3, TimChannel::ch3>::disableCaptureCompare();
-    testBitsEqual(ngTIM3::CCER::Address, 1 << 8, false);
-
-    eventLog.clear();
+    ASSERT_TRUE(ngTIM3::CCER::CC3E::Disable::isSet());
+    
     TimGeneral<ngTIM3, TimChannel::ch4>::disableCaptureCompare();
-    testBitsEqual(ngTIM3::CCER::Address, 1 << 12, false);
+    ASSERT_TRUE(ngTIM3::CCER::CC4E::Disable::isSet());
 }
 
 TEST(TimGeneral, setCCR) {
-    initTimReg();
-    
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setCCR(2);
-    testRegisterEqual(ngTIM3::CCR1::Address, 2U);
-
-    eventLog.clear();
+    ASSERT_EQ(ngTIM3::CCR1::get(), 2);
+    
     TimGeneral<ngTIM3, TimChannel::ch2>::setCCR(2);
-    testRegisterEqual(ngTIM3::CCR2::Address, 2U);
-
-    eventLog.clear();
+    ASSERT_EQ(ngTIM3::CCR2::get(), 2);
+    
     TimGeneral<ngTIM3, TimChannel::ch3>::setCCR(2);
-    testRegisterEqual(ngTIM3::CCR3::Address, 2U);
-
-    eventLog.clear();
+    ASSERT_EQ(ngTIM3::CCR3::get(), 2);
+    
     TimGeneral<ngTIM3, TimChannel::ch4>::setCCR(2);
-    testRegisterEqual(ngTIM3::CCR4::Address, 2U);
+    ASSERT_EQ(ngTIM3::CCR4::get(), 2);
 }
 
 TEST(TimGeneral, getCCR) {
-    initTimReg();
-    
-    getRegister(ngTIM3::CCR1::Address) = 1U;
+    TimGeneral<ngTIM3, TimChannel::ch1>::setCCR(1);
     ASSERT_EQ((TimGeneral<ngTIM3, TimChannel::ch1>::getCCR()), 1);
     
-    getRegister(ngTIM3::CCR2::Address) = 1U;
+    TimGeneral<ngTIM3, TimChannel::ch2>::setCCR(1);
     ASSERT_EQ((TimGeneral<ngTIM3, TimChannel::ch2>::getCCR()), 1);
     
-    getRegister(ngTIM3::CCR3::Address) = 1U;
+    TimGeneral<ngTIM3, TimChannel::ch3>::setCCR(1);
     ASSERT_EQ((TimGeneral<ngTIM3, TimChannel::ch3>::getCCR()), 1);
     
-    getRegister(ngTIM3::CCR4::Address) = 1U;
+    TimGeneral<ngTIM3, TimChannel::ch4>::setCCR(1);
     ASSERT_EQ((TimGeneral<ngTIM3, TimChannel::ch4>::getCCR()), 1);
 }
 
 TEST(TimGeneral, setOutputComparePreload) {
-    initTimReg();
-    
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setOutputComparePreload<true>();
+    ASSERT_TRUE(ngTIM3::CCMR1_Output::OC1PE::Enable::isSet());
     TimGeneral<ngTIM3, TimChannel::ch1>::setOutputComparePreload<false>();
-    testBitsEqual(ngTIM3::CCMR1_Output::Address, 1 << 3);
-    testBitsEqual(ngTIM3::CCMR1_Output::Address, 1 << 3, false);
+    ASSERT_TRUE(ngTIM3::CCMR1_Output::OC1PE::Disable::isSet());
     
     TimGeneral<ngTIM3, TimChannel::ch2>::setOutputComparePreload<true>();
+    ASSERT_TRUE(ngTIM3::CCMR1_Output::OC2PE::Enable::isSet());
     TimGeneral<ngTIM3, TimChannel::ch2>::setOutputComparePreload<false>();
-    testBitsEqual(ngTIM3::CCMR1_Output::Address, 1 << 11);
-    testBitsEqual(ngTIM3::CCMR1_Output::Address, 1 << 11, false);
+    ASSERT_TRUE(ngTIM3::CCMR1_Output::OC2PE::Disable::isSet());
     
     TimGeneral<ngTIM3, TimChannel::ch3>::template setOutputComparePreload<true>();
+    ASSERT_TRUE(ngTIM3::CCMR2_Output::OC3PE::Enable::isSet());
     TimGeneral<ngTIM3, TimChannel::ch3>::setOutputComparePreload<false>();
-    testBitsEqual(ngTIM3::CCMR2_Output::Address, 1 << 3);
-    testBitsEqual(ngTIM3::CCMR2_Output::Address, 1 << 3, false);
-    
+    ASSERT_TRUE(ngTIM3::CCMR2_Output::OC3PE::Disable::isSet());
+
     TimGeneral<ngTIM3, TimChannel::ch4>::template setOutputComparePreload<true>();
+    ASSERT_TRUE(ngTIM3::CCMR2_Output::OC4PE::Enable::isSet());
     TimGeneral<ngTIM3, TimChannel::ch4>::setOutputComparePreload<false>();
-    testBitsEqual(ngTIM3::CCMR2_Output::Address, 1 << 11);
-    testBitsEqual(ngTIM3::CCMR2_Output::Address, 1 << 11, false);
+    ASSERT_TRUE(ngTIM3::CCMR2_Output::OC4PE::Disable::isSet());
 }
 
 TEST(TimGeneral, setOutputCompareMode) {
-    initTimReg();
-    
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptCmpMode::ActiveLevelOnMatch>();
-    testBitsEqual(ngTIM3::CCMR1_Output::Address, 0b001 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Output::OC1M::ActiveLevelOnMatch::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptCmpMode::InactiveLevelOnMatch>();
-    testBitsEqual(ngTIM3::CCMR1_Output::Address, 0b010 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Output::OC1M::InactiveLevelOnMatch::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptCmpMode::ForceInactive>();
-    testBitsEqual(ngTIM3::CCMR1_Output::Address, 0b100 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Output::OC1M::ForceInactive::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptCmpMode::ForceActive>();
-    testBitsEqual(ngTIM3::CCMR1_Output::Address, 0b101 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Output::OC1M::ForceActive::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptCmpMode::PWM1>();
-    testBitsEqual(ngTIM3::CCMR1_Output::Address, 0b110 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Output::OC1M::PWM1::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setOutputCompareMode<OutCaptCmpMode::PWM2>();
-    testBitsEqual(ngTIM3::CCMR1_Output::Address, 0b111 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Output::OC1M::PWM2::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch2>::setOutputCompareMode<OutCaptCmpMode::PWM1>();
-    testBitsEqual(ngTIM3::CCMR1_Output::Address, 0b110 << 12);
-
-    eventLog.clear();
+    ASSERT_TRUE(ngTIM3::CCMR1_Output::OC2M::PWM1::isSet());
+    
     TimGeneral<ngTIM3, TimChannel::ch3>::setOutputCompareMode<OutCaptCmpMode::PWM1>();
-    testBitsEqual(ngTIM3::CCMR2_Output::Address, 0b110 << 4);
-
-    eventLog.clear();
+    ASSERT_TRUE(ngTIM3::CCMR2_Output::OC3M::PWM1::isSet());
+    
     TimGeneral<ngTIM3, TimChannel::ch4>::setOutputCompareMode<OutCaptCmpMode::PWM1>();
-    testBitsEqual(ngTIM3::CCMR2_Output::Address, 0b110 << 12);
+    ASSERT_TRUE(ngTIM3::CCMR2_Output::OC4M::PWM1::isSet());
 }
 
 TEST(TimGeneral, setInputCompareMode) {
-    initTimReg();
-    
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareMode<InpCaptCmpSelection::Output>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b00U << 0);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::CC1S::Output::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareMode<InpCaptCmpSelection::InputTI1>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b01 << 0);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::CC1S::InputTI1::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareMode<InpCaptCmpSelection::InputTI2>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b10 << 0);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::CC1S::InputTI2::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareMode<InpCaptCmpSelection::InputTRC>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b11 << 0);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::CC1S::InputTRC::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch2>::setInputCompareMode<InpCaptCmpSelection::InputTI1>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b01 << 8);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::CC2S::InputTI1::isSet());
     
     TimGeneral<ngTIM3, TimChannel::ch3>::setInputCompareMode<InpCaptCmpSelection::InputTI1>();
-    testBitsEqual(ngTIM3::CCMR2_Input::Address, 0b01 << 0);
+    ASSERT_TRUE(ngTIM3::CCMR2_Input::CC3S::InputTI1::isSet());
     
     TimGeneral<ngTIM3, TimChannel::ch4>::setInputCompareMode<InpCaptCmpSelection::InputTI1>();
-    testBitsEqual(ngTIM3::CCMR2_Input::Address, 0b01 << 8);
+    ASSERT_TRUE(ngTIM3::CCMR2_Input::CC4S::InputTI1::isSet());
 }
 
 TEST(TimGeneral, setInputCompareFilter) {
-    initTimReg();
-    
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareFilter<InpCaptCmpFilter::No>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b0000 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::IC1F::No::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv0N2>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b0001 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::IC1F::CKintDiv0N2::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv0N4>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b0010 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::IC1F::CKintDiv0N4::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv0N8>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b0011 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::IC1F::CKintDiv0N8::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv2N6>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b0100 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::IC1F::CKintDiv2N6::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv2N8>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b0101 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::IC1F::CKintDiv2N8::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv4N6>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b0110 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::IC1F::CKintDiv4N6::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv4N8>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b0111 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::IC1F::CKintDiv4N8::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv8N6>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b1000 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::IC1F::CKintDiv8N6::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv8N8>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b1001 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::IC1F::CKintDiv8N8::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv16N5>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b1010 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::IC1F::CKintDiv16N5::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv16N6>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b1011 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::IC1F::CKintDiv16N6::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv16N8>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b1100 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::IC1F::CKintDiv16N8::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv32N5>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b1101 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::IC1F::CKintDiv32N5::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv32N6>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b1110 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::IC1F::CKintDiv32N6::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv32N8>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b1111 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::IC1F::CKintDiv32N8::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch2>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv0N2>();
-    testBitsEqual(ngTIM3::CCMR1_Input::Address, 0b0001 << 12);
+    ASSERT_TRUE(ngTIM3::CCMR1_Input::IC2F::CKintDiv0N2::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch3>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv0N2>();
-    testBitsEqual(ngTIM3::CCMR2_Input::Address, 0b0001 << 4);
+    ASSERT_TRUE(ngTIM3::CCMR2_Input::IC3F::CKintDiv0N2::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch4>::setInputCompareFilter<InpCaptCmpFilter::CKintDiv0N2>();
-    testBitsEqual(ngTIM3::CCMR2_Input::Address, 0b0001 << 12);
+    ASSERT_TRUE(ngTIM3::CCMR2_Input::IC4F::CKintDiv0N2::isSet());
 }
 
 TEST(TimGeneral, setInputPolarity) {
-    initTimReg();
-    
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputPolarity<InpCaptCmpPolarity::Rising>();
-    testBitsEqual(ngTIM3::CCER::Address, 0b0U << 3);
-    testBitsEqual(ngTIM3::CCER::Address, 0b0U << 1);
+    ASSERT_TRUE(ngTIM3::CCER::CC1NP::Low::isSet());
+    ASSERT_TRUE(ngTIM3::CCER::CC1P::Low::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputPolarity<InpCaptCmpPolarity::Falling>();
-    testBitsEqual(ngTIM3::CCER::Address, 0b0U << 3);
-    testBitsEqual(ngTIM3::CCER::Address, 0b1U << 1);
+    ASSERT_TRUE(ngTIM3::CCER::CC1NP::Low::isSet());
+    ASSERT_TRUE(ngTIM3::CCER::CC1P::High::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::setInputPolarity<InpCaptCmpPolarity::Both>();
-    testBitsEqual(ngTIM3::CCER::Address, 0b1U << 3);
-    testBitsEqual(ngTIM3::CCER::Address, 0b1U << 1);
+    ASSERT_TRUE(ngTIM3::CCER::CC1NP::High::isSet());
+    ASSERT_TRUE(ngTIM3::CCER::CC1P::High::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch2>::setInputPolarity<InpCaptCmpPolarity::Both>();
-    testBitsEqual(ngTIM3::CCER::Address, 0b1U << 7);
-    testBitsEqual(ngTIM3::CCER::Address, 0b1U << 5);
+    ASSERT_TRUE(ngTIM3::CCER::CC2NP::High::isSet());
+    ASSERT_TRUE(ngTIM3::CCER::CC2P::High::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch3>::setInputPolarity<InpCaptCmpPolarity::Both>();
-    testBitsEqual(ngTIM3::CCER::Address, 0b1U << 11);
-    testBitsEqual(ngTIM3::CCER::Address, 0b1U << 9);
+    ASSERT_TRUE(ngTIM3::CCER::CC3NP::High::isSet());
+    ASSERT_TRUE(ngTIM3::CCER::CC3P::High::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch4>::setInputPolarity<InpCaptCmpPolarity::Both>();
-    testBitsEqual(ngTIM3::CCER::Address, 0b1U << 15);
-    testBitsEqual(ngTIM3::CCER::Address, 0b1U << 13);
+    ASSERT_TRUE(ngTIM3::CCER::CC4NP::High::isSet());
+    ASSERT_TRUE(ngTIM3::CCER::CC4P::High::isSet());
 }
 
 TEST(TimGeneral, captCmpInterruptEnable) {
-    initTimReg();
-    
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch1>::captCmpInterruptEnable();
-    testBitsEqual(ngTIM3::DIER::Address, 0b1U << 1);
+    ASSERT_TRUE(ngTIM3::DIER::CC1IE::Enable ::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch2>::captCmpInterruptEnable();
-    testBitsEqual(ngTIM3::DIER::Address, 0b1U << 2);
+    ASSERT_TRUE(ngTIM3::DIER::CC2IE::Enable ::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch3>::captCmpInterruptEnable();
-    testBitsEqual(ngTIM3::DIER::Address, 0b1U << 3);
+    ASSERT_TRUE(ngTIM3::DIER::CC3IE::Enable ::isSet());
     
-    eventLog.clear();
     TimGeneral<ngTIM3, TimChannel::ch4>::captCmpInterruptEnable();
-    testBitsEqual(ngTIM3::DIER::Address, 0b1U << 4);
+    ASSERT_TRUE(ngTIM3::DIER::CC4IE::Enable ::isSet());
 }
 
 TEST(TimGeneral, captCmpInterruptDisable) {
-    initTimReg();
+    TimGeneral<ngTIM3, TimChannel::ch1>::captCmpInterruptDisable();
+    ASSERT_TRUE(ngTIM3::DIER::CC1IE::Disable::isSet());
     
-    eventLog.clear();
-    TimGeneral<ngTIM3, TimChannel::ch1>::captCmpInterruptEnable();
-    testBitsEqual(ngTIM3::DIER::Address, 0b0U << 1);
+    TimGeneral<ngTIM3, TimChannel::ch2>::captCmpInterruptDisable();
+    ASSERT_TRUE(ngTIM3::DIER::CC2IE::Disable::isSet());
     
-    eventLog.clear();
-    TimGeneral<ngTIM3, TimChannel::ch2>::captCmpInterruptEnable();
-    testBitsEqual(ngTIM3::DIER::Address, 0b0U << 2);
+    TimGeneral<ngTIM3, TimChannel::ch3>::captCmpInterruptDisable();
+    ASSERT_TRUE(ngTIM3::DIER::CC3IE::Disable::isSet());
     
-    eventLog.clear();
-    TimGeneral<ngTIM3, TimChannel::ch3>::captCmpInterruptEnable();
-    testBitsEqual(ngTIM3::DIER::Address, 0b0U << 3);
-    
-    eventLog.clear();
-    TimGeneral<ngTIM3, TimChannel::ch4>::captCmpInterruptEnable();
-    testBitsEqual(ngTIM3::DIER::Address, 0b0U << 4);
+    TimGeneral<ngTIM3, TimChannel::ch4>::captCmpInterruptDisable();
+    ASSERT_TRUE(ngTIM3::DIER::CC4IE::Disable::isSet());
 }
 
 TEST(TimGeneral, isCaptureEventTriggered) {
-    initTimReg();
-    
-    eventLog.clear();
-    getRegister(ngTIM3::SR::Address) = 0b1U << 1;
+    ngTIM3::SR::CC1IF::Updated::set();
     ASSERT_TRUE((TimGeneral<ngTIM3, TimChannel::ch1>::isCaptureEventTriggered()));
     
-    eventLog.clear();
-    getRegister(ngTIM3::SR::Address) = 0b1U << 2;
+    ngTIM3::SR::CC2IF::Updated::set();
     ASSERT_TRUE((TimGeneral<ngTIM3, TimChannel::ch2>::isCaptureEventTriggered()));
     
-    eventLog.clear();
-    getRegister(ngTIM3::SR::Address) = 0b1U << 3;
+    ngTIM3::SR::CC3IF::Updated::set();
     ASSERT_TRUE((TimGeneral<ngTIM3, TimChannel::ch3>::isCaptureEventTriggered()));
     
-    eventLog.clear();
-    getRegister(ngTIM3::SR::Address) = 0b1U << 4;
+    ngTIM3::SR::CC4IF::Updated::set();
     ASSERT_TRUE((TimGeneral<ngTIM3, TimChannel::ch4>::isCaptureEventTriggered()));
 }
 
 TEST(TimGeneral, clearEventFlag) {
-    initTimReg();
-    
-    eventLog.clear();
-    getRegister(ngTIM3::SR::Address) = 0b1U << 1;
-    ASSERT_TRUE((TimGeneral<ngTIM3, TimChannel::ch1>::isCaptureEventTriggered()));
     TimGeneral<ngTIM3, TimChannel::ch1>::clearEventFlag();
     ASSERT_FALSE((TimGeneral<ngTIM3, TimChannel::ch1>::isCaptureEventTriggered()));
     
-    eventLog.clear();
-    getRegister(ngTIM3::SR::Address) = 0b1U << 2;
-    ASSERT_TRUE((TimGeneral<ngTIM3, TimChannel::ch2>::isCaptureEventTriggered()));
     TimGeneral<ngTIM3, TimChannel::ch2>::clearEventFlag();
     ASSERT_FALSE((TimGeneral<ngTIM3, TimChannel::ch2>::isCaptureEventTriggered()));
     
-    eventLog.clear();
-    getRegister(ngTIM3::SR::Address) = 0b1U << 3;
-    ASSERT_TRUE((TimGeneral<ngTIM3, TimChannel::ch3>::isCaptureEventTriggered()));
     TimGeneral<ngTIM3, TimChannel::ch3>::clearEventFlag();
     ASSERT_FALSE((TimGeneral<ngTIM3, TimChannel::ch3>::isCaptureEventTriggered()));
     
-    eventLog.clear();
-    getRegister(ngTIM3::SR::Address) = 0b1U << 4;
-    ASSERT_TRUE((TimGeneral<ngTIM3, TimChannel::ch4>::isCaptureEventTriggered()));
     TimGeneral<ngTIM3, TimChannel::ch4>::clearEventFlag();
     ASSERT_FALSE((TimGeneral<ngTIM3, TimChannel::ch4>::isCaptureEventTriggered()));
 }

@@ -1,30 +1,27 @@
 #include <gtest/gtest.h>
-#include <register/Register.hpp>
-#include <register/RegisterField.hpp>
-#include <register/FieldValue.hpp>
+#include <hardware/STM32L1xx/Tim3Registers.hpp>
 #include <timer/Timer.hpp>
 
 using namespace ng;
 using namespace ng::timer;
 
-#include "common.hpp"
+#include <utils.hpp>
 
 TEST(Timer, initByPeriod) {
     initTimReg();
     SystemCoreClock = 16000000;
     
     using Tim = Timer<ngTIM3, Func<[]() {}>>;
-    eventLog.clear();
     Tim::initByPeriod(10);
     
-    testRegisterEqual(ngTIM3::PSC::Address, 0U);
-    testRegisterEqual(ngTIM3::ARR::Address, 159U);
+    ASSERT_EQ(ngTIM3::PSC::get(), 0U);
+    ASSERT_EQ(ngTIM3::ARR::get(), 159U);
     
-    testBitsEqual(ngTIM3::CR1::Address, 1 << 7); // enableAutoReload -> CR1::ARPE::Buffered
-    testBitsEqual(ngTIM3::CR1::Address, 1 << 2); // setInterruptSource -> CR1::URS::CounterOverflow
-    testBitsEqual(ngTIM3::DIER::Address, 1 << 0); // setInterruptSource -> CR1::URS::CounterOverflow
-    testBitsEqual(ngTIM3::EGR::Address, 1 << 0); // reInit -> EGR::UG::ReInit
-    testBitsEqual(ngTIM3::CR1::Address, 1 << 0); // start -> CR1::CEN::Enable
+    ASSERT_TRUE(ngTIM3::CR1::ARPE::Buffered::isSet()); // enableAutoReload
+    ASSERT_TRUE(ngTIM3::CR1::URS::CounterOverflow::isSet()); // setInterruptSource
+    ASSERT_TRUE(ngTIM3::DIER::UIE::Enable::isSet());    // enableInterrupt
+    ASSERT_TRUE(ngTIM3::EGR::UG::ReInit::isSet());      // reInit
+    ASSERT_TRUE(ngTIM3::CR1::CEN::Enable::isSet());     // start
 }
 
 TEST(Timer, wait) {
@@ -37,14 +34,16 @@ TEST(Timer, wait) {
     eventLog.clear();
     Tim::wait(10);
     
-    testRegisterEqual(ngTIM3::PSC::Address, 0U);
-    testRegisterEqual(ngTIM3::ARR::Address, 159U);
-    testRegisterEqual(ngTIM3::CNT::Address, 0U);
+    ASSERT_EQ(ngTIM3::PSC::get(), 0U);
+    ASSERT_EQ(ngTIM3::ARR::get(), 159U);
+    ASSERT_EQ(ngTIM3::CNT::get(), 0U);
     
-    testBitsEqual(ngTIM3::CR1::Address, 1 << 7); // enableAutoReload -> CR1::ARPE::Buffered
-    testBitsEqual(ngTIM3::CR1::Address, 1 << 2); // setInterruptSource -> CR1::URS::CounterOverflow
-    testBitsEqual(ngTIM3::EGR::Address, 1 << 0); // reInit -> EGR::UG::ReInit
-    testBitsEqual(ngTIM3::CR1::Address, 1 << 0); // start -> CR1::CEN::Enable
-    testBitsEqual(ngTIM3::SR::Address, 1 << 0, false); // start -> CR1::SR::Enable
-    testBitsEqual(ngTIM3::CR1::Address, 1 << 0, false); // stop -> CR1::CEN::Disable
+    ASSERT_TRUE(ngTIM3::CR1::ARPE::Buffered::isSet());          // enableAutoReload
+    ASSERT_TRUE(ngTIM3::CR1::URS::CounterOverflow::isSet());    // setInterruptSource
+    ASSERT_TRUE(ngTIM3::EGR::UG::ReInit::isSet());              // reInit
+    
+    eventLog.erase(eventLog.cbegin(), eventLog.cbegin() + 6);
+    testBitsEqual<ngTIM3::CR1::CEN::Enable>(ngTIM3::CR1::Address);  // start
+    testBitsEqual<ngTIM3::SR::UIF::Cleared>(ngTIM3::SR::Address);   // clearUpdateFlag
+    testBitsEqual<ngTIM3::CR1::CEN::Disable>(ngTIM3::CR1::Address); // stop
 }

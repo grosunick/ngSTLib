@@ -21,7 +21,7 @@ namespace ng
             using TIM = TimGeneral<T, channel>;
     
             /**
-             * Initialize the timer to work in interrupt mode
+             * Initialize the timer to work in input capture interrupt mode
              *
              * @param us the number of microseconds after which the interrupt should be triggered
              */
